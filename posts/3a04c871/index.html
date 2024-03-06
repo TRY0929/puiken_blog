@@ -22,17 +22,19 @@
     var CONFIG = {"hostname":"try0929.github.io","root":"/puiken_blog/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="イベント三段階JavaScriptのイベントが発生する時、三つの段階があります。  キャプチャー段階：一番上の要素（ウィンドウ要素）からターゲット要素まで配信する段階； ターゲット段階：ターゲット要素に辿り、リスナーでバインドした関数が実行されます； バブル段階：キャプチャー段階の逆で、ターゲット要素から一番上の親要素まで配信する段階。  ![image-20240306140213733](&amp;#">
+  <meta name="description" content="イベント三段階JavaScriptのイベントが発生する時、三つの段階があります。  キャプチャー段階：一番上の要素（ウィンドウ要素）からターゲット要素まで配信する段階； ターゲット段階：ターゲット要素に辿り、リスナーでバインドした関数が実行されます； バブル段階：キャプチャー段階の逆で、ターゲット要素から一番上の親要素まで配信する段階。   JavaScriptのaddEventListenera">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JSイベントバブル＆キャブチャー">
 <meta property="og:url" content="https://try0929.github.io/puiken_blog/posts/3a04c871/index.html">
 <meta property="og:site_name" content="Puiken&#39;s blog">
-<meta property="og:description" content="イベント三段階JavaScriptのイベントが発生する時、三つの段階があります。  キャプチャー段階：一番上の要素（ウィンドウ要素）からターゲット要素まで配信する段階； ターゲット段階：ターゲット要素に辿り、リスナーでバインドした関数が実行されます； バブル段階：キャプチャー段階の逆で、ターゲット要素から一番上の親要素まで配信する段階。  ![image-20240306140213733](&amp;#">
+<meta property="og:description" content="イベント三段階JavaScriptのイベントが発生する時、三つの段階があります。  キャプチャー段階：一番上の要素（ウィンドウ要素）からターゲット要素まで配信する段階； ターゲット段階：ターゲット要素に辿り、リスナーでバインドした関数が実行されます； バブル段階：キャプチャー段階の逆で、ターゲット要素から一番上の親要素まで配信する段階。   JavaScriptのaddEventListenera">
 <meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/try0929/cdn/img/image-20240306140213733.png">
 <meta property="article:published_time" content="2024-03-06T04:48:25.000Z">
-<meta property="article:modified_time" content="2024-03-06T05:37:44.852Z">
+<meta property="article:modified_time" content="2024-03-06T06:53:15.510Z">
 <meta property="article:author" content="Puiken">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/try0929/cdn/img/image-20240306140213733.png">
 
 <link rel="canonical" href="https://try0929.github.io/puiken_blog/posts/3a04c871/">
 
@@ -181,7 +183,7 @@
               <span class="post-meta-item-text">投稿日</span>
               
 
-              <time title="作成日：2024-03-06 13:48:25 / 修正日：14:37:44" itemprop="dateCreated datePublished" datetime="2024-03-06T13:48:25+09:00">2024-03-06</time>
+              <time title="作成日：2024-03-06 13:48:25 / 修正日：15:53:15" itemprop="dateCreated datePublished" datetime="2024-03-06T13:48:25+09:00">2024-03-06</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -199,14 +201,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">単語数：</span>
-              <span>3.9k</span>
+              <span>3.8k</span>
             </span>
             <span class="post-meta-item" title="読書の時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">読書の時間 &asymp;</span>
-              <span>4 分</span>
+              <span>3 分</span>
             </span>
 
         </div>
@@ -224,7 +226,7 @@
 <li>ターゲット段階：ターゲット要素に辿り、リスナーでバインドした関数が実行されます；</li>
 <li>バブル段階：キャプチャー段階の逆で、ターゲット要素から一番上の親要素まで配信する段階。</li>
 </ul>
-<p>![image-20240306140213733](&#x2F;Users&#x2F;puiken&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20240306140213733.png)</p>
+<p><img src="https://cdn.jsdelivr.net/gh/try0929/cdn/img/image-20240306140213733.png" alt="image-20240306140213733"></p>
 <h2 id="JavaScriptのaddEventListener"><a href="#JavaScriptのaddEventListener" class="headerlink" title="JavaScriptのaddEventListener"></a>JavaScriptのaddEventListener</h2><p>addEventListener関数はJavaScriptの基本的なイベントバインド方法で、書き方は：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">addEventListener</span>(type, listener);</span><br><span class="line"><span class="title function_">addEventListener</span>(type, listener, options);</span><br><span class="line"><span class="title function_">addEventListener</span>(type, listener, useCapture);</span><br></pre></td></tr></table></figure>
 
