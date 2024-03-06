@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/puiken_blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/puiken_blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/puiken_blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/puiken_blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/puiken_blog/css/main.css">
+
+
+<link rel="stylesheet" href="/puiken_blog/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/puiken_blog/lib/pace/pace-theme-minimal.min.css">
+  <script src="/puiken_blog/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"try0929.github.io","root":"/puiken_blog/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="イベント三段階JavaScriptのイベントが発生する時、三つの段階があります。  キャプチャー段階：一番上の要素（ウィンドウ要素）からターゲット要素まで配信する段階； ターゲット段階：ターゲット要素に辿り、リスナーでバインドした関数が実行されます； バブル段階：キャプチャー段階の逆で、ターゲット要素から一番上の親要素まで配信する段階。  ![image-20240306140213733](&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSイベントバブル＆キャブチャー">
+<meta property="og:url" content="https://try0929.github.io/puiken_blog/posts/3a04c871/index.html">
+<meta property="og:site_name" content="Puiken&#39;s blog">
+<meta property="og:description" content="イベント三段階JavaScriptのイベントが発生する時、三つの段階があります。  キャプチャー段階：一番上の要素（ウィンドウ要素）からターゲット要素まで配信する段階； ターゲット段階：ターゲット要素に辿り、リスナーでバインドした関数が実行されます； バブル段階：キャプチャー段階の逆で、ターゲット要素から一番上の親要素まで配信する段階。  ![image-20240306140213733](&amp;#">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:published_time" content="2024-03-06T04:48:25.000Z">
+<meta property="article:modified_time" content="2024-03-06T05:37:44.852Z">
+<meta property="article:author" content="Puiken">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://try0929.github.io/puiken_blog/posts/3a04c871/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'ja'
+  };
+</script>
+
+  <title>JSイベントバブル＆キャブチャー | Puiken's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="ナビゲーションバーの切り替え">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/puiken_blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Puiken's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/puiken_blog/" rel="section"><i class="fa fa-home fa-fw"></i>ホーム</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/puiken_blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>アーカイブ</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/puiken_blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>カテゴリ</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ja">
+    <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/3a04c871/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/puiken_blog/images/avatar.gif">
+      <meta itemprop="name" content="Puiken">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Puiken's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JSイベントバブル＆キャブチャー
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">投稿日</span>
+              
+
+              <time title="作成日：2024-03-06 13:48:25 / 修正日：14:37:44" itemprop="dateCreated datePublished" datetime="2024-03-06T13:48:25+09:00">2024-03-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">カテゴリ</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/puiken_blog/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="単語数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">単語数：</span>
+              <span>3.9k</span>
+            </span>
+            <span class="post-meta-item" title="読書の時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">読書の時間 &asymp;</span>
+              <span>4 分</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="イベント三段階"><a href="#イベント三段階" class="headerlink" title="イベント三段階"></a>イベント三段階</h2><p>JavaScriptのイベントが発生する時、三つの段階があります。</p>
+<ul>
+<li>キャプチャー段階：一番上の要素（ウィンドウ要素）からターゲット要素まで配信する段階；</li>
+<li>ターゲット段階：ターゲット要素に辿り、リスナーでバインドした関数が実行されます；</li>
+<li>バブル段階：キャプチャー段階の逆で、ターゲット要素から一番上の親要素まで配信する段階。</li>
+</ul>
+<p>![image-20240306140213733](&#x2F;Users&#x2F;puiken&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20240306140213733.png)</p>
+<h2 id="JavaScriptのaddEventListener"><a href="#JavaScriptのaddEventListener" class="headerlink" title="JavaScriptのaddEventListener"></a>JavaScriptのaddEventListener</h2><p>addEventListener関数はJavaScriptの基本的なイベントバインド方法で、書き方は：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">addEventListener</span>(type, listener);</span><br><span class="line"><span class="title function_">addEventListener</span>(type, listener, options);</span><br><span class="line"><span class="title function_">addEventListener</span>(type, listener, useCapture);</span><br></pre></td></tr></table></figure>
+
+<h3 id="引数"><a href="#引数" class="headerlink" title="引数"></a>引数</h3><ul>
+<li><p><code>type</code></p>
+<p>対象とするイベントの種類を表す文字列です（click、touchなど）。</p>
+</li>
+<li><p><code>listener</code></p>
+<p>指定された種類のイベントが発生するときに通知（<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/API/Event"><code>Event</code></a> インターフェースを実装しているオブジェクト）を受け取るオブジェクト。これは <code>null</code> であるか、<code>handleEvent()</code> メソッドのあるオブジェクトか、JavaScript の関数の何れかでなければなりません。</p>
+</li>
+<li><p><code>options</code>(省略可)</p>
+<p>対象のイベントリスナーの特性を指定する、オプションのオブジェクトです。次のオプションが使用できます。</p>
+<ul>
+<li><code>capture</code>(省略可)：論理値で、この型のイベントが DOM ツリーで下に位置する <code>EventTarget</code> に配信 (dispatch) される前に、登録された <code>listener</code> に配信されることを示します。指定されていない場合は、既定で <code>false</code> になります。</li>
+<li><code>once</code> (省略可)：論理値で、 <code>listener</code> の呼び出しを一回のみのとしたいかどうかを値で指定します。 <code>true</code> を指定すると、 <code>listener</code> は一度実行された時に自動的に削除されます。指定されていない場合は、既定で <code>false</code> になります。</li>
+<li><code>passive</code>(省略可)：論理値で、 <code>true</code> ならば、 <code>listener</code> で指定された関数が <a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/API/Event/preventDefault"><code>preventDefault()</code></a> を呼び出さないこを示します。呼び出されたリスナーが <code>preventDefault()</code> を呼び出すと、ユーザーエージェントは何もせず、コンソールに警告を出力します。指定されていない場合、既定で <code>false</code> になります。</li>
+<li><code>signal</code>(省略可)：<code>AbortSignal</code> です。指定された <code>AbortSignal</code> オブジェクトの <code>abort()</code> メソッドが呼び出された時に、リスナーが削除されます。指定されていない場合は、<code>AbortSignal</code> がリスナーに関連付けられません。</li>
+</ul>
+</li>
+<li><p><code>useCapture</code> (省略可)</p>
+<p>論理値で、この型のイベントが、DOM ツリー内の下の <code>EventTarget</code> に配信される<em>前</em>に、登録された <code>listener</code> に配信されるかどうかを示します。ツリーを上方向にバブリングしているイベントは、キャプチャを使用するように指定されたリスナーを起動しません。イベントのバブリングとキャプチャは、両方の要素がそのイベントのハンドラーを登録している場合に、別の要素内に入れ子になっている要素で発生するイベントを伝播する 2 つの方法です。イベント伝播モードは、要素がイベントを受け取る順番を決定します。指定されていない場合、 <code>useCapture</code> は既定で <code>false</code> となります。</p>
+<blockquote>
+<p>詳細な説明は <a target="_blank" rel="noopener" href="https://www.w3.org/TR/DOM-Level-3-Events/#event-flow">DOM Level 3 Events</a> と <a target="_blank" rel="noopener" href="https://www.quirksmode.org/js/events_order.html#link4">JavaScript Event order</a> を参照してください。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="例"><a href="#例" class="headerlink" title="例"></a>例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;wrapper&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;header&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;footer&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> wrapperEl = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;#wrapper&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> headerEl = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;#header&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> footerEl = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;#footer&quot;</span>);</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">wrapperClickHandler</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;wrapper click&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">headerClickHandler</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;header click&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">footerClickHandler</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;footer click&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line">wrapperEl.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, wrapperClickHandler); <span class="comment">//　useCapture未指定、デフォルトはfalse</span></span><br><span class="line">headerEl.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, headerClickHandler); <span class="comment">//　useCapture未指定、デフォルトはfalse</span></span><br><span class="line">footerEl.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, footerClickHandler); <span class="comment">//　useCapture未指定、デフォルトはfalse</span></span><br></pre></td></tr></table></figure>
+
+<p>結果：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// click header</span></span><br><span class="line">header click</span><br><span class="line">wrapper click</span><br><span class="line"></span><br><span class="line"><span class="comment">// click footer</span></span><br><span class="line">footer click</span><br><span class="line">wrapper click</span><br></pre></td></tr></table></figure>
+
+<p>useCaptureをtrueにしますと、結果は：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// click header</span></span><br><span class="line">wrapper click</span><br><span class="line">header click</span><br><span class="line"></span><br><span class="line"><span class="comment">// click footer</span></span><br><span class="line">wrapper click</span><br><span class="line">footer click</span><br></pre></td></tr></table></figure>
+
+<p>上記で、出力順番は逆となっています。</p>
+<h2 id="vueの例"><a href="#vueの例" class="headerlink" title="vueの例"></a>vueの例</h2><p>vueはデフォルトで<strong>バブリング</strong>段階で事件を実行しているので、順番は　子-&gt;親</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> @<span class="attr">click</span>=<span class="string">&quot;wrapperClick&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;header&quot;</span> @<span class="attr">click</span>=<span class="string">&quot;headerClick&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;footer&quot;</span> @<span class="attr">click</span>=<span class="string">&quot;footerClick&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">headerClick</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;header click&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">footerClick</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;footer click&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">wrapperClick</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;wrapper click&#x27;</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>結果：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// click header</span></span><br><span class="line">header click</span><br><span class="line">wrapper click</span><br><span class="line"></span><br><span class="line"><span class="comment">// click footer</span></span><br><span class="line">footer click</span><br><span class="line">wrapper click</span><br></pre></td></tr></table></figure>
+
+<h3 id="バブルの阻止"><a href="#バブルの阻止" class="headerlink" title="バブルの阻止"></a>バブルの阻止</h3><p>バブルしてほしくない時(子要素のイベントが終わり、親要素のイベントがいらない時)、<code>.stop</code>か<code>stopPropagation</code>が使えます。</p>
+<h4 id="stop"><a href="#stop" class="headerlink" title=".stop"></a>.stop</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> @<span class="attr">click</span>=<span class="string">&quot;wrapperClick&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;header&quot;</span> @<span class="attr">click.stop</span>=<span class="string">&quot;headerClick&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;footer&quot;</span> @<span class="attr">click.stop</span>=<span class="string">&quot;footerClick&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="stopPropagation"><a href="#stopPropagation" class="headerlink" title="stopPropagation"></a>stopPropagation</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">headerClick</span> = (<span class="params">event</span>) =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;header click&#x27;</span>);</span><br><span class="line">  event.<span class="title function_">stopPropagation</span>();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">footerClick</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;footer click&#x27;</span>);</span><br><span class="line">  event.<span class="title function_">stopPropagation</span>();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">wrapperClick</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;wrapper click&#x27;</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>上記の一つで変えたら、出力は下記になります：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// click header</span></span><br><span class="line">header click</span><br><span class="line"></span><br><span class="line"><span class="comment">// click footer</span></span><br><span class="line">footer click</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/puiken_blog/posts/3bca534c/" rel="prev" title="hexoでクリックスタイルを変えます">
+      <i class="fa fa-chevron-left"></i> hexoでクリックスタイルを変えます
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/puiken_blog/posts/70e88e60/" rel="next" title="JavaScriptの継承について">
+      JavaScriptの継承について <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          見出し
+        </li>
+        <li class="sidebar-nav-overview">
+          概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%89%E6%AE%B5%E9%9A%8E"><span class="nav-number">1.</span> <span class="nav-text">イベント三段階</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript%E3%81%AEaddEventListener"><span class="nav-number">2.</span> <span class="nav-text">JavaScriptのaddEventListener</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E6%95%B0"><span class="nav-number">2.1.</span> <span class="nav-text">引数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B"><span class="nav-number">2.2.</span> <span class="nav-text">例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vue%E3%81%AE%E4%BE%8B"><span class="nav-number">3.</span> <span class="nav-text">vueの例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E3%83%90%E3%83%96%E3%83%AB%E3%81%AE%E9%98%BB%E6%AD%A2"><span class="nav-number">3.1.</span> <span class="nav-text">バブルの阻止</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#stop"><span class="nav-number">3.1.1.</span> <span class="nav-text">.stop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#stopPropagation"><span class="nav-number">3.1.2.</span> <span class="nav-text">stopPropagation</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Puiken</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/puiken_blog/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">ポスト</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/puiken_blog/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">カテゴリ</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Puiken</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="単語の総数">16k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="読書の合計時間">14 分</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/puiken_blog/lib/anime.min.js"></script>
+  <script src="/puiken_blog/lib/velocity/velocity.min.js"></script>
+  <script src="/puiken_blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/puiken_blog/js/utils.js"></script>
+
+<script src="/puiken_blog/js/motion.js"></script>
+
+
+<script src="/puiken_blog/js/schemes/muse.js"></script>
+
+
+<script src="/puiken_blog/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  <script src="//cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@3.0.8/js/maodian.js"></script>
+
+
+</body>
+</html>
