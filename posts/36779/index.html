@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 7.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/puiken_blog/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/puiken_blog/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/puiken_blog/images/favicon-16x16-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.jsdelivr.net/gh/try0929/cdn/img/ice-cream.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.jsdelivr.net/gh/try0929/cdn/img/ice-cream.ico">
   <link rel="mask-icon" href="/puiken_blog/images/logo.svg" color="#222">
 
 <link rel="stylesheet" href="/puiken_blog/css/main.css">
@@ -32,6 +32,7 @@
 <meta property="article:published_time" content="2024-02-29T08:55:48.000Z">
 <meta property="article:modified_time" content="2024-03-02T01:49:41.942Z">
 <meta property="article:author" content="Puiken">
+<meta property="article:tag" content="Vue, Nodejs, Blog">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://try0929.github.io/puiken_blog/posts/36779/">
@@ -160,9 +161,9 @@
     <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/36779/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/puiken_blog/images/avatar.gif">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
       <meta itemprop="name" content="Puiken">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="いつでも変な考えを持っている20代。">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -331,14 +332,16 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-jsdelivr%E3%81%AEURL%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%83%E3%83%88"><span class="nav-number">1.</span> <span class="nav-text">1. jsdelivrのURLフォーマット</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%B3%87%E6%BA%90%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92github%E3%81%AB%E7%BD%AE%E3%81%8D%E3%81%BE%E3%81%99"><span class="nav-number">2.</span> <span class="nav-text">2. 資源ファイルをgithubに置きます</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-jsdelivr%E3%81%AEURL%E3%81%A7%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AB%E3%82%A4%E3%83%B3%E3%83%9D%E3%83%BC%E3%83%88%E3%81%97%E3%81%BE%E3%81%99"><span class="nav-number">3.</span> <span class="nav-text">3. jsdelivrのURLでファイルをプロジェクトにインポートします</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E6%9B%B4%E6%96%B0"><span class="nav-number">4.</span> <span class="nav-text">4. キャッシュ更新</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-jsdelivr%E3%81%AEURL%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%83%E3%83%88"><span class="nav-text">1. jsdelivrのURLフォーマット</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%B3%87%E6%BA%90%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92github%E3%81%AB%E7%BD%AE%E3%81%8D%E3%81%BE%E3%81%99"><span class="nav-text">2. 資源ファイルをgithubに置きます</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-jsdelivr%E3%81%AEURL%E3%81%A7%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AB%E3%82%A4%E3%83%B3%E3%83%9D%E3%83%BC%E3%83%88%E3%81%97%E3%81%BE%E3%81%99"><span class="nav-text">3. jsdelivrのURLでファイルをプロジェクトにインポートします</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E6%9B%B4%E6%96%B0"><span class="nav-text">4. キャッシュ更新</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Puiken"
+      src="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
   <p class="site-author-name" itemprop="name">Puiken</p>
-  <div class="site-description" itemprop="description"></div>
+  <div class="site-description" itemprop="description">いつでも変な考えを持っている20代。</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">

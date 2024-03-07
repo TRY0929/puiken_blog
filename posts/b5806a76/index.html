@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 7.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/puiken_blog/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/puiken_blog/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/puiken_blog/images/favicon-16x16-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.jsdelivr.net/gh/try0929/cdn/img/ice-cream.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.jsdelivr.net/gh/try0929/cdn/img/ice-cream.ico">
   <link rel="mask-icon" href="/puiken_blog/images/logo.svg" color="#222">
 
 <link rel="stylesheet" href="/puiken_blog/css/main.css">
@@ -35,6 +35,7 @@
 <meta property="article:published_time" content="2024-03-07T01:18:49.000Z">
 <meta property="article:modified_time" content="2024-03-07T05:42:14.292Z">
 <meta property="article:author" content="Puiken">
+<meta property="article:tag" content="Vue, Nodejs, Blog">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/try0929/cdn/img/b5806a76_1.png">
 
@@ -164,9 +165,9 @@
     <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/b5806a76/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/puiken_blog/images/avatar.gif">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
       <meta itemprop="name" content="Puiken">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="いつでも変な考えを持っている20代。">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -360,14 +361,16 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%91%E3%80%81%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">１、基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%92%E3%80%81%E4%BD%9C%E6%88%90%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">２、作成方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%93%E3%80%81%E7%9B%AE%E7%9A%84%EF%BC%88%E4%BD%9C%E7%94%A8%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">３、目的（作用）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%93-%EF%BC%91%E3%80%81%E5%86%85%E9%83%A8%E3%81%AE%E6%B5%AE%E5%8B%95%E8%A6%81%E7%B4%A0%E3%82%92%E5%8F%8E%E3%82%81%E3%81%BE%E3%81%99"><span class="nav-number">3.1.</span> <span class="nav-text">３.１、内部の浮動要素を収めます</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%93-%EF%BC%92%E3%80%81%E5%A4%96%E9%83%A8%E3%81%AE%E6%B5%AE%E5%8B%95%E8%A6%81%E7%B4%A0%E3%82%92%E9%99%A4%E5%A4%96%E3%81%99%E3%82%8B"><span class="nav-number">3.2.</span> <span class="nav-text">３.２、外部の浮動要素を除外する</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%93-%EF%BC%93%E3%80%81%E3%83%9E%E3%83%BC%E3%82%B8%E3%83%B3%E3%81%AE%E7%9B%B8%E6%AE%BA%E3%82%92%E6%8A%91%E6%AD%A2%E3%81%99%E3%82%8B"><span class="nav-number">3.3.</span> <span class="nav-text">３.３、マージンの相殺を抑止する</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%91%E3%80%81%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">１、基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%92%E3%80%81%E4%BD%9C%E6%88%90%E6%96%B9%E6%B3%95"><span class="nav-text">２、作成方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%93%E3%80%81%E7%9B%AE%E7%9A%84%EF%BC%88%E4%BD%9C%E7%94%A8%EF%BC%89"><span class="nav-text">３、目的（作用）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%93-%EF%BC%91%E3%80%81%E5%86%85%E9%83%A8%E3%81%AE%E6%B5%AE%E5%8B%95%E8%A6%81%E7%B4%A0%E3%82%92%E5%8F%8E%E3%82%81%E3%81%BE%E3%81%99"><span class="nav-text">３.１、内部の浮動要素を収めます</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%93-%EF%BC%92%E3%80%81%E5%A4%96%E9%83%A8%E3%81%AE%E6%B5%AE%E5%8B%95%E8%A6%81%E7%B4%A0%E3%82%92%E9%99%A4%E5%A4%96%E3%81%99%E3%82%8B"><span class="nav-text">３.２、外部の浮動要素を除外する</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%93-%EF%BC%93%E3%80%81%E3%83%9E%E3%83%BC%E3%82%B8%E3%83%B3%E3%81%AE%E7%9B%B8%E6%AE%BA%E3%82%92%E6%8A%91%E6%AD%A2%E3%81%99%E3%82%8B"><span class="nav-text">３.３、マージンの相殺を抑止する</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Puiken"
+      src="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
   <p class="site-author-name" itemprop="name">Puiken</p>
-  <div class="site-description" itemprop="description"></div>
+  <div class="site-description" itemprop="description">いつでも変な考えを持っている20代。</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
