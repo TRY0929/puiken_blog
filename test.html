@@ -22,15 +22,15 @@
     var CONFIG = {"hostname":"try0929.github.io","root":"/puiken_blog/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="(function ($) {         $.ajax(&#39;https:&#x2F;&#x2F;api.github.com&#x2F;zen&#39;)           .done(function (text) {             $(&#39;#hitokoto&#39;).text(text);           })         $.fn.snow &#x3D; function (options) {">
+  <meta name="description" content="(function ($) {     $.ajax(&#39;https:&#x2F;&#x2F;api.github.com&#x2F;zen&#39;)       .done(function (text) {         $(&#39;#hitokoto&#39;).text(text);       })     $.fn.snow &#x3D; function (options) {           var $flake &#x3D; $(&#39;&#39;).">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Puiken&#39;s blog">
 <meta property="og:url" content="https://try0929.github.io/puiken_blog/test.html">
 <meta property="og:site_name" content="Puiken&#39;s blog">
-<meta property="og:description" content="(function ($) {         $.ajax(&#39;https:&#x2F;&#x2F;api.github.com&#x2F;zen&#39;)           .done(function (text) {             $(&#39;#hitokoto&#39;).text(text);           })         $.fn.snow &#x3D; function (options) {">
+<meta property="og:description" content="(function ($) {     $.ajax(&#39;https:&#x2F;&#x2F;api.github.com&#x2F;zen&#39;)       .done(function (text) {         $(&#39;#hitokoto&#39;).text(text);       })     $.fn.snow &#x3D; function (options) {           var $flake &#x3D; $(&#39;&#39;).">
 <meta property="og:locale" content="ja_JP">
-<meta property="article:published_time" content="2024-03-08T08:44:01.401Z">
-<meta property="article:modified_time" content="2024-03-08T08:44:01.401Z">
+<meta property="article:published_time" content="2024-03-08T12:12:41.765Z">
+<meta property="article:modified_time" content="2024-03-08T12:12:41.765Z">
 <meta property="article:author" content="Puiken">
 <meta property="article:tag" content="Vue, Nodejs, Blog">
 <meta name="twitter:card" content="summary">
@@ -178,54 +178,51 @@
       
       <div class="post-body">
           <script type="text/javascript">
-
-
-    (function ($) {
-        $.ajax('https://api.github.com/zen')
-          .done(function (text) {
-            $('#hitokoto').text(text);
-          })
-        $.fn.snow = function (options) {
-            var $flake = $('<div id="snowbox" />').css({ 'position': 'absolute', 'z-index': '9999', 'top': '-50px' }).html('🌸'), // 🌸
-                documentHeight = $(document).height(),
-                documentWidth = $(document).width(),
-                defaults = {
-                    minSize: 10,
-                    maxSize: 20,
-                    newOn: 1000,
-                    flakeColor: "#AFDAEF" /* 此处可以定义雪花颜色，若要白色可以改为#FFFFFF */
-                },
-                options = $.extend({}, defaults, options);
-            var interval = setInterval(function () {
-                var startPositionLeft = Math.random() * documentWidth - 100,
-                    startOpacity = 0.2 + Math.random() / 2,
-                    sizeFlake = options.minSize + Math.random() * options.maxSize,
-                    endPositionTop = documentHeight - 200,
-                    endPositionLeft = startPositionLeft - 500 + Math.random() * 500,
-                    durationFall = documentHeight * 10 + Math.random() * 5000;
-                $flake.clone().appendTo('body').css({
-                    left: startPositionLeft,
-                    opacity: startOpacity,
-                    'font-size': sizeFlake,
-                    color: options.flakeColor
-                }).animate({
-                    top: endPositionTop,
-                    left: endPositionLeft,
-                    opacity: 0.2
-                }, durationFall, 'linear', function () {
-                    $(this).remove()
-                });
-            }, options.newOn);
-        };
-    })(jQuery);
-    $(function () {
-        $.fn.snow({
-            minSize: 5, /* 定义雪花最小尺寸 */
-            maxSize: 50,/* 定义雪花最大尺寸 */
-            newOn: 800  /* 定义密集程度，数字越小越密集 */
-        });
+  (function ($) {
+    $.ajax('https://api.github.com/zen')
+      .done(function (text) {
+        $('#hitokoto').text(text);
+      })
+    $.fn.snow = function (options) {
+          var $flake = $('<div id="snowbox" />').css({ 'position': 'absolute', 'z-index': '9999', 'top': '-50px' }).html('🌸'), // 🌸
+              documentHeight = $(document).height(),
+              documentWidth = $(document).width(),
+              defaults = {
+                  minSize: 10,
+                  maxSize: 20,
+                  newOn: 1000,
+                  flakeColor: "#AFDAEF" /* 此处可以定义雪花颜色，若要白色可以改为#FFFFFF */
+              },
+              options = $.extend({}, defaults, options);
+          var interval = setInterval(function () {
+              var startPositionLeft = Math.random() * documentWidth - 100,
+                  startOpacity = 0.2 + Math.random() / 2,
+                  sizeFlake = options.minSize + Math.random() * options.maxSize,
+                  endPositionTop = documentHeight - 200,
+                  endPositionLeft = startPositionLeft - 500 + Math.random() * 500,
+                  durationFall = documentHeight * 10 + Math.random() * 5000;
+              $flake.clone().appendTo('body').css({
+                  left: startPositionLeft,
+                  opacity: startOpacity,
+                  'font-size': sizeFlake,
+                  color: options.flakeColor
+              }).animate({
+                  top: endPositionTop,
+                  left: endPositionLeft,
+                  opacity: 0.2
+              }, durationFall, 'linear', function () {
+                  $(this).remove()
+              });
+          }, options.newOn);
+      };
+  })(jQuery);
+  $(function () {
+    $.fn.snow({
+      minSize: 5, /* 定义雪花最小尺寸 */
+      maxSize: 50,/* 定义雪花最大尺寸 */
+      newOn: 800  /* 定义密集程度，数字越小越密集 */
     });
-
+  });
 </script>
 
       </div>
@@ -406,7 +403,47 @@
   
 
   <script src="//cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@3.0.8/js/maodian.js"></script>
-
-
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script>
+  $.fn.snow = function (options) {
+    var $flake = $('<div id="snowbox" />').css({ 'position': 'absolute', 'z-index': '9999', 'top': '-50px' }).html('🌸'), // 🌸
+        documentHeight = $(document).height(),
+        documentWidth = $(document).width(),
+        defaults = {
+            minSize: 10,
+            maxSize: 20,
+            newOn: 1000,
+            flakeColor: "#AFDAEF" /* 此处可以定义雪花颜色，若要白色可以改为#FFFFFF */
+        },
+        options = $.extend({}, defaults, options);
+    var interval = setInterval(function () {
+        var startPositionLeft = Math.random() * documentWidth - 100,
+            startOpacity = 0.2 + Math.random() / 2,
+            sizeFlake = options.minSize + Math.random() * options.maxSize,
+            endPositionTop = documentHeight - 200,
+            endPositionLeft = startPositionLeft - 500 + Math.random() * 500,
+            durationFall = documentHeight * 10 + Math.random() * 5000;
+        $flake.clone().appendTo('body').css({
+            left: startPositionLeft,
+            opacity: startOpacity,
+            'font-size': sizeFlake,
+            color: options.flakeColor
+        }).animate({
+            top: endPositionTop,
+            left: endPositionLeft,
+            opacity: 0.2
+        }, durationFall, 'linear', function () {
+            $(this).remove()
+        });
+    }, options.newOn);
+  };
+  $(function () {
+      $.fn.snow({
+        minSize: 5, /* 定义雪花最小尺寸 */
+        maxSize: 50,/* 定义雪花最大尺寸 */
+        newOn: 800  /* 定义密集程度，数字越小越密集 */
+      });
+  });
+</script>
 </body>
 </html>
