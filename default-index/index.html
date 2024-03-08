@@ -155,6 +155,219 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ja">
+    <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/a8dc2f28/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
+      <meta itemprop="name" content="Puiken">
+      <meta itemprop="description" content="いつでも変な考えを持っている20代。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Puiken's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/puiken_blog/posts/a8dc2f28/" class="post-title-link" itemprop="url">イベントループ</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">投稿日</span>
+              
+
+              <time title="作成日：2024-03-08 11:11:13 / 修正日：16:12:17" itemprop="dateCreated datePublished" datetime="2024-03-08T11:11:13+09:00">2024-03-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">カテゴリ</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/puiken_blog/categories/Nodejs/" itemprop="url" rel="index"><span itemprop="name">Nodejs</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="単語数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">単語数：</span>
+              <span>4.9k</span>
+            </span>
+            <span class="post-meta-item" title="読書の時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">読書の時間 &asymp;</span>
+              <span>4 分</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="１、JavaScriptは単一プロセル"><a href="#１、JavaScriptは単一プロセル" class="headerlink" title="１、JavaScriptは単一プロセル"></a>１、JavaScriptは単一プロセル</h2><p>JavaScriptは一つのプロセスしかない、なんで？</p>
+<p>想像してみて：二つのプロセスが同時に一つのDOM要素を操作しようとしている、削除か変更か、順番が違ったら全く違う結果が出るんじゃないですか。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">one thread == one call stack == one thing at a time</span><br></pre></td></tr></table></figure>
+
+<p>単一プロセルのため、うまく使えないならブロックは起こりやすい。</p>
+<h2 id="２、同期と非同期処理"><a href="#２、同期と非同期処理" class="headerlink" title="２、同期と非同期処理"></a>２、同期と非同期処理</h2><p>JavaScriptの操作は同期処理と非同期処理に分かれていて、同期処理はプロセススタックで順次呼び出され、実行されますが、非同期処理は最初そこに入ってない。</p>
+<p>IO操作やWebAPIなどの時間のかかる操作は、メインプロセスをブロックさせないように、いつも非同期で操作され、コールバック関数で処理します。</p>
+<ul>
+<li>同期処理：メインプロセスで順次実行される</li>
+<li>非同期処理：メインプロセルに入らず、タスクキューに入り、自身のある操作が完了した時、メインプロセスにお知らせをして、メインプロセスに呼び出される</li>
+</ul>
+<p>下記コードの出力順番は簡単に言えますが、原理部分を詳しく説明したらJavaScriptの原理に理解できると思います。</p>
+<p>例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="keyword">function</span> <span class="title function_">cb</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">2</span>);</span><br><span class="line">&#125;, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 結果</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<p>実行の流れは大体：</p>
+<ol>
+<li><p><code>console.log(1);</code>と<code>console.log(1);</code>は同じくメインプロセスに入っており、順次に処理されます。</p>
+</li>
+<li><p>メソッド<code>cb</code>の<code>console.log(2)</code>は、タスクキューに入って、タイマーが終わってからメインプロセスで実行されます。</p>
+</li>
+</ol>
+<p>タイマーの設置は前にあるのに、なぜ<code>console.log(3);</code>は100msのタイマーが終わって、<code>console.log(2);</code>が実行してから出力してないですか？</p>
+<p>もしそうであれば、タイマーが終わるまで<code>console.log(3);</code>はブロックされているが、現実はそうでもない。</p>
+<p>上記の例でまとめること：</p>
+<ol>
+<li>全ての同期処理はメインープロセスで実行され、それはコンテキストスタック（execution context stack）となります；</li>
+<li>メインプロセス以外、タスクキュー（task queue）が存在します。非同期処理が終わり、イベント（非同期処理のコールバック）がそこに入ります；</li>
+<li>メインプロセスのタスクが全て終わり、タスクキューからタスクをとって実行します。</li>
+<li>これからメインプロセスは３を繰り返します。</li>
+</ol>
+<h3 id="タスクキュー-task-queue-概念まとめ"><a href="#タスクキュー-task-queue-概念まとめ" class="headerlink" title="タスクキュー(task queue)概念まとめ"></a>タスクキュー(task queue)概念まとめ</h3><ul>
+<li>FIFOデータストラクチャで、最初入れたタスクが最初に実行されます；</li>
+<li>非同期処理が終わったらそれのイベントをタスクキューに入れます；</li>
+<li>メソッドに関数を渡した時、 メソッドに紐づいたイベントが発生していた場合に、この関数を<em>コールバック</em>するのです。</li>
+</ul>
+<h2 id="３、イベントループ"><a href="#３、イベントループ" class="headerlink" title="３、イベントループ"></a>３、イベントループ</h2><p>メインプロセスが実行される時、ヒープ(heap)とスタック(stack)が生成されます。</p>
+<ul>
+<li>heap：データを置くところ</li>
+<li>stack：メインプロセスで実行する函数列</li>
+</ul>
+<p>スタックの函数は他のWebAPIを呼び出し、非同期処理がある場合、イベントがタスクキューに入ります。</p>
+<p>スタックのコードが全て実行され、タスクキューの中からタスクを取って実行する（コールバックする）。</p>
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/2014/bg2014100802.png" alt="Event Loop"></p>
+<h2 id="4、マイクロ-micro-とマクロ-macro-タスク"><a href="#4、マイクロ-micro-とマクロ-macro-タスク" class="headerlink" title="4、マイクロ(micro)とマクロ(macro)タスク"></a>4、マイクロ(micro)とマクロ(macro)タスク</h2><p>ブラウザの非同期タスクはマイクロとマクロタスクに分かれています。</p>
+<p><strong>マクロタスク</strong>：</p>
+<ul>
+<li>setTimeout</li>
+<li>setInterval</li>
+<li>setImmediate (Node Jsだけある)</li>
+<li>requestAnimationFrame (ブラウザだけある)</li>
+<li>I&#x2F;O</li>
+<li>UI rendering (ブラウザだけある)</li>
+</ul>
+<p><strong>マイクロタスク</strong>：</p>
+<ul>
+<li>process.nextTick (Node Jsだけある)</li>
+<li>Promise</li>
+<li>Object.observe</li>
+<li>MutationObserver</li>
+</ul>
+<p>基本の流れはさっき説明した通り、<strong>同期タスクが終わってから非同期タスク</strong>を処理する。</p>
+<p>ただ、<strong>マクロとマイクロタスクにも順番があります</strong>（同期処理が全て終わってる状態）：</p>
+<p>ブラウザ上：</p>
+<ol>
+<li>マイクロタスクがある限り、マクロタスクは処理されない；</li>
+<li>一つマクロタスクの処理が終わって、すぐマイクロタスクのキューをチェックし、あるなら処理する。</li>
+</ol>
+<p>Nodejs環境（同期処理が全て終わり）：</p>
+<ol>
+<li>process.nextTickを実行する；</li>
+<li>全てのマクロタスクを処理する；</li>
+<li>全てのマイクロタスクを処理する。</li>
+</ol>
+<p>理解できましたかな？簡単（ではない）なテストで試してみよう〜</p>
+<p>下記のコードを実行したら、出力の順番をを教えてください。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">2</span>);</span><br><span class="line">  <span class="title class_">Promise</span>.<span class="title function_">resolve</span>().<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">3</span>)</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">4</span>)</span><br><span class="line">  <span class="title function_">resolve</span>(<span class="number">5</span>)</span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(data);</span><br><span class="line">  </span><br><span class="line">  <span class="title class_">Promise</span>.<span class="title function_">resolve</span>().<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">6</span>)</span><br><span class="line">  &#125;).<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">7</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">8</span>)</span><br><span class="line">    &#125;, <span class="number">0</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">   <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">9</span>)</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<p>正解：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 4 10 5 6 7 2 3 9 8</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="５、Nodejs"><a href="#５、Nodejs" class="headerlink" title="５、Nodejs"></a>５、Nodejs</h2><p>NodejsはJavaScriptのサーバーサイドの実行環境でありますが、単一のスレッドでしか実行していません。それはブラウザ上のJSと同じです。</p>
+<p>下記の図はNodejsの取り組みとなります：</p>
+<ol>
+<li>V8エンジンがJavaScriptスクリプトを解析します。</li>
+<li>解析されたコードは、Node APIを呼び出します。</li>
+<li>libuvライブラリがNode APIの実行を担当します。それは異なるタスクを異なるスレッドに割り当て、イベントループを形成し、タスクの実行結果を非同期にV8エンジンに返します。</li>
+<li>V8エンジンは結果をユーザーに返します。</li>
+</ol>
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/2014/bg2014100803.png" alt="Node.js"></p>
+<h3 id="イベントループの各段階（phases-of-the-event-loop）"><a href="#イベントループの各段階（phases-of-the-event-loop）" class="headerlink" title="イベントループの各段階（phases of the event loop）"></a>イベントループの各段階（phases of the event loop）</h3><p>Nodejsでコードを実行する時、下記の流れがあります。</p>
+<ul>
+<li><code>timers</code>：<code>setTimeout</code>と<code>setInterval</code>時間切れのタイマーのコールバックメソッドを実行する。</li>
+<li><code>pending callbacks</code>：設定されたタイマー以外のコールバックメソッドを実行する（EX.HTTPリクエストの異常中止）。</li>
+<li><code>Idle, prepare</code>：Nodejs内部処理。</li>
+<li><code>poll</code>：非同期タスク（IO、HTTPリクエスト）を処理して、コールバックメソッドを実行する。<ul>
+<li>非同期処理（タイマー以外）が終わってない限り、ずっとこの段階でポーリングする。</li>
+</ul>
+</li>
+<li><code>check</code>：<code>setImmediate</code>のコールバックメソッドを実行する。</li>
+<li><code>close callbacks</code>：<code>socket.close()</code>とかのコールバックメソッドを実行する。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">   ┌───────────────────────────┐</span><br><span class="line">┌─&gt;│           timers          │</span><br><span class="line">│  └─────────────┬─────────────┘</span><br><span class="line">│  ┌─────────────┴─────────────┐</span><br><span class="line">│  │     pending callbacks     │</span><br><span class="line">│  └─────────────┬─────────────┘</span><br><span class="line">│  ┌─────────────┴─────────────┐</span><br><span class="line">│  │       idle, prepare       │</span><br><span class="line">│  └─────────────┬─────────────┘      ┌───────────────┐</span><br><span class="line">│  ┌─────────────┴─────────────┐      │   incoming:   │</span><br><span class="line">│  │           poll            │&lt;─────┤  connections, │</span><br><span class="line">│  └─────────────┬─────────────┘      │   data, etc.  │</span><br><span class="line">│  ┌─────────────┴─────────────┐      └───────────────┘</span><br><span class="line">│  │           check           │</span><br><span class="line">│  └─────────────┬─────────────┘</span><br><span class="line">│  ┌─────────────┴─────────────┐</span><br><span class="line">└──┤      close callbacks      │</span><br><span class="line">   └───────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h3 id="setImmediate-vs-setTimeout"><a href="#setImmediate-vs-setTimeout" class="headerlink" title="setImmediate() vs setTimeout()"></a><code>setImmediate()</code> vs <code>setTimeout()</code></h3><ul>
+<li><code>setImmediate()</code> はいつも現在の<code>poll</code>段階で処理される</li>
+<li><code>setTimeout()</code> は設定の時間の後にプロセスに実行される</li>
+</ul>
+<p>コールバックすぐ実行してほしい時はどちらでも使えますが、違う場合で使うと全く異なる結果が出るかもしれません。</p>
+<p>何もないメインプロセスの中に二つのタイマーを設置すると：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;timeout&#x27;</span>);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"><span class="title function_">setImmediate</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;immediate&#x27;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>結果は時間によって違います。今回は先に<code>timeout</code>が出力されましたが、次回は<code>immediate</code>かもしれません。完全にシステムのプロセス処理に任せてるので、予測はできません。</p>
+<p>けど、I&#x2F;O処理（非同期処理）の中で同時に二つのタイマーを設置すると、必ず<code>setImmediate()</code>の方が先に処理されます。</p>
+<p>理由：I&#x2F;O処理は<code>poll</code>段階でするので、処理が終わったら<code>poll</code>段階も終わり、<code>setImmediate()</code>はすぐ実行されるが、<code>setTimeout()</code>は次回の<code>timers</code>段階で実行されます。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;node:fs&#x27;</span>);</span><br><span class="line">fs.<span class="title function_">readFile</span>(__filename, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;timeout&#x27;</span>);</span><br><span class="line">  &#125;, <span class="number">0</span>);</span><br><span class="line">  <span class="title function_">setImmediate</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;immediate&#x27;</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>結論</strong></p>
+<p>もしIO処理など非同期処理のあるコードの中、その後すぐ実行したいコードがあれば、<code>setImmediate()</code>がおすすめです、それは必ず次の<code>timers</code>段階に入る前に処理されるためです。</p>
+<h3 id="process-nextTick"><a href="#process-nextTick" class="headerlink" title="process.nextTick()"></a><code>process.nextTick()</code></h3><p><code>process.nextTick()</code>はNodejsのイベントループのどの段階でも表れていないが、非同期処理となっています。じゃそれはどのタイミングで実行しますか？</p>
+<p>答えは、特定の段階ではなく、任意一つの段階が終わってからすぐ実行します。だから、次の段階に行ける条件の一つは、<code>process.nextTick()</code>のコールバックが順調に終わってます。</p>
+<p>そのため、うまく書いてない時、Nodejsのプロセスは<code>process.nextTick()</code>にブロックされる恐れがあります。</p>
+<p><strong>いつ使いますか</strong></p>
+<ul>
+<li>ユーザにエラーの処理やいらない資源のクリーンを行ってほしい時か、イベントループが続く前にもう一度リクエストを試すか。</li>
+<li>メインスタックのタスクが終わってから、イベントループが続く前に何かしたい時。</li>
+</ul>
+<blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick">The Node.js Event Loop</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ja">
     <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/b5806a76/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -180,7 +393,7 @@
               <span class="post-meta-item-text">投稿日</span>
               
 
-              <time title="作成日：2024-03-07 10:18:49 / 修正日：14:42:14" itemprop="dateCreated datePublished" datetime="2024-03-07T10:18:49+09:00">2024-03-07</time>
+              <time title="作成日：2024-03-07 10:18:49 / 修正日：21:58:15" itemprop="dateCreated datePublished" datetime="2024-03-07T10:18:49+09:00">2024-03-07</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -320,10 +533,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">投稿日</span>
-              
 
-              <time title="作成日：2024-03-06 14:42:36 / 修正日：15:47:17" itemprop="dateCreated datePublished" datetime="2024-03-06T14:42:36+09:00">2024-03-06</time>
+              <time title="作成日：2024-03-06 14:42:36" itemprop="dateCreated datePublished" datetime="2024-03-06T14:42:36+09:00">2024-03-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">編集日</span>
+                <time title="修正日：2024-03-08 13:41:52" itemprop="dateModified" datetime="2024-03-08T13:41:52+09:00">2024-03-08</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -340,7 +559,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">単語数：</span>
-              <span>5.1k</span>
+              <span>5.2k</span>
             </span>
             <span class="post-meta-item" title="読書の時間">
               <span class="post-meta-item-icon">
@@ -374,7 +593,7 @@
 <li>他の子オブジェクトに影響を与えずに一つの子オブジェクトに引数を渡すことができない：全ての継承が<code>son.prototype = new father();</code>でしてるので、これから<code>son</code>で新しいオブジェクトを作る時は全部影響されます。</li>
 </ol>
 <h3 id="２-２、コンストラクタとcallを使う"><a href="#２-２、コンストラクタとcallを使う" class="headerlink" title="２.２、コンストラクタとcallを使う"></a>２.２、コンストラクタとcallを使う</h3><p>プロトタイプ継承が上記二つの問題があるため、コンストラクタを使って解決できます。</p>
-<p><strong>子オブジェクトのコンストラクタの中で親オブジェクトのコンストラクタ関数を実行する</strong>、これで子オブジェクトにも親オブジェクトの全てプロパティが貰えます。</p>
+<p><strong>子オブジェクトのコンストラクタの中で親オブジェクトのコンストラクタメソッドを実行する</strong>、これで子オブジェクトにも親オブジェクトの全てプロパティが貰えます。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">father</span>(<span class="params">name</span>) &#123;</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">colors</span> = [<span class="string">&#x27;red&#x27;</span>];</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">test</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">		<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;test success&#x27;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">father.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">sayName</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">name</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">son</span>(<span class="params">name,age</span>) &#123;</span><br><span class="line">	<span class="comment">//　これだけ追加しました</span></span><br><span class="line">	father.<span class="title function_">apply</span>(<span class="variable language_">this</span>);</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">age</span> = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> tmp1 = <span class="keyword">new</span> <span class="title function_">son</span>(<span class="string">&#x27;try&#x27;</span>,<span class="number">18</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(tmp1.<span class="property">colors</span>); <span class="comment">//&#x27;red&#x27;</span></span><br><span class="line">tmp1.<span class="title function_">sayName</span>(); <span class="comment">//error!</span></span><br><span class="line">tmp1.<span class="title function_">test</span>(); <span class="comment">//OK</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> tmp2 = <span class="keyword">new</span> <span class="title function_">son</span>();</span><br><span class="line">tmp2.<span class="property">colors</span>.<span class="title function_">unshift</span>(<span class="string">&#x27;yellow&#x27;</span>); </span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(tmp1.<span class="property">colors</span>); <span class="comment">// &#x27;red&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <p>問題：</p>
@@ -392,13 +611,13 @@
 <h3 id="２-４、親オブジェクトのプロポタイプをコーピして渡す"><a href="#２-４、親オブジェクトのプロポタイプをコーピして渡す" class="headerlink" title="２.４、親オブジェクトのプロポタイプをコーピして渡す"></a>２.４、親オブジェクトのプロポタイプをコーピして渡す</h3><p>欲しい物は親オブジェクトのプロポタイプのコーピだけで、親オブジェクトのコンストラクタを二回実行する必要がなく、新たにオブジェクトを作り、プロトタイプを指定し、インスタンス化して子オブジェクトに渡すこともできます。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">object</span>(<span class="params">fa</span>) &#123;</span><br><span class="line">	<span class="comment">//浅いコピーを実施している</span></span><br><span class="line">	<span class="keyword">function</span> <span class="title function_">F</span>(<span class="params"></span>) &#123;&#125;; <span class="comment">//fatherのプロトタイプをゲットために作成した新しいオブジェクト</span></span><br><span class="line">	F.<span class="property"><span class="keyword">prototype</span></span> = fa; <span class="comment">//fatherのプロトタイプをゲット</span></span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> <span class="title function_">F</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">inheritPrototype</span>(<span class="params">son, father</span>) &#123;</span><br><span class="line">	<span class="keyword">var</span> prototype = <span class="title function_">object</span>(father.<span class="property"><span class="keyword">prototype</span></span>); <span class="comment">//プロトタイプをゲット</span></span><br><span class="line">	prototype.<span class="property">constructor</span> = son; <span class="comment">//プロトタイプを自分のコンストラクタに指定</span></span><br><span class="line">	son.<span class="property"><span class="keyword">prototype</span></span> = prototype; <span class="comment">//プロトタイプ継承</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">father</span>(<span class="params">name</span>) &#123;</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">colors</span> = [<span class="string">&#x27;red&#x27;</span>];</span><br><span class="line">&#125;</span><br><span class="line">father.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">sayName</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">name</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">son</span>(<span class="params">name,age</span>) &#123;</span><br><span class="line">	father.<span class="title function_">call</span>(<span class="variable language_">this</span>, name);</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">age</span> = age;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">inheritPrototype</span>(son,father);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> tmp1 = <span class="keyword">new</span> <span class="title function_">son</span>(<span class="string">&#x27;try&#x27;</span>,<span class="number">19</span>);</span><br><span class="line">tmp1.<span class="property">colors</span>.<span class="title function_">unshift</span>(<span class="string">&#x27;yellow&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> tmp2 = <span class="keyword">new</span> <span class="title function_">son</span>(<span class="string">&#x27;tt&#x27;</span>,<span class="number">10</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(tmp2.<span class="property">colors</span>); <span class="comment">//&#x27;red&#x27;</span></span><br><span class="line">tmp2.<span class="title function_">sayName</span>(); <span class="comment">//tt</span></span><br></pre></td></tr></table></figure>
 
-<p>この方法は、直接<code>Object.create()</code>関数で使えます。</p>
+<p>この方法は、直接<code>Object.create()</code>メソッドで使えます。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = &#123; <span class="attr">a</span>: <span class="number">1</span> &#125;;</span><br><span class="line"><span class="comment">// a ---&gt; Object.prototype ---&gt; null</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> b = <span class="title class_">Object</span>.<span class="title function_">create</span>(a);</span><br><span class="line"><span class="comment">// b ---&gt; a ---&gt; Object.prototype ---&gt; null</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(b.<span class="property">a</span>); <span class="comment">// 1 （継承）</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> c = <span class="title class_">Object</span>.<span class="title function_">create</span>(b);</span><br><span class="line"><span class="comment">// c ---&gt; b ---&gt; a ---&gt; Object.prototype ---&gt; null</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> d = <span class="title class_">Object</span>.<span class="title function_">create</span>(<span class="literal">null</span>);</span><br><span class="line"><span class="comment">// d ---&gt; null （d はプロトタイプとして直接 null を持つオブジェクト）</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(d.<span class="property">hasOwnProperty</span>);</span><br><span class="line"><span class="comment">// undefined。 Object.prototype を継承していないため</span></span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="３、サマリー"><a href="#３、サマリー" class="headerlink" title="３、サマリー"></a>３、サマリー</h2><p>JavaScript は Java や C++ から来た開発者にとっては少し戸惑うかもしれません。なぜなら、JavaScript はすべて動的で、すべて実行時であり、静的な型はまったくないからです。すべてがオブジェクト（インスタンス）か関数（コンストラクター）であり、関数自体も <code>Function</code> コンストラクターのインスタンスです。構文の構成要素である「クラス」でさえ、実行時にはコンストラクター関数に過ぎないのです。</p>
-<p>JavaScript のすべてのコンストラクター関数は <code>prototype</code> という特別なプロパティを保有しており、このプロパティは <code>new</code> 演算子と組み合わせて動作します。プロトタイプオブジェクトへの参照は、新しいインスタンスの内部プロパティ <code>[[Prototype]]</code> にコピーされます。例えば、 <code>const a1 = new A()</code> とすると、 JavaScript は（オブジェクトをメモリー上で作成した後、 <code>this</code> を定義した関数 <code>A()</code> を実行する前に） <code>a1.[[Prototype]] = A.prototype</code> を設定します。その後、インスタンスのプロパティにアクセスするとき、 JavaScript はまずそのオブジェクトに直接存在するかどうかを調べ、存在しない場合は <code>[[Prototype]]</code> を探します。すなわち、 <code>a1.doSomething</code>, <code>Object.getPrototypeOf(a1).doSomething</code>, <code>Object.getPrototypeOf(Object.getPrototypeOf(a1)).doSomething</code> など、見つかるまで、あるいは <code>Object.getPrototypeOf</code> が <code>null</code> を返すまで再帰的に調べられます。これは、 <code>prototype</code> で定義されたすべてのプロパティが、事実上すべてのインスタンスで共有され、後で<code>prototype</code>の一部を変更しても、その変更が既存のすべてのインスタンスに現れることを意味します。</p>
+<h2 id="３、サマリー"><a href="#３、サマリー" class="headerlink" title="３、サマリー"></a>３、サマリー</h2><p>JavaScript は Java や C++ から来た開発者にとっては少し戸惑うかもしれません。なぜなら、JavaScript はすべて動的で、すべて実行時であり、静的な型はまったくないからです。すべてがオブジェクト（インスタンス）かメソッド（コンストラクター）であり、メソッド自体も <code>Function</code> コンストラクターのインスタンスです。構文の構成要素である「クラス」でさえ、実行時にはコンストラクターメソッドに過ぎないのです。</p>
+<p>JavaScript のすべてのコンストラクターメソッドは <code>prototype</code> という特別なプロパティを保有しており、このプロパティは <code>new</code> 演算子と組み合わせて動作します。プロトタイプオブジェクトへの参照は、新しいインスタンスの内部プロパティ <code>[[Prototype]]</code> にコピーされます。例えば、 <code>const a1 = new A()</code> とすると、 JavaScript は（オブジェクトをメモリー上で作成した後、 <code>this</code> を定義したメソッド <code>A()</code> を実行する前に） <code>a1.[[Prototype]] = A.prototype</code> を設定します。その後、インスタンスのプロパティにアクセスするとき、 JavaScript はまずそのオブジェクトに直接存在するかどうかを調べ、存在しない場合は <code>[[Prototype]]</code> を探します。すなわち、 <code>a1.doSomething</code>, <code>Object.getPrototypeOf(a1).doSomething</code>, <code>Object.getPrototypeOf(Object.getPrototypeOf(a1)).doSomething</code> など、見つかるまで、あるいは <code>Object.getPrototypeOf</code> が <code>null</code> を返すまで再帰的に調べられます。これは、 <code>prototype</code> で定義されたすべてのプロパティが、事実上すべてのインスタンスで共有され、後で<code>prototype</code>の一部を変更しても、その変更が既存のすべてのインスタンスに現れることを意味します。</p>
 <blockquote>
 <p>参考 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Inheritance_and_the_prototype_chain">継承とプロトタイプチェーン</a></p>
 </blockquote>
@@ -1095,14 +1314,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/puiken_blog/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">ポスト</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/puiken_blog/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">カテゴリ</span></a>
       </div>
   </nav>
@@ -1138,12 +1357,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="単語の総数">20k</span>
+    <span title="単語の総数">24k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="読書の合計時間">18 分</span>
+    <span title="読書の合計時間">22 分</span>
 </div>
 
         

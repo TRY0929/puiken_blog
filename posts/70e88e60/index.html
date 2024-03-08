@@ -30,7 +30,7 @@
 <meta property="og:description" content="１、基本概念１.１、JavaScriptの継承継承において、 JavaScript が持っている構成要素はただひとつ、オブジェクトだけです。 それぞれのオブジェクトは、そのプロトタイプと呼ばれる別のオブジェクトへのリンクを持つプライベートプロパティを持っています。 そのプロトタイプオブジェクト自身もプロトタイプを持ち、 null をプロトタイプとするオブジェクトに到達するまで続きます。 定義上、">
 <meta property="og:locale" content="ja_JP">
 <meta property="article:published_time" content="2024-03-06T05:42:36.000Z">
-<meta property="article:modified_time" content="2024-03-06T06:47:17.489Z">
+<meta property="article:modified_time" content="2024-03-08T04:41:52.680Z">
 <meta property="article:author" content="Puiken">
 <meta property="article:tag" content="Vue, Nodejs, Blog">
 <meta name="twitter:card" content="summary">
@@ -180,10 +180,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">投稿日</span>
-              
 
-              <time title="作成日：2024-03-06 14:42:36 / 修正日：15:47:17" itemprop="dateCreated datePublished" datetime="2024-03-06T14:42:36+09:00">2024-03-06</time>
+              <time title="作成日：2024-03-06 14:42:36" itemprop="dateCreated datePublished" datetime="2024-03-06T14:42:36+09:00">2024-03-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">編集日</span>
+                <time title="修正日：2024-03-08 13:41:52" itemprop="dateModified" datetime="2024-03-08T13:41:52+09:00">2024-03-08</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -200,7 +206,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">単語数：</span>
-              <span>5.1k</span>
+              <span>5.2k</span>
             </span>
             <span class="post-meta-item" title="読書の時間">
               <span class="post-meta-item-icon">
@@ -234,7 +240,7 @@
 <li>他の子オブジェクトに影響を与えずに一つの子オブジェクトに引数を渡すことができない：全ての継承が<code>son.prototype = new father();</code>でしてるので、これから<code>son</code>で新しいオブジェクトを作る時は全部影響されます。</li>
 </ol>
 <h3 id="２-２、コンストラクタとcallを使う"><a href="#２-２、コンストラクタとcallを使う" class="headerlink" title="２.２、コンストラクタとcallを使う"></a>２.２、コンストラクタとcallを使う</h3><p>プロトタイプ継承が上記二つの問題があるため、コンストラクタを使って解決できます。</p>
-<p><strong>子オブジェクトのコンストラクタの中で親オブジェクトのコンストラクタ関数を実行する</strong>、これで子オブジェクトにも親オブジェクトの全てプロパティが貰えます。</p>
+<p><strong>子オブジェクトのコンストラクタの中で親オブジェクトのコンストラクタメソッドを実行する</strong>、これで子オブジェクトにも親オブジェクトの全てプロパティが貰えます。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">father</span>(<span class="params">name</span>) &#123;</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">colors</span> = [<span class="string">&#x27;red&#x27;</span>];</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">test</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">		<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;test success&#x27;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">father.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">sayName</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">name</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">son</span>(<span class="params">name,age</span>) &#123;</span><br><span class="line">	<span class="comment">//　これだけ追加しました</span></span><br><span class="line">	father.<span class="title function_">apply</span>(<span class="variable language_">this</span>);</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">age</span> = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> tmp1 = <span class="keyword">new</span> <span class="title function_">son</span>(<span class="string">&#x27;try&#x27;</span>,<span class="number">18</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(tmp1.<span class="property">colors</span>); <span class="comment">//&#x27;red&#x27;</span></span><br><span class="line">tmp1.<span class="title function_">sayName</span>(); <span class="comment">//error!</span></span><br><span class="line">tmp1.<span class="title function_">test</span>(); <span class="comment">//OK</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> tmp2 = <span class="keyword">new</span> <span class="title function_">son</span>();</span><br><span class="line">tmp2.<span class="property">colors</span>.<span class="title function_">unshift</span>(<span class="string">&#x27;yellow&#x27;</span>); </span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(tmp1.<span class="property">colors</span>); <span class="comment">// &#x27;red&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <p>問題：</p>
@@ -252,13 +258,13 @@
 <h3 id="２-４、親オブジェクトのプロポタイプをコーピして渡す"><a href="#２-４、親オブジェクトのプロポタイプをコーピして渡す" class="headerlink" title="２.４、親オブジェクトのプロポタイプをコーピして渡す"></a>２.４、親オブジェクトのプロポタイプをコーピして渡す</h3><p>欲しい物は親オブジェクトのプロポタイプのコーピだけで、親オブジェクトのコンストラクタを二回実行する必要がなく、新たにオブジェクトを作り、プロトタイプを指定し、インスタンス化して子オブジェクトに渡すこともできます。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">object</span>(<span class="params">fa</span>) &#123;</span><br><span class="line">	<span class="comment">//浅いコピーを実施している</span></span><br><span class="line">	<span class="keyword">function</span> <span class="title function_">F</span>(<span class="params"></span>) &#123;&#125;; <span class="comment">//fatherのプロトタイプをゲットために作成した新しいオブジェクト</span></span><br><span class="line">	F.<span class="property"><span class="keyword">prototype</span></span> = fa; <span class="comment">//fatherのプロトタイプをゲット</span></span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> <span class="title function_">F</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">inheritPrototype</span>(<span class="params">son, father</span>) &#123;</span><br><span class="line">	<span class="keyword">var</span> prototype = <span class="title function_">object</span>(father.<span class="property"><span class="keyword">prototype</span></span>); <span class="comment">//プロトタイプをゲット</span></span><br><span class="line">	prototype.<span class="property">constructor</span> = son; <span class="comment">//プロトタイプを自分のコンストラクタに指定</span></span><br><span class="line">	son.<span class="property"><span class="keyword">prototype</span></span> = prototype; <span class="comment">//プロトタイプ継承</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">father</span>(<span class="params">name</span>) &#123;</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">colors</span> = [<span class="string">&#x27;red&#x27;</span>];</span><br><span class="line">&#125;</span><br><span class="line">father.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">sayName</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">name</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">son</span>(<span class="params">name,age</span>) &#123;</span><br><span class="line">	father.<span class="title function_">call</span>(<span class="variable language_">this</span>, name);</span><br><span class="line">	<span class="variable language_">this</span>.<span class="property">age</span> = age;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">inheritPrototype</span>(son,father);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> tmp1 = <span class="keyword">new</span> <span class="title function_">son</span>(<span class="string">&#x27;try&#x27;</span>,<span class="number">19</span>);</span><br><span class="line">tmp1.<span class="property">colors</span>.<span class="title function_">unshift</span>(<span class="string">&#x27;yellow&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> tmp2 = <span class="keyword">new</span> <span class="title function_">son</span>(<span class="string">&#x27;tt&#x27;</span>,<span class="number">10</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(tmp2.<span class="property">colors</span>); <span class="comment">//&#x27;red&#x27;</span></span><br><span class="line">tmp2.<span class="title function_">sayName</span>(); <span class="comment">//tt</span></span><br></pre></td></tr></table></figure>
 
-<p>この方法は、直接<code>Object.create()</code>関数で使えます。</p>
+<p>この方法は、直接<code>Object.create()</code>メソッドで使えます。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = &#123; <span class="attr">a</span>: <span class="number">1</span> &#125;;</span><br><span class="line"><span class="comment">// a ---&gt; Object.prototype ---&gt; null</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> b = <span class="title class_">Object</span>.<span class="title function_">create</span>(a);</span><br><span class="line"><span class="comment">// b ---&gt; a ---&gt; Object.prototype ---&gt; null</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(b.<span class="property">a</span>); <span class="comment">// 1 （継承）</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> c = <span class="title class_">Object</span>.<span class="title function_">create</span>(b);</span><br><span class="line"><span class="comment">// c ---&gt; b ---&gt; a ---&gt; Object.prototype ---&gt; null</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> d = <span class="title class_">Object</span>.<span class="title function_">create</span>(<span class="literal">null</span>);</span><br><span class="line"><span class="comment">// d ---&gt; null （d はプロトタイプとして直接 null を持つオブジェクト）</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(d.<span class="property">hasOwnProperty</span>);</span><br><span class="line"><span class="comment">// undefined。 Object.prototype を継承していないため</span></span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="３、サマリー"><a href="#３、サマリー" class="headerlink" title="３、サマリー"></a>３、サマリー</h2><p>JavaScript は Java や C++ から来た開発者にとっては少し戸惑うかもしれません。なぜなら、JavaScript はすべて動的で、すべて実行時であり、静的な型はまったくないからです。すべてがオブジェクト（インスタンス）か関数（コンストラクター）であり、関数自体も <code>Function</code> コンストラクターのインスタンスです。構文の構成要素である「クラス」でさえ、実行時にはコンストラクター関数に過ぎないのです。</p>
-<p>JavaScript のすべてのコンストラクター関数は <code>prototype</code> という特別なプロパティを保有しており、このプロパティは <code>new</code> 演算子と組み合わせて動作します。プロトタイプオブジェクトへの参照は、新しいインスタンスの内部プロパティ <code>[[Prototype]]</code> にコピーされます。例えば、 <code>const a1 = new A()</code> とすると、 JavaScript は（オブジェクトをメモリー上で作成した後、 <code>this</code> を定義した関数 <code>A()</code> を実行する前に） <code>a1.[[Prototype]] = A.prototype</code> を設定します。その後、インスタンスのプロパティにアクセスするとき、 JavaScript はまずそのオブジェクトに直接存在するかどうかを調べ、存在しない場合は <code>[[Prototype]]</code> を探します。すなわち、 <code>a1.doSomething</code>, <code>Object.getPrototypeOf(a1).doSomething</code>, <code>Object.getPrototypeOf(Object.getPrototypeOf(a1)).doSomething</code> など、見つかるまで、あるいは <code>Object.getPrototypeOf</code> が <code>null</code> を返すまで再帰的に調べられます。これは、 <code>prototype</code> で定義されたすべてのプロパティが、事実上すべてのインスタンスで共有され、後で<code>prototype</code>の一部を変更しても、その変更が既存のすべてのインスタンスに現れることを意味します。</p>
+<h2 id="３、サマリー"><a href="#３、サマリー" class="headerlink" title="３、サマリー"></a>３、サマリー</h2><p>JavaScript は Java や C++ から来た開発者にとっては少し戸惑うかもしれません。なぜなら、JavaScript はすべて動的で、すべて実行時であり、静的な型はまったくないからです。すべてがオブジェクト（インスタンス）かメソッド（コンストラクター）であり、メソッド自体も <code>Function</code> コンストラクターのインスタンスです。構文の構成要素である「クラス」でさえ、実行時にはコンストラクターメソッドに過ぎないのです。</p>
+<p>JavaScript のすべてのコンストラクターメソッドは <code>prototype</code> という特別なプロパティを保有しており、このプロパティは <code>new</code> 演算子と組み合わせて動作します。プロトタイプオブジェクトへの参照は、新しいインスタンスの内部プロパティ <code>[[Prototype]]</code> にコピーされます。例えば、 <code>const a1 = new A()</code> とすると、 JavaScript は（オブジェクトをメモリー上で作成した後、 <code>this</code> を定義したメソッド <code>A()</code> を実行する前に） <code>a1.[[Prototype]] = A.prototype</code> を設定します。その後、インスタンスのプロパティにアクセスするとき、 JavaScript はまずそのオブジェクトに直接存在するかどうかを調べ、存在しない場合は <code>[[Prototype]]</code> を探します。すなわち、 <code>a1.doSomething</code>, <code>Object.getPrototypeOf(a1).doSomething</code>, <code>Object.getPrototypeOf(Object.getPrototypeOf(a1)).doSomething</code> など、見つかるまで、あるいは <code>Object.getPrototypeOf</code> が <code>null</code> を返すまで再帰的に調べられます。これは、 <code>prototype</code> で定義されたすべてのプロパティが、事実上すべてのインスタンスで共有され、後で<code>prototype</code>の一部を変更しても、その変更が既存のすべてのインスタンスに現れることを意味します。</p>
 <blockquote>
 <p>参考 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Inheritance_and_the_prototype_chain">継承とプロトタイプチェーン</a></p>
 </blockquote>
@@ -358,14 +364,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/puiken_blog/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">ポスト</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/puiken_blog/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">カテゴリ</span></a>
       </div>
   </nav>
@@ -401,12 +407,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="単語の総数">20k</span>
+    <span title="単語の総数">24k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="読書の合計時間">18 分</span>
+    <span title="読書の合計時間">22 分</span>
 </div>
 
         

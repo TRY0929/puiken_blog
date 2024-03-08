@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/puiken_blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.jsdelivr.net/gh/try0929/cdn/img/ice-cream.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.jsdelivr.net/gh/try0929/cdn/img/ice-cream.ico">
+  <link rel="mask-icon" href="/puiken_blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/puiken_blog/css/main.css">
+
+
+<link rel="stylesheet" href="/puiken_blog/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/puiken_blog/lib/pace/pace-theme-minimal.min.css">
+  <script src="/puiken_blog/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"try0929.github.io","root":"/puiken_blog/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="１、JavaScriptは単一プロセルJavaScriptは一つのプロセスしかない、なんで？ 想像してみて：二つのプロセスが同時に一つのDOM要素を操作しようとしている、削除か変更か、順番が違ったら全く違う結果が出るんじゃないですか。 1one thread &#x3D;&#x3D; one call stack &#x3D;&#x3D; one thing at a time  単一プロセルのため、うまく使えないならブロックは起こりや">
+<meta property="og:type" content="article">
+<meta property="og:title" content="イベントループ">
+<meta property="og:url" content="https://try0929.github.io/puiken_blog/posts/a8dc2f28/index.html">
+<meta property="og:site_name" content="Puiken&#39;s blog">
+<meta property="og:description" content="１、JavaScriptは単一プロセルJavaScriptは一つのプロセスしかない、なんで？ 想像してみて：二つのプロセスが同時に一つのDOM要素を操作しようとしている、削除か変更か、順番が違ったら全く違う結果が出るんじゃないですか。 1one thread &#x3D;&#x3D; one call stack &#x3D;&#x3D; one thing at a time  単一プロセルのため、うまく使えないならブロックは起こりや">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://www.ruanyifeng.com/blogimg/asset/2014/bg2014100802.png">
+<meta property="og:image" content="https://www.ruanyifeng.com/blogimg/asset/2014/bg2014100803.png">
+<meta property="article:published_time" content="2024-03-08T02:11:13.000Z">
+<meta property="article:modified_time" content="2024-03-08T07:12:17.353Z">
+<meta property="article:author" content="Puiken">
+<meta property="article:tag" content="Vue, Nodejs, Blog">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.ruanyifeng.com/blogimg/asset/2014/bg2014100802.png">
+
+<link rel="canonical" href="https://try0929.github.io/puiken_blog/posts/a8dc2f28/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'ja'
+  };
+</script>
+
+  <title>イベントループ | Puiken's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="ナビゲーションバーの切り替え">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/puiken_blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Puiken's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/puiken_blog/" rel="section"><i class="fa fa-home fa-fw"></i>ホーム</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/puiken_blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>アーカイブ</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/puiken_blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>カテゴリ</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ja">
+    <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/a8dc2f28/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
+      <meta itemprop="name" content="Puiken">
+      <meta itemprop="description" content="いつでも変な考えを持っている20代。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Puiken's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          イベントループ
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">投稿日</span>
+              
+
+              <time title="作成日：2024-03-08 11:11:13 / 修正日：16:12:17" itemprop="dateCreated datePublished" datetime="2024-03-08T11:11:13+09:00">2024-03-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">カテゴリ</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/puiken_blog/categories/Nodejs/" itemprop="url" rel="index"><span itemprop="name">Nodejs</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="単語数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">単語数：</span>
+              <span>4.9k</span>
+            </span>
+            <span class="post-meta-item" title="読書の時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">読書の時間 &asymp;</span>
+              <span>4 分</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="１、JavaScriptは単一プロセル"><a href="#１、JavaScriptは単一プロセル" class="headerlink" title="１、JavaScriptは単一プロセル"></a>１、JavaScriptは単一プロセル</h2><p>JavaScriptは一つのプロセスしかない、なんで？</p>
+<p>想像してみて：二つのプロセスが同時に一つのDOM要素を操作しようとしている、削除か変更か、順番が違ったら全く違う結果が出るんじゃないですか。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">one thread == one call stack == one thing at a time</span><br></pre></td></tr></table></figure>
+
+<p>単一プロセルのため、うまく使えないならブロックは起こりやすい。</p>
+<h2 id="２、同期と非同期処理"><a href="#２、同期と非同期処理" class="headerlink" title="２、同期と非同期処理"></a>２、同期と非同期処理</h2><p>JavaScriptの操作は同期処理と非同期処理に分かれていて、同期処理はプロセススタックで順次呼び出され、実行されますが、非同期処理は最初そこに入ってない。</p>
+<p>IO操作やWebAPIなどの時間のかかる操作は、メインプロセスをブロックさせないように、いつも非同期で操作され、コールバック関数で処理します。</p>
+<ul>
+<li>同期処理：メインプロセスで順次実行される</li>
+<li>非同期処理：メインプロセルに入らず、タスクキューに入り、自身のある操作が完了した時、メインプロセスにお知らせをして、メインプロセスに呼び出される</li>
+</ul>
+<p>下記コードの出力順番は簡単に言えますが、原理部分を詳しく説明したらJavaScriptの原理に理解できると思います。</p>
+<p>例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="keyword">function</span> <span class="title function_">cb</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">2</span>);</span><br><span class="line">&#125;, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 結果</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<p>実行の流れは大体：</p>
+<ol>
+<li><p><code>console.log(1);</code>と<code>console.log(1);</code>は同じくメインプロセスに入っており、順次に処理されます。</p>
+</li>
+<li><p>メソッド<code>cb</code>の<code>console.log(2)</code>は、タスクキューに入って、タイマーが終わってからメインプロセスで実行されます。</p>
+</li>
+</ol>
+<p>タイマーの設置は前にあるのに、なぜ<code>console.log(3);</code>は100msのタイマーが終わって、<code>console.log(2);</code>が実行してから出力してないですか？</p>
+<p>もしそうであれば、タイマーが終わるまで<code>console.log(3);</code>はブロックされているが、現実はそうでもない。</p>
+<p>上記の例でまとめること：</p>
+<ol>
+<li>全ての同期処理はメインープロセスで実行され、それはコンテキストスタック（execution context stack）となります；</li>
+<li>メインプロセス以外、タスクキュー（task queue）が存在します。非同期処理が終わり、イベント（非同期処理のコールバック）がそこに入ります；</li>
+<li>メインプロセスのタスクが全て終わり、タスクキューからタスクをとって実行します。</li>
+<li>これからメインプロセスは３を繰り返します。</li>
+</ol>
+<h3 id="タスクキュー-task-queue-概念まとめ"><a href="#タスクキュー-task-queue-概念まとめ" class="headerlink" title="タスクキュー(task queue)概念まとめ"></a>タスクキュー(task queue)概念まとめ</h3><ul>
+<li>FIFOデータストラクチャで、最初入れたタスクが最初に実行されます；</li>
+<li>非同期処理が終わったらそれのイベントをタスクキューに入れます；</li>
+<li>メソッドに関数を渡した時、 メソッドに紐づいたイベントが発生していた場合に、この関数を<em>コールバック</em>するのです。</li>
+</ul>
+<h2 id="３、イベントループ"><a href="#３、イベントループ" class="headerlink" title="３、イベントループ"></a>３、イベントループ</h2><p>メインプロセスが実行される時、ヒープ(heap)とスタック(stack)が生成されます。</p>
+<ul>
+<li>heap：データを置くところ</li>
+<li>stack：メインプロセスで実行する函数列</li>
+</ul>
+<p>スタックの函数は他のWebAPIを呼び出し、非同期処理がある場合、イベントがタスクキューに入ります。</p>
+<p>スタックのコードが全て実行され、タスクキューの中からタスクを取って実行する（コールバックする）。</p>
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/2014/bg2014100802.png" alt="Event Loop"></p>
+<h2 id="4、マイクロ-micro-とマクロ-macro-タスク"><a href="#4、マイクロ-micro-とマクロ-macro-タスク" class="headerlink" title="4、マイクロ(micro)とマクロ(macro)タスク"></a>4、マイクロ(micro)とマクロ(macro)タスク</h2><p>ブラウザの非同期タスクはマイクロとマクロタスクに分かれています。</p>
+<p><strong>マクロタスク</strong>：</p>
+<ul>
+<li>setTimeout</li>
+<li>setInterval</li>
+<li>setImmediate (Node Jsだけある)</li>
+<li>requestAnimationFrame (ブラウザだけある)</li>
+<li>I&#x2F;O</li>
+<li>UI rendering (ブラウザだけある)</li>
+</ul>
+<p><strong>マイクロタスク</strong>：</p>
+<ul>
+<li>process.nextTick (Node Jsだけある)</li>
+<li>Promise</li>
+<li>Object.observe</li>
+<li>MutationObserver</li>
+</ul>
+<p>基本の流れはさっき説明した通り、<strong>同期タスクが終わってから非同期タスク</strong>を処理する。</p>
+<p>ただ、<strong>マクロとマイクロタスクにも順番があります</strong>（同期処理が全て終わってる状態）：</p>
+<p>ブラウザ上：</p>
+<ol>
+<li>マイクロタスクがある限り、マクロタスクは処理されない；</li>
+<li>一つマクロタスクの処理が終わって、すぐマイクロタスクのキューをチェックし、あるなら処理する。</li>
+</ol>
+<p>Nodejs環境（同期処理が全て終わり）：</p>
+<ol>
+<li>process.nextTickを実行する；</li>
+<li>全てのマクロタスクを処理する；</li>
+<li>全てのマイクロタスクを処理する。</li>
+</ol>
+<p>理解できましたかな？簡単（ではない）なテストで試してみよう〜</p>
+<p>下記のコードを実行したら、出力の順番をを教えてください。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">2</span>);</span><br><span class="line">  <span class="title class_">Promise</span>.<span class="title function_">resolve</span>().<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">3</span>)</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">4</span>)</span><br><span class="line">  <span class="title function_">resolve</span>(<span class="number">5</span>)</span><br><span class="line">&#125;).<span class="title function_">then</span>(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(data);</span><br><span class="line">  </span><br><span class="line">  <span class="title class_">Promise</span>.<span class="title function_">resolve</span>().<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">6</span>)</span><br><span class="line">  &#125;).<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">7</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">8</span>)</span><br><span class="line">    &#125;, <span class="number">0</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">   <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">9</span>)</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<p>正解：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 4 10 5 6 7 2 3 9 8</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="５、Nodejs"><a href="#５、Nodejs" class="headerlink" title="５、Nodejs"></a>５、Nodejs</h2><p>NodejsはJavaScriptのサーバーサイドの実行環境でありますが、単一のスレッドでしか実行していません。それはブラウザ上のJSと同じです。</p>
+<p>下記の図はNodejsの取り組みとなります：</p>
+<ol>
+<li>V8エンジンがJavaScriptスクリプトを解析します。</li>
+<li>解析されたコードは、Node APIを呼び出します。</li>
+<li>libuvライブラリがNode APIの実行を担当します。それは異なるタスクを異なるスレッドに割り当て、イベントループを形成し、タスクの実行結果を非同期にV8エンジンに返します。</li>
+<li>V8エンジンは結果をユーザーに返します。</li>
+</ol>
+<p><img src="https://www.ruanyifeng.com/blogimg/asset/2014/bg2014100803.png" alt="Node.js"></p>
+<h3 id="イベントループの各段階（phases-of-the-event-loop）"><a href="#イベントループの各段階（phases-of-the-event-loop）" class="headerlink" title="イベントループの各段階（phases of the event loop）"></a>イベントループの各段階（phases of the event loop）</h3><p>Nodejsでコードを実行する時、下記の流れがあります。</p>
+<ul>
+<li><code>timers</code>：<code>setTimeout</code>と<code>setInterval</code>時間切れのタイマーのコールバックメソッドを実行する。</li>
+<li><code>pending callbacks</code>：設定されたタイマー以外のコールバックメソッドを実行する（EX.HTTPリクエストの異常中止）。</li>
+<li><code>Idle, prepare</code>：Nodejs内部処理。</li>
+<li><code>poll</code>：非同期タスク（IO、HTTPリクエスト）を処理して、コールバックメソッドを実行する。<ul>
+<li>非同期処理（タイマー以外）が終わってない限り、ずっとこの段階でポーリングする。</li>
+</ul>
+</li>
+<li><code>check</code>：<code>setImmediate</code>のコールバックメソッドを実行する。</li>
+<li><code>close callbacks</code>：<code>socket.close()</code>とかのコールバックメソッドを実行する。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">   ┌───────────────────────────┐</span><br><span class="line">┌─&gt;│           timers          │</span><br><span class="line">│  └─────────────┬─────────────┘</span><br><span class="line">│  ┌─────────────┴─────────────┐</span><br><span class="line">│  │     pending callbacks     │</span><br><span class="line">│  └─────────────┬─────────────┘</span><br><span class="line">│  ┌─────────────┴─────────────┐</span><br><span class="line">│  │       idle, prepare       │</span><br><span class="line">│  └─────────────┬─────────────┘      ┌───────────────┐</span><br><span class="line">│  ┌─────────────┴─────────────┐      │   incoming:   │</span><br><span class="line">│  │           poll            │&lt;─────┤  connections, │</span><br><span class="line">│  └─────────────┬─────────────┘      │   data, etc.  │</span><br><span class="line">│  ┌─────────────┴─────────────┐      └───────────────┘</span><br><span class="line">│  │           check           │</span><br><span class="line">│  └─────────────┬─────────────┘</span><br><span class="line">│  ┌─────────────┴─────────────┐</span><br><span class="line">└──┤      close callbacks      │</span><br><span class="line">   └───────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h3 id="setImmediate-vs-setTimeout"><a href="#setImmediate-vs-setTimeout" class="headerlink" title="setImmediate() vs setTimeout()"></a><code>setImmediate()</code> vs <code>setTimeout()</code></h3><ul>
+<li><code>setImmediate()</code> はいつも現在の<code>poll</code>段階で処理される</li>
+<li><code>setTimeout()</code> は設定の時間の後にプロセスに実行される</li>
+</ul>
+<p>コールバックすぐ実行してほしい時はどちらでも使えますが、違う場合で使うと全く異なる結果が出るかもしれません。</p>
+<p>何もないメインプロセスの中に二つのタイマーを設置すると：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;timeout&#x27;</span>);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"><span class="title function_">setImmediate</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;immediate&#x27;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>結果は時間によって違います。今回は先に<code>timeout</code>が出力されましたが、次回は<code>immediate</code>かもしれません。完全にシステムのプロセス処理に任せてるので、予測はできません。</p>
+<p>けど、I&#x2F;O処理（非同期処理）の中で同時に二つのタイマーを設置すると、必ず<code>setImmediate()</code>の方が先に処理されます。</p>
+<p>理由：I&#x2F;O処理は<code>poll</code>段階でするので、処理が終わったら<code>poll</code>段階も終わり、<code>setImmediate()</code>はすぐ実行されるが、<code>setTimeout()</code>は次回の<code>timers</code>段階で実行されます。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;node:fs&#x27;</span>);</span><br><span class="line">fs.<span class="title function_">readFile</span>(__filename, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;timeout&#x27;</span>);</span><br><span class="line">  &#125;, <span class="number">0</span>);</span><br><span class="line">  <span class="title function_">setImmediate</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;immediate&#x27;</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>結論</strong></p>
+<p>もしIO処理など非同期処理のあるコードの中、その後すぐ実行したいコードがあれば、<code>setImmediate()</code>がおすすめです、それは必ず次の<code>timers</code>段階に入る前に処理されるためです。</p>
+<h3 id="process-nextTick"><a href="#process-nextTick" class="headerlink" title="process.nextTick()"></a><code>process.nextTick()</code></h3><p><code>process.nextTick()</code>はNodejsのイベントループのどの段階でも表れていないが、非同期処理となっています。じゃそれはどのタイミングで実行しますか？</p>
+<p>答えは、特定の段階ではなく、任意一つの段階が終わってからすぐ実行します。だから、次の段階に行ける条件の一つは、<code>process.nextTick()</code>のコールバックが順調に終わってます。</p>
+<p>そのため、うまく書いてない時、Nodejsのプロセスは<code>process.nextTick()</code>にブロックされる恐れがあります。</p>
+<p><strong>いつ使いますか</strong></p>
+<ul>
+<li>ユーザにエラーの処理やいらない資源のクリーンを行ってほしい時か、イベントループが続く前にもう一度リクエストを試すか。</li>
+<li>メインスタックのタスクが終わってから、イベントループが続く前に何かしたい時。</li>
+</ul>
+<blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick">The Node.js Event Loop</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/puiken_blog/posts/b5806a76/" rel="prev" title="ブロック整形コンテキスト（BFC）">
+      <i class="fa fa-chevron-left"></i> ブロック整形コンテキスト（BFC）
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          見出し
+        </li>
+        <li class="sidebar-nav-overview">
+          概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%91%E3%80%81JavaScript%E3%81%AF%E5%8D%98%E4%B8%80%E3%83%97%E3%83%AD%E3%82%BB%E3%83%AB"><span class="nav-text">１、JavaScriptは単一プロセル</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%92%E3%80%81%E5%90%8C%E6%9C%9F%E3%81%A8%E9%9D%9E%E5%90%8C%E6%9C%9F%E5%87%A6%E7%90%86"><span class="nav-text">２、同期と非同期処理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E3%82%BF%E3%82%B9%E3%82%AF%E3%82%AD%E3%83%A5%E3%83%BC-task-queue-%E6%A6%82%E5%BF%B5%E3%81%BE%E3%81%A8%E3%82%81"><span class="nav-text">タスクキュー(task queue)概念まとめ</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%93%E3%80%81%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%83%AB%E3%83%BC%E3%83%97"><span class="nav-text">３、イベントループ</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E3%83%9E%E3%82%A4%E3%82%AF%E3%83%AD-micro-%E3%81%A8%E3%83%9E%E3%82%AF%E3%83%AD-macro-%E3%82%BF%E3%82%B9%E3%82%AF"><span class="nav-text">4、マイクロ(micro)とマクロ(macro)タスク</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%95%E3%80%81Nodejs"><span class="nav-text">５、Nodejs</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%83%AB%E3%83%BC%E3%83%97%E3%81%AE%E5%90%84%E6%AE%B5%E9%9A%8E%EF%BC%88phases-of-the-event-loop%EF%BC%89"><span class="nav-text">イベントループの各段階（phases of the event loop）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setImmediate-vs-setTimeout"><span class="nav-text">setImmediate() vs setTimeout()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#process-nextTick"><span class="nav-text">process.nextTick()</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Puiken"
+      src="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
+  <p class="site-author-name" itemprop="name">Puiken</p>
+  <div class="site-description" itemprop="description">いつでも変な考えを持っている20代。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/puiken_blog/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">ポスト</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/puiken_blog/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">カテゴリ</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Puiken</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="単語の総数">24k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="読書の合計時間">22 分</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/puiken_blog/lib/anime.min.js"></script>
+  <script src="/puiken_blog/lib/velocity/velocity.min.js"></script>
+  <script src="/puiken_blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/puiken_blog/js/utils.js"></script>
+
+<script src="/puiken_blog/js/motion.js"></script>
+
+
+<script src="/puiken_blog/js/schemes/muse.js"></script>
+
+
+<script src="/puiken_blog/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  <script src="//cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@3.0.8/js/maodian.js"></script>
+
+
+</body>
+</html>
