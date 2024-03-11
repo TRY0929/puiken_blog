@@ -88,7 +88,9 @@
     <div class="headband"></div>
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
+      <div class="header-inner"><div class="header-fixed-wrapper">
+  <div class="header-fixed">
+    <div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="ナビゲーションバーの切り替え">
       <span class="toggle-line toggle-line-first"></span>
@@ -113,7 +115,7 @@
 </div>
 
 
-
+    
 
 <nav class="site-nav">
   <ul id="menu" class="main-menu menu">
@@ -136,8 +138,47 @@
 </nav>
 
 
+    
 
+  </div>
+</div>
 
+<div
+  id="banner"
+  class="header-banner"
+>
+  <div class="full-bg-img">
+    <div class="mask flex-center type-text">
+      <span class="blogtitle"></span>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+(function() {
+  var typed = new Typed(".blogtitle", {
+    strings: ['ぷいけんの家へようこそ！！！', 'Welcome to puiken\'s home!!!'],
+    startDelay: 300,
+    typeSpeed: 100,
+    loop: true,
+    backSpeed: 50,
+    showCursor: true
+  });
+})();
+</script>
+
+<style>
+.type-text {
+  color: #eee;
+  text-align: center;
+  text-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, .15);
+  line-height: 1.5;
+  font-weight: 700;
+  font-size: 2.6rem;
+  animation: titlescale 1s;
+}
+</style>
 </div>
     </header>
 
@@ -160,13 +201,6 @@
 <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ja">
   <body>
     <div id="body-wrap">
-      <nav class="not_index_bg" id="nav">
-        <div id="page_site-info">
-          <div id="site-title">
-            <span class="blogtitle"></span>
-          </div>
-        </div>
-      </nav>
       <main id="content-outer">
         <div class="layout_page" id="content-inner">
           <div class="aside_content" id="aside_content">
@@ -351,7 +385,6 @@
 
     </div><link rel="stylesheet" href="/puiken_blog/css/main.css">
 
-<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
 
 <script>
@@ -423,32 +456,6 @@
     -webkit-box-orient: vertical;
     flex-direction: column;
     transition: all .5s;
-  }
-  #nav.not_index_bg {
-    height: 20rem;
-  }
-  #nav {
-    position: relative;
-    margin-top: -2rem;
-    width: 100%;
-    background-color: #49b1f5;
-    background-attachment: local;
-    background-position: center;
-    background-size: cover;
-  }
-  #page_site-info {
-    position: absolute;
-    top: 10rem;
-    width: 100%;
-  }
-  #site-title {
-    color: #eee;
-    text-align: center;
-    text-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, .15);
-    line-height: 1.5;
-    font-weight: 700;
-    font-size: 1.3rem;
-    animation: titlescale 1s;
   }
   main {
     display: block;

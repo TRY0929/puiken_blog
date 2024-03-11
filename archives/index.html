@@ -84,7 +84,9 @@
     <div class="headband"></div>
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
+      <div class="header-inner"><div class="header-fixed-wrapper">
+  <div class="header-fixed">
+    <div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="ナビゲーションバーの切り替え">
       <span class="toggle-line toggle-line-first"></span>
@@ -109,7 +111,7 @@
 </div>
 
 
-
+    
 
 <nav class="site-nav">
   <ul id="menu" class="main-menu menu">
@@ -132,8 +134,47 @@
 </nav>
 
 
+    
 
+  </div>
+</div>
 
+<div
+  id="banner"
+  class="header-banner"
+>
+  <div class="full-bg-img">
+    <div class="mask flex-center type-text">
+      <span class="blogtitle"></span>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+(function() {
+  var typed = new Typed(".blogtitle", {
+    strings: ['ぷいけんの家へようこそ！！！', 'Welcome to puiken\'s home!!!'],
+    startDelay: 300,
+    typeSpeed: 100,
+    loop: true,
+    backSpeed: 50,
+    showCursor: true
+  });
+})();
+</script>
+
+<style>
+.type-text {
+  color: #eee;
+  text-align: center;
+  text-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, .15);
+  line-height: 1.5;
+  font-weight: 700;
+  font-size: 2.6rem;
+  animation: titlescale 1s;
+}
+</style>
 </div>
     </header>
 
@@ -157,9 +198,6 @@
   
   <div class="post-block">
     <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">うーん! 全 9 ポスト もっと書こう！</span>
-      </div>
 
       
     <div class="collection-year">
@@ -266,86 +304,6 @@
     </header>
   </article>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-03-01T15:02:07+09:00"
-              content="2024-03-01">
-          03-01
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/puiken_blog/posts/3bca534c/" itemprop="url">
-            <span itemprop="name">hexoでクリックスタイルの変え方</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-03-01T09:09:57+09:00"
-              content="2024-03-01">
-          03-01
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/puiken_blog/posts/10483/" itemprop="url">
-            <span itemprop="name">サイトでマウスポイントイコンの変更</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-02-29T17:55:48+09:00"
-              content="2024-02-29">
-          02-29
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/puiken_blog/posts/36779/" itemprop="url">
-            <span itemprop="name">jsdelivrの使用</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-02-29T11:27:01+09:00"
-              content="2024-02-29">
-          02-29
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/puiken_blog/posts/44223/" itemprop="url">
-            <span itemprop="name">hexo原理まとめ</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
 
     </div>
   </div>
@@ -354,6 +312,9 @@
   
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/puiken_blog/archives/page/2/">2</a><a class="extend next" rel="next" href="/puiken_blog/archives/page/2/"><i class="fa fa-angle-right" aria-label="次のページ"></i></a>
+  </nav>
 
 
 
