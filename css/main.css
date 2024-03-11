@@ -1012,6 +1012,7 @@ a {
   justify-content: space-between;
   padding: 0.5rem 1rem;
   margin: 0 auto;
+  flex-wrap: wrap;
 }
 @media (min-width: 1200px) {
   .header-inner .header-fixed {
@@ -1261,7 +1262,7 @@ a {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #0569d4;
+  background: #ff827a;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
