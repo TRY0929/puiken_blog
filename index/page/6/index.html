@@ -25,7 +25,7 @@
   <meta name="description" content="いつでも変な考えを持っている20代。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Puiken&#39;s blog">
-<meta property="og:url" content="https://try0929.github.io/puiken_blog/categories/Nodejs/index.html">
+<meta property="og:url" content="https://try0929.github.io/puiken_blog/index/page/6/index.html">
 <meta property="og:site_name" content="Puiken&#39;s blog">
 <meta property="og:description" content="いつでも変な考えを持っている20代。">
 <meta property="og:locale" content="ja_JP">
@@ -33,20 +33,20 @@
 <meta property="article:tag" content="Vue, Nodejs, Blog">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://try0929.github.io/puiken_blog/categories/Nodejs/">
+<link rel="canonical" href="https://try0929.github.io/puiken_blog/index/page/6/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : false,
+    isHome : true,
     isPost : false,
     lang   : 'ja'
   };
 </script>
 
-  <title>カテゴリ: Nodejs | Puiken's blog</title>
+  <title>Puiken's blog</title>
   
 
 
@@ -149,52 +149,119 @@
         <div class="content-wrap">
           
 
-          <div class="content category">
+          <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ja">
+    <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/10483/">
 
-  
-  
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">Nodejs
-          <small>カテゴリ</small>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
+      <meta itemprop="name" content="Puiken">
+      <meta itemprop="description" content="いつでも変な考えを持っている20代。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Puiken's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/puiken_blog/posts/10483/" class="post-title-link" itemprop="url">サイトでマウスポイントイコンの変更</a>
         </h2>
-      </div>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">投稿日</span>
+
+              <time title="作成日：2024-03-01 09:09:57" itemprop="dateCreated datePublished" datetime="2024-03-01T09:09:57+09:00">2024-03-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">編集日</span>
+                <time title="修正日：2024-03-02 10:47:23" itemprop="dateModified" datetime="2024-03-02T10:47:23+09:00">2024-03-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">カテゴリ</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/puiken_blog/categories/css/" itemprop="url" rel="index"><span itemprop="name">css</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="単語数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">単語数：</span>
+              <span>683</span>
+            </span>
+            <span class="post-meta-item" title="読書の時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">読書の時間 &asymp;</span>
+              <span>1 分</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2024</span>
+          <p>個人サイトでマウスのポイント変更できたらとてもかっこいいなと思って、自分の好みのイコンにしてみました。下記は手順となります。</p>
+<h2 id="1-条件を満たすiconファイルを用意します"><a href="#1-条件を満たすiconファイルを用意します" class="headerlink" title="1. 条件を満たすiconファイルを用意します"></a>1. 条件を満たすiconファイルを用意します</h2><p>マウスポイントイコンは少なくとも（分けたくない人もいますが、分けた方がおすすめです）２種類あります：</p>
+<ul>
+<li>クリックイコン；</li>
+<li>テクストコピーイコン；</li>
+</ul>
+<p>まずはイコンにしたい写真を用意します、２つの条件が必要となります：</p>
+<ul>
+<li>拡張子は<code>.ico</code>か<code>.cur</code>です。必須ではないが、オフィシャルにはその二つがおすすめです。</li>
+<li>サイズは <code>32*32</code>　です。違う場合だったら画面で表示できなくなる可能性があります。</li>
+</ul>
+<h2 id="2-写真をプロジェクトにインポートします"><a href="#2-写真をプロジェクトにインポートします" class="headerlink" title="2. 写真をプロジェクトにインポートします"></a>2. 写真をプロジェクトにインポートします</h2><p>まず用意した写真を<strong>プロジェクトローカルか、CDNの上か</strong>に置きます、前者の場合では相対パスでインポートし、後者ではCDNリンクでインポートします。</p>
+<blockquote>
+<p>CDNの場合では、jsdelivrがおすすめです。<a href="">詳細</a></p>
+</blockquote>
+<p>そして、cssのcursorアトリビュートを使い、マウスポイントを設定します：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span>, <span class="selector-tag">li</span>, <span class="selector-tag">span</span>, <span class="selector-tag">p</span> &#123;</span><br><span class="line">  <span class="attribute">cursor</span>: <span class="built_in">url</span>(<span class="string">https://cdn.jsdelivr.net/gh/try0929/cdn/img/newText1.cur</span>),auto;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: transparent;</span><br><span class="line">  <span class="attribute">cursor</span>: <span class="built_in">url</span>(<span class="string">https://cdn.jsdelivr.net/gh/try0929/cdn/img/newLoadCur.cur</span>),auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>autoはマウスポイントのデフォルトスタイル、必ず書きます。</p>
+
+      
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2024-03-08T11:11:13+09:00"
-              content="2024-03-08">
-          03-08
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/puiken_blog/posts/a8dc2f28/" itemprop="url">
-            <span itemprop="name">イベントループ</span>
-          </a>
-      </div>
-
-    </header>
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
   </article>
-
-    </div>
-  </div>
   
   
   
 
+
   
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/puiken_blog/index/page/5/"><i class="fa fa-angle-left" aria-label="前のページ"></i></a><a class="page-number" href="/puiken_blog/index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/puiken_blog/index/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/puiken_blog/index/page/7/">7</a><a class="page-number" href="/puiken_blog/index/page/8/">8</a><a class="extend next" rel="next" href="/puiken_blog/index/page/7/"><i class="fa fa-angle-right" aria-label="次のページ"></i></a>
+  </nav>
 
 
 
