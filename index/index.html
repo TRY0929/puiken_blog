@@ -221,7 +221,16 @@
               <span class="post-meta-item-text">投稿日</span>
               
 
-              <time title="作成日：2024-03-21 15:31:01 / 修正日：16:26:07" itemprop="dateCreated datePublished" datetime="2024-03-21T15:31:01+09:00">2024-03-21</time>
+              <time title="作成日：2024-03-21 15:31:01 / 修正日：16:29:47" itemprop="dateCreated datePublished" datetime="2024-03-21T15:31:01+09:00">2024-03-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">カテゴリ</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/puiken_blog/categories/dart/" itemprop="url" rel="index"><span itemprop="name">dart</span></a>
+                </span>
             </span>
 
           <br>
@@ -249,88 +258,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>最近flutterの勉強を始めたので、これからノートで自分で開発する時であった問題や習ったポイントなどを記録していこうと思ってます。</p>
-<h2 id="１、flutterは何できますか"><a href="#１、flutterは何できますか" class="headerlink" title="１、flutterは何できますか"></a>１、flutterは何できますか</h2><p>flutterはDart言語で開発したアプリを作成できるフレームワークです。一回の開発でIOS、Androidなどに変換し、さまざまなプラットフォームで実行できるアプリを開発したい人にはおすすめです。</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://flutter.dev/">flutter</a></p>
-</blockquote>
-<h2 id="２、Dart言語"><a href="#２、Dart言語" class="headerlink" title="２、Dart言語"></a>２、Dart言語</h2><p>新しい言語勉強するのはなかなか大変ですが、Dartの文法をよく見たら、とてもTypescriptに似ていて、オブジェクト指向のところはJavaによく似ていることがわかりますので、実はそこまで難しくないです。</p>
-<h3 id="Dart-VS-JavaScript"><a href="#Dart-VS-JavaScript" class="headerlink" title="Dart VS JavaScript"></a>Dart VS JavaScript</h3><p>JavaScriptの’<strong>弱い型付け（動的型付け）</strong>‘は常に批判されており、そのために TypeScript（JavaScript言語のスーパーセットであり、JavaScriptとの構文互換性がありますが、’型’が追加されています）が市場に存在しています。</p>
-<p>しかし、すべてには2つの面があります。JavaScriptの強力な動的な特性もまた、二重の刃です。</p>
-<p>このような動的性質がJavaScriptにはあまりにも悪いと考える声を頻繁に聞くことができ、あまりにも柔軟すぎてコードが予測しにくく、予期しない変更を制限することができません。</p>
-<p>結局、いくつかの人々は自分自身または他人が書いたコードに常に不安を感じており、コードを制御可能にし、エラーを減らすのに役立つ静的型チェックシステムがあることを期待しています。</p>
-<p>このため、Flutterでは、<strong>Dartはほぼスクリプト言語の動的な特性を放棄しました</strong>。</p>
-<p>リフレクションをサポートしない、また関数の動的な作成もサポートしません。また、Dartは2.0から型チェック（Strong Mode）を強制的に有効にしました。以前のチェックモードとオプションの型は徐々に使用されなくなります。</p>
-<p>そのため、型の安全性の観点から言えば、DartとTypeScriptはほぼ同じです。したがって、動的性だけで見ると、Dartには明確な利点はありませんが、総合的に見ると、Dartはサーバーサイドスクリプト、アプリ開発、Web開発の両方に適しているため、優位性があります！</p>
-<h3 id="Dart-VS-Java"><a href="#Dart-VS-Java" class="headerlink" title="Dart VS Java"></a>Dart VS Java</h3><p>客観的に言えば、構文レベルでは、<strong>Dartは確かにJavaよりも表現力があります</strong>。</p>
-<p>VMレベルでは、<strong>Dart VMはメモリ回収とスループットの両方に反復的に最適化されています</strong>が、具体的な性能比較に関するテストデータは見当たりませんでした。</p>
-<p>Dart言語が普及すれば、VMの性能を心配する必要はないと思います。なぜなら、GoogleはGo、JavaScript（v8）、Dalvik（Android上のJava VM）などで多くの技術を蓄積しているからです。</p>
-<p>注目すべきは、Flutterの中でDartはすでにGC（ガベージコレクション）を10ms未満にすることができるということです。したがって、DartとJavaを比較すると、勝敗の要因は性能面ではなくなります。</p>
-<p>そして、構文レベルでは、DartはJavaよりも表現力があり、最も重要なのは、Dartが関数型プログラミングをサポートする点がJavaよりも優れていることです（現在はラムダ式にとどまっています）。</p>
-<h2 id="３、Dart文法"><a href="#３、Dart文法" class="headerlink" title="３、Dart文法"></a>３、Dart文法</h2><p>今まではJavaScriptを使ってきたので、主にDartとJSの違いを考えてDartの学習を進めていきたいと思います。</p>
-<h3 id="３-１、変数"><a href="#３-１、変数" class="headerlink" title="３.１、変数"></a>３.１、変数</h3><h4 id="varキーワード"><a href="#varキーワード" class="headerlink" title="varキーワード"></a><code>var</code>キーワード</h4><p>Dartの<code>var</code>キーワードはJSと似ていて、全種類の変数を作れますが、Dartの<code>var</code>変数は一旦値が与えられたら、二度と型を変えることはできません。</p>
-<p>下記のコードはJavaScriptでは通常に動けますが、Dartにはエラーが出ます：</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> t = <span class="string">&quot;hi world&quot;</span>;</span><br><span class="line">t = <span class="number">1000</span>;</span><br></pre></td></tr></table></figure>
-
-<h4 id="dynamic-と-Object"><a href="#dynamic-と-Object" class="headerlink" title="dynamic と Object"></a><code>dynamic</code> と <code>Object</code></h4><p>Dartの中、全ては<code>Object</code>を基づいて作られています。（JavaScriptと同じく）</p>
-<p>全ての型は<code>Object</code>に継承しているので、<code>Object</code>で作られた変数は、違う型の値でも与えられます。</p>
-<p>それと似ている<code>dynamic</code>も、違う型の値でも与えられます。</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dynamic</span> t;</span><br><span class="line"><span class="built_in">Object</span> x;</span><br><span class="line">t = <span class="string">&quot;hi world&quot;</span>;</span><br><span class="line">x = <span class="string">&#x27;Hello Object&#x27;</span>;</span><br><span class="line"><span class="comment">// 下記のコードは問題ないです</span></span><br><span class="line">t = <span class="number">1000</span>;</span><br><span class="line">x = <span class="number">1000</span>;</span><br></pre></td></tr></table></figure>
-
-<p><code>dynamic</code> と <code>Object</code>に最大な違いは、 <code>Object</code>で作成された変数に、 <code>Object</code>のメソッドしか使えないが、<code>dynamic</code>変数は全て可能なメソッド使えます。</p>
-<p>例：</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dynamic</span> a;</span><br><span class="line"><span class="built_in">Object</span> b = <span class="string">&quot;&quot;</span>;</span><br><span class="line">main() &#123;</span><br><span class="line">  a = <span class="string">&quot;&quot;</span>;</span><br><span class="line">  printLengths();</span><br><span class="line">&#125;   </span><br><span class="line"></span><br><span class="line">printLengths() &#123;</span><br><span class="line">  <span class="comment">// 問題ない</span></span><br><span class="line">  <span class="built_in">print</span>(a.length);</span><br><span class="line">  <span class="comment">// エラー： The getter &#x27;length&#x27; is not defined for the class &#x27;Object&#x27;</span></span><br><span class="line">  <span class="built_in">print</span>(b.length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注意点は、コンパイル時に<code>dynamic</code>変数はエラー出ないが、実行時存在しないメソッドを呼び出す時は出ます。</p>
-<h4 id="final和const"><a href="#final和const" class="headerlink" title="final和const"></a><code>final</code>和<code>const</code></h4><p>変数を一度も変更する予定がない場合は、varではなく、finalまたはconstを使用してください。</p>
-<ul>
-<li>const変数がコンパイル時定数であることです（コンパイル時に定数値に直接置換されます）</li>
-<li>final変数は最初に使用されるときに初期化されます。</li>
-</ul>
-<p>finalまたはconstで修飾された変数の場合、変数の型は省略できます。</p>
-<h4 id="null-safety"><a href="#null-safety" class="headerlink" title="null-safety"></a>null-safety</h4><p>Dartの中、全てはObjectなので、ある数字を定義してたら、値なしで使おうと思っても実際に実行する前に、エラーにはなりません。</p>
-<p>実行したらエラーは出ます。</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">test() &#123;</span><br><span class="line">  <span class="built_in">int</span> i; </span><br><span class="line">  <span class="built_in">print</span>(i*<span class="number">8</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>そういう危ないことを避けるため、定義するまたは使う時下記のようにした方がおすすめです。</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> i = <span class="number">8</span>; <span class="comment">// 通常定義はnullで使えない、初期化します。</span></span><br><span class="line"><span class="built_in">int?</span> j; <span class="comment">// nullでもいい場合、?をつけて定義します、使う前にnull判定を行わないとエラーが出ます。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// nullはだめで、初期値がわからない場合、lateで定義しても良いですが、使う前は絶対初期化します。</span></span><br><span class="line"><span class="keyword">late</span> <span class="built_in">int</span> k;</span><br><span class="line">k=<span class="number">9</span>;</span><br></pre></td></tr></table></figure>
-
-<h4 id="非同期処理（Future-async-await）"><a href="#非同期処理（Future-async-await）" class="headerlink" title="非同期処理（Future,async&#x2F;await）"></a>非同期処理（Future,async&#x2F;await）</h4><p>FutureはJavaScriptのPromiseと非常に似ており、非同期操作の最終的な完了（または失敗）およびその結果値を表します。</p>
-<p>簡単に言えば、Futureは非同期操作を処理するために使用され、非同期処理が成功した場合は成功した操作が実行され、非同期処理が失敗した場合はエラーをキャプチャしたり後続の操作を停止したりします。</p>
-<p>1つのFutureは1つの結果に対応し、成功するか失敗します。</p>
-<p>すべてのFutureのAPIの戻り値は依然としてFutureオブジェクトであることに注意してください。そのため、Futureはチェーン式の呼び出しが非常に便利です。</p>
-<p>1）<code>Future.then</code></p>
-<p>下記のコードは２秒後プリントします。</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Future.delayed(<span class="built_in">Duration</span>(seconds: <span class="number">2</span>),()&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="string">&quot;hi world!&quot;</span>;</span><br><span class="line">&#125;).then((data)&#123;</span><br><span class="line">   <span class="built_in">print</span>(data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>2）<code>Future.catchError</code></p>
-<p>非同期処理にエラーが発生した場合、<code>then()</code>ではなく、<code>catchError()</code>函数が呼び出されます。</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Future.delayed(<span class="built_in">Duration</span>(seconds: <span class="number">2</span>),()&#123;</span><br><span class="line">   <span class="comment">//return &quot;hi world!&quot;;</span></span><br><span class="line">   <span class="keyword">throw</span> AssertionError(<span class="string">&quot;Error&quot;</span>);  </span><br><span class="line">&#125;).then((data)&#123;</span><br><span class="line">   <span class="comment">// 成功した場合</span></span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;success&quot;</span>);</span><br><span class="line">&#125;).catchError((e)&#123;</span><br><span class="line">   <span class="comment">//　失敗した場合  </span></span><br><span class="line">   <span class="built_in">print</span>(e);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p><code>catchError()</code>だけではなく、<code>then()</code>の中に<code>onError()</code>函数も定義できます。</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Future.delayed(<span class="built_in">Duration</span>(seconds: <span class="number">2</span>), () &#123;</span><br><span class="line">	<span class="comment">//return &quot;hi world!&quot;;</span></span><br><span class="line">	<span class="keyword">throw</span> AssertionError(<span class="string">&quot;Error&quot;</span>);</span><br><span class="line">&#125;).then((data) &#123;</span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&quot;success&quot;</span>);</span><br><span class="line">&#125;, onError: (e) &#123;</span><br><span class="line">	<span class="built_in">print</span>(e);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>3）<code>Future.whenComplete</code></p>
-<p>時々、非同期タスクが<strong>成功または失敗に関係なく何かしらの処理を行う</strong>必要がある場面に遭遇することがあります。</p>
-<p>例えば、ネットワークリクエストの前にローディングダイアログを表示し、リクエストが終了した後にダイアログを閉じるなどです。</p>
-<p>このような場面では、2つの方法があります。</p>
-<p>1つ目は、thenまたはcatch内でそれぞれダイアログを閉じる方法であり、2つ目はFutureのwhenCompleteコールバックを使用する方法です。</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Future.delayed(<span class="built_in">Duration</span>(seconds: <span class="number">2</span>),()&#123;</span><br><span class="line">   <span class="comment">//return &quot;hi world!&quot;;</span></span><br><span class="line">   <span class="keyword">throw</span> AssertionError(<span class="string">&quot;Error&quot;</span>);</span><br><span class="line">&#125;).then((data)&#123;</span><br><span class="line">   <span class="comment">// 成功した場合</span></span><br><span class="line">   <span class="built_in">print</span>(data);</span><br><span class="line">&#125;).catchError((e)&#123;</span><br><span class="line">   <span class="comment">// 失敗した場合</span></span><br><span class="line">   <span class="built_in">print</span>(e);</span><br><span class="line">&#125;).whenComplete(()&#123;</span><br><span class="line">   <span class="comment">// 処理が完了し、成功＆失敗した場合</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>4）<code>Future.wait</code></p>
-<p>時々、<strong>複数の非同期タスクがすべて完了する</strong>のを待ってから特定の操作を行う必要があります。</p>
-<p>たとえば、2つの異なるネットワークインターフェイスからデータを取得する必要がある場合、それらのデータを特定の処理を行った後にUIに表示する必要があるかもしれません。</p>
-<p>この場合、Future.waitを使用します。</p>
-<p>これはFutureの配列を受け取り、配列内のすべてのFutureが成功した場合にthenの成功コールバックがトリガーされます。</p>
-<p>1つのFutureでも失敗した場合はエラーコールバックがトリガーされます。</p>
-<p>以下に、Future.delayedを模擬して2つのデータ取得の非同期タスクを模擬し、2つのタスクが両方成功した場合に結果を連結して出力する例を示します。</p>
-<p>下記のコードは４秒後にプリントします。</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Future.wait([</span><br><span class="line">  <span class="comment">// 2秒後 </span></span><br><span class="line">  Future.delayed(<span class="built_in">Duration</span>(seconds: <span class="number">2</span>), () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">  &#125;),</span><br><span class="line">  <span class="comment">// 4秒後</span></span><br><span class="line">  Future.delayed(<span class="built_in">Duration</span>(seconds: <span class="number">4</span>), () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot; world&quot;</span>;</span><br><span class="line">  &#125;)</span><br><span class="line">]).then((results)&#123;</span><br><span class="line">  <span class="built_in">print</span>(results[<span class="number">0</span>]+results[<span class="number">1</span>]);</span><br><span class="line">&#125;).catchError((e)&#123;</span><br><span class="line">  <span class="built_in">print</span>(e);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>Dartの<code>async</code>&#x2F;<code>await</code>とJSのはほぼ一緒で、こちらでは紹介しないです。</p>
-<h2 id="４、まとめ"><a href="#４、まとめ" class="headerlink" title="４、まとめ"></a>４、まとめ</h2><p>Dartの学習はそこまで難しくなく、今までにウェブ開発の経験があり、さらにスマホアプリをflutterで作りたい人は簡単に（そこまで簡単ではないけど）始められます！</p>
-<p>言語の違いと、アプリ開発の注意点を考えながら勉強を進めましょう〜</p>
-
+          <p>flutterの簡単紹介とDart文法のノート記録です〜</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/puiken_blog/posts/f8ee9575/">
+                続きを読む &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -423,7 +359,7 @@
       <div class="site-state-item site-state-categories">
             <a href="/puiken_blog/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">カテゴリ</span></a>
       </div>
   </nav>
