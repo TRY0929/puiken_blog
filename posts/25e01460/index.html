@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/puiken_blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.jsdelivr.net/gh/try0929/cdn/img/ice-cream.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.jsdelivr.net/gh/try0929/cdn/img/ice-cream.ico">
+  <link rel="mask-icon" href="/puiken_blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/puiken_blog/css/main.css">
+
+
+<link rel="stylesheet" href="/puiken_blog/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/puiken_blog/lib/pace/pace-theme-minimal.min.css">
+  <script src="/puiken_blog/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"try0929.github.io","root":"/puiken_blog/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="flutterでスクレイピングしてデータをDBに入れて、画面上に歌詞を表示します。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flutterでふりがな付き歌詞展示画面を作る（DB操作、スクレイピング）">
+<meta property="og:url" content="https://try0929.github.io/puiken_blog/posts/25e01460/index.html">
+<meta property="og:site_name" content="Puiken&#39;s blog">
+<meta property="og:description" content="flutterでスクレイピングしてデータをDBに入れて、画面上に歌詞を表示します。">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://try0929.github.io/puiken_blog/Users/puiken/code/cdn/img/image-20240321174820049.png">
+<meta property="og:image" content="https://try0929.github.io/puiken_blog/Users/puiken/code/cdn/img/image-20240321174953393.png">
+<meta property="article:published_time" content="2024-03-21T08:39:10.000Z">
+<meta property="article:modified_time" content="2024-03-21T13:49:50.472Z">
+<meta property="article:author" content="Puiken">
+<meta property="article:tag" content="Vue, Nodejs, Blog">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://try0929.github.io/puiken_blog/Users/puiken/code/cdn/img/image-20240321174820049.png">
+
+<link rel="canonical" href="https://try0929.github.io/puiken_blog/posts/25e01460/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'ja'
+  };
+</script>
+
+  <title>flutterでふりがな付き歌詞展示画面を作る（DB操作、スクレイピング） | Puiken's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="header-fixed-wrapper">
+  <div class="header-fixed">
+    <div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="ナビゲーションバーの切り替え">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/puiken_blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Puiken's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+    
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/puiken_blog/" rel="section"><i class="fa fa-home fa-fw"></i>ホーム</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/puiken_blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>アーカイブ</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/puiken_blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>カテゴリ</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+    
+
+  </div>
+</div>
+
+<div
+  id="banner"
+  class="header-banner"
+>
+  <div class="full-bg-img">
+    <div class="mask flex-center type-text">
+      <span class="blogtitle"></span>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+(function() {
+  var typed = new Typed(".blogtitle", {
+    strings: ['ぷいけんの家へようこそ！！！', 'Welcome to puiken\'s home!!!'],
+    startDelay: 300,
+    typeSpeed: 100,
+    loop: true,
+    backSpeed: 50,
+    showCursor: true
+  });
+})();
+</script>
+
+<style>
+.type-text {
+  color: #eee;
+  text-align: center;
+  text-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, .15);
+  line-height: 1.5;
+  font-weight: 700;
+  font-size: 2.6rem;
+  animation: titlescale 1s;
+}
+</style>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ja">
+    <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/25e01460/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
+      <meta itemprop="name" content="Puiken">
+      <meta itemprop="description" content="いつでも変な考えを持っている20代。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Puiken's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          flutterでふりがな付き歌詞展示画面を作る（DB操作、スクレイピング）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">投稿日</span>
+              
+
+              <time title="作成日：2024-03-21 17:39:10 / 修正日：22:49:50" itemprop="dateCreated datePublished" datetime="2024-03-21T17:39:10+09:00">2024-03-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">カテゴリ</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/puiken_blog/categories/flutter/" itemprop="url" rel="index"><span itemprop="name">flutter</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="単語数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">単語数：</span>
+              <span>7k</span>
+            </span>
+            <span class="post-meta-item" title="読書の時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">読書の時間 &asymp;</span>
+              <span>6 分</span>
+            </span>
+            <div class="post-description">flutterでスクレイピングしてデータをDBに入れて、画面上に歌詞を表示します。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="１、画面＆機能"><a href="#１、画面＆機能" class="headerlink" title="１、画面＆機能"></a>１、画面＆機能</h2><p>画面は歌一覧リストと歌詞詳細二つがあり、一覧画面から歌詞を見たい歌をクリックし、歌詞詳細画面に遷移します。</p>
+<p>歌詞詳細画面にふりがな付きの歌詞が表示されます。</p>
+<h2 id="２、詳細"><a href="#２、詳細" class="headerlink" title="２、詳細"></a>２、詳細</h2><h3 id="ホームページ"><a href="#ホームページ" class="headerlink" title="ホームページ"></a>ホームページ</h3><p><code>DefaultTabController</code>ウィジェットを使って三つのタブを作成します。</p>
+<ul>
+<li><code>length</code>：タブの数；</li>
+<li><code>child</code>：子ウィジェットで、ここは<code>Scaffold</code>ウィジェットを入れます。</li>
+</ul>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Widget build(BuildContext context) &#123;</span><br><span class="line">  <span class="keyword">return</span> DefaultTabController(length: <span class="number">3</span>, child: Scaffold(</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    ),</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Scaffold</code>ウィジェットはflutterの主画面でよく使われているウィジェットで、ページに必要な要素がそこに揃っています：</p>
+<ul>
+<li><code>appBar</code>：ナビゲーションバー、<code>AppBar</code>ウィジェットを入れて、タイトルや右の共有ボタンを作れます。例：</li>
+</ul>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">appBar: AppBar(</span><br><span class="line">  title: <span class="keyword">const</span> Text(<span class="string">&#x27;My home1&#x27;</span>),</span><br><span class="line">  centerTitle: <span class="keyword">true</span>,</span><br><span class="line">  actions: &lt;Widget&gt;[</span><br><span class="line">    IconButton(onPressed: () &#123;&#125;,</span><br><span class="line">    icon: <span class="keyword">const</span> Icon(Icons.search)),</span><br><span class="line">  ],</span><br><span class="line">),</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>drawer</code>：ドロワーメニュー：<code>Drawer</code>ウィジェットを入れて、<code>child</code>プロパティで入れたい要素容器ウィジェットを入れてメニュー作ります。例：</li>
+</ul>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">drawer: Drawer(</span><br><span class="line">    child: ListView(</span><br><span class="line">      children: <span class="keyword">const</span> &lt;Widget&gt;[</span><br><span class="line">        UserAccountsDrawerHeader(</span><br><span class="line">          decoration: BoxDecoration(</span><br><span class="line">            color: Colors.blue,</span><br><span class="line">          ),</span><br><span class="line">          accountName: Text(<span class="string">&#x27;Puiken&#x27;</span>),</span><br><span class="line">          accountEmail: Text(<span class="string">&#x27;xxx@gmail.com&#x27;</span>),</span><br><span class="line">          currentAccountPicture: CircleAvatar(backgroundImage: NetworkImage(<span class="string">&#x27;https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG&#x27;</span>))</span><br><span class="line">        ),</span><br><span class="line">        ListTile(title: Text(<span class="string">&#x27;To do list&#x27;</span>), trailing: Icon(Icons.schedule)),</span><br><span class="line">        ListTile(title: Text(<span class="string">&#x27;Alarm&#x27;</span>), trailing: Icon(Icons.alarm)),</span><br><span class="line">        ListTile(title: Text(<span class="string">&#x27;Settings&#x27;</span>), trailing: Icon(Icons.settings)),</span><br><span class="line">        Divider(),</span><br><span class="line">        ListTile(title: Text(<span class="string">&#x27;Log out&#x27;</span>), trailing: Icon(Icons.logout)),</span><br><span class="line">      ],</span><br><span class="line">    ),</span><br><span class="line">  ),</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>bottomNavigationBar</code>：ボトムナビゲーション：<code>TabBar</code>ウィジェットを入れて、<code>tabs</code>プロパティに各タブのテキストやアイコンなどを入れます。例：</li>
+</ul>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bottomNavigationBar: <span class="keyword">const</span> TabBar(tabs: &lt;Widget&gt;[</span><br><span class="line">    Tab(text: <span class="string">&#x27;Home&#x27;</span>, icon: Icon(Icons.home)),</span><br><span class="line">    Tab(text: <span class="string">&#x27;Songs&#x27;</span>, icon: Icon(Icons.list_alt)),</span><br><span class="line">    Tab(text: <span class="string">&#x27;Personal&#x27;</span>, icon: Icon(Icons.person)),</span><br><span class="line">  ]),</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>floatingActionButton</code>： 右下隅には浮動アクションボタン</p>
+</li>
+<li><p><code>body</code>：画面下のタブナビゲーションを使いたいので、ここに<code>TabBarView</code>を入れて、<code>children</code>プロパティに各タブで表示したいページクラスのインスタンスを入れます。</p>
+</li>
+</ul>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">body: <span class="keyword">const</span> TabBarView(children: &lt;Widget&gt;[</span><br><span class="line">  ListPage(),</span><br><span class="line">  SongsList(),</span><br><span class="line">  ListPage(),</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+
+<h3 id="歌一覧画面"><a href="#歌一覧画面" class="headerlink" title="歌一覧画面"></a>歌一覧画面</h3><p><img src="/puiken_blog/Users/puiken/code/cdn/img/image-20240321174820049.png" alt="image-20240321174820049"></p>
+<p>ホームページと同じく、<code>Scaffold</code>ウィジェットを使用しています。</p>
+<p>ページのクラスは<code>SongsList</code>で、ステートクラスは<code>_SongsListState</code>。</p>
+<p>この画面に自分のデータがあるため、<code>StatefulWidget</code>を使用しますので、ステートクラス<code>_SongsListState</code>が必要です。</p>
+<blockquote>
+<p>flutterに、自分のデータを持ちたいウィジェットは<code>StatefulWidget</code>クラスに継承し、持ちたくない方は<code>StatelessWidget</code>クラスに継承します。前者自分のデータを自分に持つのではなく、新しく作成されたステートクラス（一対一）に持たせます。</p>
+</blockquote>
+<p>全体の感じはリストなので、<code>ListView</code>ウィジェットを使って歌リストを表示しますが、外に<code>padding</code>や<code>border</code>などを入れたいので、<code>ListView</code>の外にもう一層<code>Container</code>ウィジェットを使います。</p>
+<ul>
+<li><code>padding</code>：<code>EdgeInsets</code>クラスの函数で数値入れます、例：<code>EdgeInsets.only(left: 10, right: 10)</code>；</li>
+<li><code>decoration</code>：<code>BoxDecoration</code>クラスインスタンスを入れて、文字の色(color)やボーダー(border)などを設定できるプロパティです、例：</li>
+</ul>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">decoration: <span class="keyword">const</span> BoxDecoration(</span><br><span class="line">	color: Colors.black,</span><br><span class="line">  border: Border(</span><br><span class="line">    top: BorderSide(color: Colors.black38)</span><br><span class="line">  ),</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>child</code>：この画面はリストを表示したいので、<code>ListView</code>ウィジェットを使用します。また、リストは事前に準備して、画面上に配列から値を取り出すため、<code>ListView.builder</code>を使います。</li>
+</ul>
+<h4 id="ListView-builder"><a href="#ListView-builder" class="headerlink" title="ListView.builder"></a><code>ListView.builder</code></h4><ul>
+<li><code>itemCount</code>：表示したいリストのアイテム数；</li>
+<li><code>itemBuilder</code>：リストのアイテムと処理する函数、引数は<code>context</code>と<code>index</code>、戻り値は画面上に表示したいアイテム要素です。<ul>
+<li>ここでアイテムタップしたら画面遷移して欲しいので、戻り値は<code>GestureDetector</code>クラスのインスタンスにします（<code>GestureDetector</code>は要素にリスナーをバインドし、<code>tap</code>や<code>press</code>などのイベントが発生する際に処理を付与できるクラスです。）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">ListView.builder(</span><br><span class="line">  itemCount: list.length,</span><br><span class="line">  itemBuilder: ((context, index) &#123;</span><br><span class="line">    <span class="keyword">var</span> song = list[index];</span><br><span class="line">    <span class="keyword">return</span> GestureDetector(</span><br><span class="line">      onTap: () &#123;</span><br><span class="line">        Navigator.push(context, MaterialPageRoute(builder: (BuildContext ctx) &#123;</span><br><span class="line">          <span class="keyword">return</span> LyricPage(songId: song[<span class="string">&#x27;songId&#x27;</span>] <span class="keyword">as</span> <span class="built_in">String</span>, title: song[<span class="string">&#x27;title&#x27;</span>] <span class="keyword">as</span> <span class="built_in">String</span>, singer: song[<span class="string">&#x27;singer&#x27;</span>] <span class="keyword">as</span> <span class="built_in">String</span>);</span><br><span class="line">        &#125;));</span><br><span class="line">      &#125;,</span><br><span class="line">      child: Container(</span><br><span class="line">        decoration: <span class="keyword">const</span> BoxDecoration(</span><br><span class="line">          border: Border(</span><br><span class="line">            bottom: BorderSide(color: Colors.black26)</span><br><span class="line">          )</span><br><span class="line">        ),</span><br><span class="line">        child: ListTile(title: Text(song[<span class="string">&#x27;title&#x27;</span>] <span class="keyword">as</span> <span class="built_in">String</span>)),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="歌詞詳細ページ"><a href="#歌詞詳細ページ" class="headerlink" title="歌詞詳細ページ"></a>歌詞詳細ページ</h3><p><img src="/puiken_blog/Users/puiken/code/cdn/img/image-20240321174953393.png" alt="image-20240321174953393"></p>
+<p>一覧画面から詳細画面まで遷移する時は、<code>songId</code>、<code>title</code>、<code>singer</code>を持っていきます。</p>
+<p>詳細画面で三つのデータを使って該当歌の詳細をとってきます（DBか、ネットか）。</p>
+<p>今回の歌詞はふりがなをつけたいので、既に作成されているあるサイトでスクレイピングして情報をとってきて表示することになります。</p>
+<p>流れ：</p>
+<p>前画面から持ってきた<code>songId</code>、<code>title</code>、<code>singer</code>で、DBで検索します：</p>
+<ul>
+<li>該当のデータがある場合、表示します；</li>
+<li>ない場合、ネットで検索して、情報を処理してDBに入れてから表示します。</li>
+</ul>
+<p>下記のライブラリを追加します：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">http:</span> <span class="string">^0.13.5</span></span><br><span class="line"><span class="attr">html:</span> <span class="string">^0.15.1</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="画面"><a href="#画面" class="headerlink" title="画面"></a>画面</h4><p>画面の<code>initState</code>でデータをとってきます。</p>
+<p>主に<code>LyricRequest</code>クラスの<code>getLyric</code>で処理を行なってます。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@override</span></span><br><span class="line"><span class="keyword">void</span> initState() &#123;</span><br><span class="line">  <span class="keyword">super</span>.initState();</span><br><span class="line">  lyricReq.getLyric(title: widget.title, singer: widget.singer, songId: widget.songId)</span><br><span class="line">    .then((<span class="keyword">var</span> list) &#123;</span><br><span class="line">      setState(() &#123;</span><br><span class="line">        lyricList = list <span class="keyword">as</span> <span class="built_in">List</span>&lt;<span class="built_in">dynamic</span>&gt;;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="DB操作"><a href="#DB操作" class="headerlink" title="DB操作"></a>DB操作</h4><p><strong>１、DBのコネクション</strong></p>
+<p>今回のDB操作はそこまで複雑ではないので、flutterの<code>sqflite</code>ライブラリを使用します。</p>
+<p>データベースの初期化（<code>DatabaseHelper</code>クラス）：</p>
+<p><code>getDatabasesPath</code>メソッドでDBのパスをもって、<code>openDatabase</code>メソッドでコネクションを作ります。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DatabaseHelper</span> </span>&#123;</span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> DatabaseHelper instance = DatabaseHelper._init();</span><br><span class="line">  <span class="keyword">static</span> Database? _database;</span><br><span class="line"></span><br><span class="line">  DatabaseHelper._init();</span><br><span class="line"></span><br><span class="line">  Future&lt;Database&gt; <span class="keyword">get</span> database <span class="keyword">async</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (_database != <span class="keyword">null</span>) <span class="keyword">return</span> _database!;</span><br><span class="line">    _database = <span class="keyword">await</span> _initDB(<span class="string">&#x27;database.db&#x27;</span>);</span><br><span class="line">    <span class="keyword">return</span> _database!;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  Future&lt;Database&gt; _initDB(<span class="built_in">String</span> filePath) <span class="keyword">async</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> dbPath = <span class="keyword">await</span> getDatabasesPath();</span><br><span class="line">    <span class="keyword">final</span> path = join(dbPath, filePath);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> openDatabase(</span><br><span class="line">      path,</span><br><span class="line">      version: <span class="number">1</span>,</span><br><span class="line">      onCreate: (db, version) <span class="keyword">async</span> &#123;</span><br><span class="line">        <span class="keyword">await</span> db.execute(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">          CREATE TABLE lyric (</span></span><br><span class="line"><span class="string">            id INTEGER PRIMARY KEY AUTOINCREMENT,</span></span><br><span class="line"><span class="string">            title TEXT,</span></span><br><span class="line"><span class="string">            singer TEXT,</span></span><br><span class="line"><span class="string">            lyric_content TEXT,</span></span><br><span class="line"><span class="string">            created_time INTEGER,</span></span><br><span class="line"><span class="string">            modified_time INTEGER</span></span><br><span class="line"><span class="string">          );</span></span><br><span class="line"><span class="string">        &#x27;&#x27;&#x27;</span>);</span><br><span class="line">      &#125;,</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>２、テーブルのモデルファイル</strong></p>
+<p>テーブルの定義しているファイル</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;dart:convert&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Lyric</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String?</span> title;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String?</span> singer;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String?</span> lyricContent;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">DateTime</span> createdTime;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">DateTime</span> modifiedTime;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> Lyric(&#123;</span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">this</span>.title,</span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">this</span>.singer,</span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">this</span>.lyricContent,</span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">this</span>.createdTime,</span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">this</span>.modifiedTime,</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">String?</span> getLyricContent() &#123;</span><br><span class="line">    <span class="keyword">return</span> lyricContent;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">List</span>&lt;<span class="built_in">dynamic</span>&gt; parseLyricContent() &#123;</span><br><span class="line">    <span class="keyword">return</span> json.decode(lyricContent!);</span><br><span class="line">  &#125; </span><br><span class="line"></span><br><span class="line">  <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">dynamic</span>&gt; toMap() &#123;</span><br><span class="line">    <span class="comment">// flutterのデータをDB形式に変換する</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">factory</span> Lyric.fromMap(<span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">dynamic</span>&gt; map) &#123;</span><br><span class="line">    <span class="comment">// DBのデータをflutterで使えるデータに変換する</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>３、テーブルの操作＆スクレイピング</strong></p>
+<p>テーブルの操作は検索と追加があります。</p>
+<p>スクレイピングはflutterの<code>html</code>ライブラリの<code>parse</code>メソッドを使って、リクエストでとってきたHTMLファイルを解析します。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LyricRequest</span> </span>&#123;</span><br><span class="line">  LyricRequest();</span><br><span class="line">  <span class="keyword">late</span> Lyric lyricIns;</span><br><span class="line"></span><br><span class="line">  Future&lt;<span class="built_in">List</span>&lt;Lyric&gt;&gt; checkIfExist(&#123;<span class="built_in">String?</span> title&#125;) <span class="keyword">async</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> getLyricFromDB(title: title);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> addNewSongToDB(&#123;<span class="built_in">String?</span> title, <span class="built_in">String?</span> singer, <span class="built_in">String?</span> lyricContent&#125;) <span class="keyword">async</span> &#123;</span><br><span class="line">    lyricIns = Lyric(title: title, singer: singer, lyricContent: lyricContent, createdTime: <span class="built_in">DateTime</span>.now(), modifiedTime: <span class="built_in">DateTime</span>.now());</span><br><span class="line">    <span class="keyword">await</span> insertLyricToDB(lyricIns.toMap());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  Future&lt;<span class="built_in">List?</span>&gt; getLyric(&#123; <span class="built_in">String?</span> title, <span class="built_in">String?</span> singer, <span class="built_in">String?</span> songId &#125;) <span class="keyword">async</span>&#123;</span><br><span class="line">    <span class="keyword">final</span> existList = <span class="keyword">await</span> checkIfExist(title: title);</span><br><span class="line">    <span class="keyword">if</span> (existList.isNotEmpty) &#123;</span><br><span class="line">      lyricIns = existList[<span class="number">0</span>];</span><br><span class="line">      <span class="keyword">return</span> lyricIns.parseLyricContent();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> url = <span class="built_in">Uri</span>.parse(<span class="string">&#x27;https://xxx.com/lyric/<span class="subst">$songId</span>/&#x27;</span>);</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;---- Not existing, call network --- <span class="subst">$url</span>&#x27;</span>);</span><br><span class="line">    <span class="keyword">var</span> response = <span class="keyword">await</span> http.<span class="keyword">get</span>(url);</span><br><span class="line">    <span class="keyword">if</span> (response.statusCode == <span class="number">200</span>) &#123;</span><br><span class="line">      <span class="built_in">print</span>(<span class="string">&#x27;success!&#x27;</span>);</span><br><span class="line">      <span class="comment">// HTMLファイルの解析</span></span><br><span class="line">      <span class="keyword">var</span> <span class="built_in">document</span> = parse(response.body);</span><br><span class="line">      <span class="keyword">var</span> hiraganaList = <span class="built_in">document</span>.<span class="built_in">querySelector</span>(<span class="string">&quot;.hiragana&quot;</span>);</span><br><span class="line">      <span class="keyword">var</span> parsedLyric = parseLyric(hiraganaList?.nodes);</span><br><span class="line">      addNewSongToDB(title: title, singer: singer, lyricContent: json.encode(parsedLyric));</span><br><span class="line">      <span class="keyword">return</span> parsedLyric;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">print</span>(<span class="string">&#x27;Failed!&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  parseLyric(hiraganaList) &#123;</span><br><span class="line">    <span class="comment">// HTMLストラクチャーの解析</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/puiken_blog/posts/5f28ce3c/" rel="prev" title="flutterでふりがな付き歌詞展示画面を作る">
+      <i class="fa fa-chevron-left"></i> flutterでふりがな付き歌詞展示画面を作る
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          見出し
+        </li>
+        <li class="sidebar-nav-overview">
+          概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%91%E3%80%81%E7%94%BB%E9%9D%A2%EF%BC%86%E6%A9%9F%E8%83%BD"><span class="nav-text">１、画面＆機能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%92%E3%80%81%E8%A9%B3%E7%B4%B0"><span class="nav-text">２、詳細</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E3%83%9B%E3%83%BC%E3%83%A0%E3%83%9A%E3%83%BC%E3%82%B8"><span class="nav-text">ホームページ</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%8C%E4%B8%80%E8%A6%A7%E7%94%BB%E9%9D%A2"><span class="nav-text">歌一覧画面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ListView-builder"><span class="nav-text">ListView.builder</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%8C%E8%A9%9E%E8%A9%B3%E7%B4%B0%E3%83%9A%E3%83%BC%E3%82%B8"><span class="nav-text">歌詞詳細ページ</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%BB%E9%9D%A2"><span class="nav-text">画面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DB%E6%93%8D%E4%BD%9C"><span class="nav-text">DB操作</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Puiken"
+      src="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
+  <p class="site-author-name" itemprop="name">Puiken</p>
+  <div class="site-description" itemprop="description">いつでも変な考えを持っている20代。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/puiken_blog/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">ポスト</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/puiken_blog/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">カテゴリ</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Puiken</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="単語の総数">38k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="読書の合計時間">35 分</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/puiken_blog/lib/anime.min.js"></script>
+  <script src="/puiken_blog/lib/velocity/velocity.min.js"></script>
+  <script src="/puiken_blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/puiken_blog/js/utils.js"></script>
+
+<script src="/puiken_blog/js/motion.js"></script>
+
+
+<script src="/puiken_blog/js/schemes/muse.js"></script>
+
+
+<script src="/puiken_blog/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  <script src="//cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@3.0.8/js/maodian.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script>
+  $.fn.snow = function (options) {
+    var $flake = $('<div id="snowbox" />').css({ 'position': 'absolute', 'z-index': '9999', 'top': '-50px' }).html('🌸'), // 🌸
+        documentHeight = $(document).height(),
+        documentWidth = $(document).width(),
+        defaults = {
+            minSize: 10,
+            maxSize: 20,
+            newOn: 1000,
+            flakeColor: "#AFDAEF" /* 此处可以定义雪花颜色，若要白色可以改为#FFFFFF */
+        },
+        options = $.extend({}, defaults, options);
+    var interval = setInterval(function () {
+        var startPositionLeft = Math.random() * documentWidth - 100,
+            startOpacity = 0.2 + Math.random() / 2,
+            sizeFlake = options.minSize + Math.random() * options.maxSize,
+            endPositionTop = documentHeight - 200,
+            endPositionLeft = startPositionLeft - 500 + Math.random() * 500,
+            durationFall = documentHeight * 10 + Math.random() * 5000;
+        $flake.clone().appendTo('body').css({
+            left: startPositionLeft,
+            opacity: startOpacity,
+            'font-size': sizeFlake,
+            color: options.flakeColor
+        }).animate({
+            top: endPositionTop,
+            left: endPositionLeft,
+            opacity: 0.2
+        }, durationFall, 'linear', function () {
+            $(this).remove()
+        });
+    }, options.newOn);
+  };
+  $(function () {
+      $.fn.snow({
+        minSize: 5, /* 定义雪花最小尺寸 */
+        maxSize: 50,/* 定义雪花最大尺寸 */
+        newOn: 800  /* 定义密集程度，数字越小越密集 */
+      });
+  });
+</script>
+</body>
+</html>
