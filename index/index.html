@@ -221,7 +221,7 @@
               <span class="post-meta-item-text">投稿日</span>
               
 
-              <time title="作成日：2024-04-02 09:58:59 / 修正日：10:47:21" itemprop="dateCreated datePublished" datetime="2024-04-02T09:58:59+09:00">2024-04-02</time>
+              <time title="作成日：2024-04-02 09:58:59 / 修正日：10:50:04" itemprop="dateCreated datePublished" datetime="2024-04-02T09:58:59+09:00">2024-04-02</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,41 +258,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="1-setStateとは"><a href="#1-setStateとは" class="headerlink" title="1. setStateとは"></a>1. setStateとは</h2><p>flutterの中に、</p>
-<ul>
-<li>「状態」を持っているウィジェット、<code>StatefulWidget</code>と呼びます。</li>
-<li>「状態」を持っていないウィジェット、<code>StatelessWidget</code>と呼びます。</li>
-</ul>
-<p><code>StatefulWidget</code>の状態を管理する<code>State</code>を更新するために、<code>State.setState</code>函数を使います。</p>
-<p><code>State.setState</code>函数を使わず、<code>StatefulWidget</code>のデータ（状態）を変えることもできますが、画面上の更新はすぐに行われないです。</p>
-<h2 id="2-問題"><a href="#2-問題" class="headerlink" title="2. 問題"></a>2. 問題</h2><p>最近下から上まで上がる画面を新しく開きたいので、調べた結果で<code>showModalBottomSheet</code>を使えます。</p>
-<p><code>showModalBottomSheet</code>の簡単な使用は下記となります：</p>
-<ul>
-<li><code>context</code>を引数として入れます；</li>
-<li><code>builder</code>にウィジェットを返す函数を入れます。</li>
-</ul>
-<p>予想の流れは：</p>
-<ol>
-<li><code>showBottomSheet</code>を呼び出す；</li>
-<li>函数中の<code>showModalBottomSheet</code>が呼び出され、下からページが現れます；</li>
-<li>ページ中にプールダウンリストで選択したらプールダウンの値も変更されます。</li>
-</ol>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">void</span> showBottomSheet() &#123;</span><br><span class="line"> showModalBottomSheet(context: context, builder: (BuildContext context) &#123;</span><br><span class="line">   <span class="keyword">return</span> Container(</span><br><span class="line">     child: DropdownButton(</span><br><span class="line">                items: getTypeDropDownMenuItem(),</span><br><span class="line">                value: curType,</span><br><span class="line">                onChanged: (slc) &#123;</span><br><span class="line">                  setState(() &#123;</span><br><span class="line">                    curType = slc;</span><br><span class="line">                  &#125;);</span><br><span class="line">                &#125;,</span><br><span class="line">            )</span><br><span class="line">   );</span><br><span class="line"> &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>上記のコードで簡単に構築しましたが、画面はうまく表示され、</p>
-<p>選択肢選んで、<code>setState</code>を使用してもプールダウンの値は変化しませんが、もう一回ページを開くと値は変更されます。</p>
-<p>明らかに<code>setState</code>が効いてないからです。</p>
-<p>なぜ？</p>
-<h2 id="3-理由"><a href="#3-理由" class="headerlink" title="3. 理由"></a>3. 理由</h2><p><code>showModalBottomSheet</code>についてもっと調べてみたら、</p>
-<p>引数として入れる<code>builder</code>函数は、<code>showModalBottomSheet</code>中でデフォルトは<code>StatelessWidget</code>ビルドとして使われますので、</p>
-<p>子コンポーネントは全て状態のないウィジェットとして扱われます。</p>
-<p><code>setState</code>は状態のある<code>StatefulWidget</code>でしか効かないから、ここでは画面の更新はできません。</p>
-<p>理由はわかったので、解決方法もついでに出てきています。</p>
-<p>デフォルトで<code>StatelessWidget</code>ビルドとして使われるので、入れる<code>builder</code>函数の中で<code>StatefulWidget</code>ビルドをリターンしたら良いです。</p>
-<p>ビルダ函数を、直接ウィジェットを返すことではなく、一回<code>StatefulBuilder</code>を呼び出し、<code>StatefulWidget</code>に変換してからリターンします。</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> showBottomSheet() &#123;</span><br><span class="line"> showModalBottomSheet(context: context,</span><br><span class="line"> 	<span class="keyword">return</span> StatefulBuilder(</span><br><span class="line">    builder: (BuildContext context, <span class="keyword">void</span> <span class="built_in">Function</span>(<span class="keyword">void</span> <span class="built_in">Function</span>()) setState) &#123;</span><br><span class="line">      <span class="keyword">return</span> Container(</span><br><span class="line">        child: DropdownButton(</span><br><span class="line">          items: getTypeDropDownMenuItem(),</span><br><span class="line">          value: curType,</span><br><span class="line">          onChanged: (slc) &#123;</span><br><span class="line">            setState(() &#123;</span><br><span class="line">              curType = slc;</span><br><span class="line">            &#125;);</span><br><span class="line">          &#125;,</span><br><span class="line">        )</span><br><span class="line">      &#125;</span><br><span class="line">     );</span><br><span class="line">   );</span><br><span class="line"> &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
+          <p>記録、setState使っても画面更新しない理由と解決方法。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/puiken_blog/posts/8b514361/">
+                続きを読む &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
