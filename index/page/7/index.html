@@ -196,7 +196,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ja">
-    <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/70e88e60/">
+    <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/b5806a76/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
@@ -210,7 +210,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/puiken_blog/posts/70e88e60/" class="post-title-link" itemprop="url">JavaScriptの継承について</a>
+            <a href="/puiken_blog/posts/b5806a76/" class="post-title-link" itemprop="url">ブロック整形コンテキスト（BFC）</a>
         </h2>
 
         <div class="post-meta">
@@ -220,14 +220,14 @@
               </span>
               <span class="post-meta-item-text">投稿日</span>
 
-              <time title="作成日：2024-03-06 14:42:36" itemprop="dateCreated datePublished" datetime="2024-03-06T14:42:36+09:00">2024-03-06</time>
+              <time title="作成日：2024-03-07 10:18:49" itemprop="dateCreated datePublished" datetime="2024-03-07T10:18:49+09:00">2024-03-07</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">編集日</span>
-                <time title="修正日：2024-03-11 11:40:16" itemprop="dateModified" datetime="2024-03-11T11:40:16+09:00">2024-03-11</time>
+                <time title="修正日：2024-03-11 15:14:15" itemprop="dateModified" datetime="2024-03-11T15:14:15+09:00">2024-03-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -235,7 +235,7 @@
               </span>
               <span class="post-meta-item-text">カテゴリ</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/puiken_blog/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                  <a href="/puiken_blog/categories/css/" itemprop="url" rel="index"><span itemprop="name">css</span></a>
                 </span>
             </span>
 
@@ -245,7 +245,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">単語数：</span>
-              <span>2.2k</span>
+              <span>1.8k</span>
             </span>
             <span class="post-meta-item" title="読書の時間">
               <span class="post-meta-item-icon">
@@ -264,15 +264,68 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>継承において、 JavaScript が持っている構成要素はただひとつ、オブジェクトだけです。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/puiken_blog/posts/70e88e60/">
-                続きを読む &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <h2 id="１、基本概念"><a href="#１、基本概念" class="headerlink" title="１、基本概念"></a>１、基本概念</h2><blockquote>
+<p><strong>ブロック整形コンテキスト</strong> (block formatting context, BFC) は、ウェブページにおける CSS の視覚的なレンダリングの一部です。ブロックボックスのレイアウトが行われ、浮動要素が他の要素と相互作用する領域です。</p>
+</blockquote>
+<p>整形コンテキストはレイアウトに影響を与えますが、通常はレイアウトを変更するのではなく、位置決めと浮動要素の解消のために新しいブロック整形コンテキストを作成します。これは、新しいブロック整形コンテキストを確立する要素が次のようになるからです。</p>
+<p>BFCは下記の特徴があります：</p>
+<ol>
+<li>BFC要素の中、ボックスは上から下まで垂直で並んでます；</li>
+<li>ボックスの垂直距離はマージンに決められ、同じBFCに含まれている二つの接するボックスはマージン相殺が発生します；</li>
+<li>BFC要素の中、全てのボックスの左側(margin-left)は容器の左側(border-left)と接する：<ul>
+<li>BFCは浮動の要素と被らない；</li>
+<li>BFC要素の高さを計算する時、通常フローにいる要素と浮動要素どちらでも計算に入れます。</li>
+</ul>
+</li>
+</ol>
+<h2 id="２、作成方法"><a href="#２、作成方法" class="headerlink" title="２、作成方法"></a>２、作成方法</h2><p>ブロック整形コンテキストは、以下のうちの少なくとも一つから生成されます。</p>
+<ul>
+<li>文書のルート要素 (<code>&lt;html&gt;</code>)</li>
+<li>浮動要素 (<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/CSS/float"><code>float</code></a> が <code>none</code> 以外である要素)</li>
+<li>絶対位置指定の要素 (<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/CSS/position"><code>position</code></a> が <code>absolute</code> または <code>fixed</code> である要素)</li>
+<li>インラインブロック (<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/CSS/display"><code>display</code></a><code>: inline-block</code> である要素)</li>
+<li>表のセル (<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/CSS/display"><code>display</code></a><code>: table-cell</code> を持つ要素。これは HTML の表のセルの既定値です)</li>
+<li>表のキャプション (<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/CSS/display"><code>display</code></a><code>: table-caption</code> を持つ要素。HTMLの、表のキャプションの既定値です)</li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/CSS/display"><code>display</code></a><code>: table</code>, <code>table-row</code>, <code>table-row-group</code>, <code>table-header-group</code>, <code>table-footer-group</code> (つまりそれぞれ HTML の表、表の行、表の本体、表のヘッダー、表のフッターの既定値), <code>inline-table</code> のついた要素によって暗黙的に生成された無名の表のセル。</li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/CSS/overflow"><code>overflow</code></a> の値が <code>visible</code> 以外であるブロック要素</li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/CSS/display"><code>display</code></a><code>: flow-root</code></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/CSS/contain"><code>contain</code></a><code>: layout</code>, <code>content</code>, <code>paint</code> の付いた要素</li>
+<li>フレックスアイテム (<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/CSS/display"><code>display</code></a><code>: flex</code> または <code>inline-flex</code> である要素の直接の子要素)、<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Glossary/Flex_Container">フレックス</a>でも<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Glossary/Grid_Container">グリッド</a>でも<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/CSS/CSS_table">表</a>でもない場合</li>
+<li>グリッドアイテム (<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/CSS/display"><code>display</code></a><code>: grid</code> または <code>inline-grid</code> である要素の直接の子要素)、<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Glossary/Flex_Container">フレックス</a>でも<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Glossary/Grid_Container">グリッド</a>でも<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/CSS/CSS_table">表</a>でもない場合</li>
+<li>段組みコンテナー (<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/CSS/column-count"><code>column-count</code></a> または <a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/CSS/column-width"><code>column-width</code></a> が <code>auto</code> ではない要素、 <code>column-count: 1</code> の要素も含む)</li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/CSS/column-span"><code>column-span</code></a><code>: all</code> は、 <code>column-span: all</code> の要素が段組みコンテナーに含まれていなくても、常に新たな整形コンテキストを生成します。</li>
+</ul>
+<h2 id="３、目的（作用）"><a href="#３、目的（作用）" class="headerlink" title="３、目的（作用）"></a>３、目的（作用）</h2><p>BFCはいつも下記のために作成されます：</p>
+<ul>
+<li>内部の浮動要素を収めます。</li>
+<li>外部の浮動要素を追いやります。</li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/CSS/CSS_box_model/Mastering_margin_collapsing">マージンの相殺</a>を抑止します。</li>
+</ul>
+<h3 id="３-１、内部の浮動要素を収めます"><a href="#３-１、内部の浮動要素を収めます" class="headerlink" title="３.１、内部の浮動要素を収めます"></a>３.１、内部の浮動要素を収めます</h3><p>親容器はBFCになれば、内部の浮動要素のコンテンツの高さも親容器に計算されます。</p>
+<p>以下の例では、<code>border</code>が適用された <code>&lt;div&gt;</code> の中に浮動要素があります。その <code>&lt;div&gt;</code> のコンテンツは浮動要素の横に並んだ状態になっています。浮動要素のコンテンツは横に並んだコンテンツよりも高さがあるため、<code>&lt;div&gt;</code> の境界線が浮動要素を貫通してしまいます。(浮動要素がフローから外れたので)</p>
+<p>親容器<code>div</code>がBFCになったら、内部の浮動要素も高さの計算に入り、親容器の高さは変わります。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">section</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;float&quot;</span>&gt;</span>浮動ボックスです。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>コンテナー内のコンテンツです。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">section</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span> <span class="attr">style</span>=<span class="string">&quot;overflow:auto&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;float&quot;</span>&gt;</span>浮動ボックスです。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">code</span>&gt;</span>overflow:auto<span class="tag">&lt;/<span class="name">code</span>&gt;</span> のコンテナー内のコンテンツです。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">section</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span> <span class="attr">style</span>=<span class="string">&quot;display:flow-root&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;float&quot;</span>&gt;</span>浮動ボックスです。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">code</span>&gt;</span>display:flow-root<span class="tag">&lt;/<span class="name">code</span>&gt;</span> のコンテナー内のコンテンツです。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">section</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgb</span>(<span class="number">224</span> <span class="number">206</span> <span class="number">247</span>);</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">5px</span> solid rebeccapurple;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box</span><span class="selector-attr">[style]</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: aliceblue;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">5px</span> solid steelblue;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.float</span> &#123;</span><br><span class="line">  <span class="attribute">float</span>: left;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgb</span>(<span class="number">255</span> <span class="number">255</span> <span class="number">255</span> / <span class="number">50%</span>);</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid black;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/try0929/cdn/img/b5806a76_1.png" alt="image-20240306140213733"></p>
+<h3 id="３-２、外部の浮動要素を除外する"><a href="#３-２、外部の浮動要素を除外する" class="headerlink" title="３.２、外部の浮動要素を除外する"></a>３.２、外部の浮動要素を除外する</h3><p>通常フローの要素は、要素以外の浮動要素と重なる確率があります。そのため、通常フローの要素をBFCにしたら、要素以外の要素と重なることはなくなります。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">section</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;float&quot;</span>&gt;</span>外部の浮動要素<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>通常<span class="tag">&lt;/<span class="name">p</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">section</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;float&quot;</span>&gt;</span>外部の浮動要素<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span> <span class="attr">style</span>=<span class="string">&quot;display:flow-root&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">code</span>&gt;</span>display:flow-root<span class="tag">&lt;/<span class="name">code</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">section</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgb</span>(<span class="number">224</span> <span class="number">206</span> <span class="number">247</span>);</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">5px</span> solid rebeccapurple;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box</span><span class="selector-attr">[style]</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: aliceblue;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">5px</span> solid steelblue;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.float</span> &#123;</span><br><span class="line">  <span class="attribute">float</span>: left;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden; <span class="comment">/* required by resize:both */</span></span><br><span class="line">  <span class="attribute">resize</span>: both;</span><br><span class="line">  <span class="attribute">margin-right</span>: <span class="number">25px</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgb</span>(<span class="number">255</span> <span class="number">255</span> <span class="number">255</span> / <span class="number">75%</span>);</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid black;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/try0929/cdn/img/b5806a76_2.png" alt="image-20240306140213733"></p>
+<h3 id="３-３、マージンの相殺を抑止する"><a href="#３-３、マージンの相殺を抑止する" class="headerlink" title="３.３、マージンの相殺を抑止する"></a>３.３、マージンの相殺を抑止する</h3><p>通常フローの中にある二つのブロック要素があり、それぞれの垂直マージンは <code>10px</code> です。マージンが相殺されるため、両要素間の垂直方向のギャップは 10 ピクセルとなり、期待される 20 ピクセルにはなりません。</p>
+<p>一つの要素をBFCに変えたら、新しい BFC を作成し、マージンの相殺を防いでいます。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;blue&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;outer&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;red&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.blue</span>,</span><br><span class="line"><span class="selector-class">.red</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">50px</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">10px</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.blue</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: blue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.red</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.outer</span> &#123;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">  <span class="attribute">background</span>: transparent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/try0929/cdn/img/b5806a76_3.png" alt="image-20240306140213733"></p>
+<blockquote>
+<p>参考　<a target="_blank" rel="noopener" href="https://developer.mozilla.org/ja/docs/Web/CSS/CSS_display/Block_formatting_context">Block_formatting_context</a></p>
+</blockquote>
+
       
     </div>
 
@@ -290,7 +343,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/puiken_blog/index/page/6/"><i class="fa fa-angle-left" aria-label="前のページ"></i></a><a class="page-number" href="/puiken_blog/index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/puiken_blog/index/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/puiken_blog/index/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/puiken_blog/index/page/12/">12</a><a class="extend next" rel="next" href="/puiken_blog/index/page/8/"><i class="fa fa-angle-right" aria-label="次のページ"></i></a>
+    <a class="extend prev" rel="prev" href="/puiken_blog/index/page/6/"><i class="fa fa-angle-left" aria-label="前のページ"></i></a><a class="page-number" href="/puiken_blog/index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/puiken_blog/index/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/puiken_blog/index/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/puiken_blog/index/page/13/">13</a><a class="extend next" rel="next" href="/puiken_blog/index/page/8/"><i class="fa fa-angle-right" aria-label="次のページ"></i></a>
   </nav>
 
 
@@ -358,7 +411,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/puiken_blog/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">ポスト</span>
         </a>
       </div>
@@ -401,12 +454,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="単語の総数">26k</span>
+    <span title="単語の総数">31k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="読書の合計時間">24 分</span>
+    <span title="読書の合計時間">28 分</span>
 </div>
 
         

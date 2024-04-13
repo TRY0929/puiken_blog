@@ -196,7 +196,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ja">
-    <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/44223/">
+    <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/36779/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
@@ -210,7 +210,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/puiken_blog/posts/44223/" class="post-title-link" itemprop="url">hexo原理まとめ</a>
+            <a href="/puiken_blog/posts/36779/" class="post-title-link" itemprop="url">jsdelivrの使用</a>
         </h2>
 
         <div class="post-meta">
@@ -220,14 +220,14 @@
               </span>
               <span class="post-meta-item-text">投稿日</span>
 
-              <time title="作成日：2024-02-29 11:27:01" itemprop="dateCreated datePublished" datetime="2024-02-29T11:27:01+09:00">2024-02-29</time>
+              <time title="作成日：2024-02-29 17:55:48" itemprop="dateCreated datePublished" datetime="2024-02-29T17:55:48+09:00">2024-02-29</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">編集日</span>
-                <time title="修正日：2024-03-02 10:47:00" itemprop="dateModified" datetime="2024-03-02T10:47:00+09:00">2024-03-02</time>
+                <time title="修正日：2024-03-02 10:49:41" itemprop="dateModified" datetime="2024-03-02T10:49:41+09:00">2024-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -235,7 +235,7 @@
               </span>
               <span class="post-meta-item-text">カテゴリ</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/puiken_blog/categories/hexo/" itemprop="url" rel="index"><span itemprop="name">hexo</span></a>
+                  <a href="/puiken_blog/categories/cdn/" itemprop="url" rel="index"><span itemprop="name">cdn</span></a>
                 </span>
             </span>
 
@@ -245,14 +245,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">単語数：</span>
-              <span>1.8k</span>
+              <span>817</span>
             </span>
             <span class="post-meta-item" title="読書の時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">読書の時間 &asymp;</span>
-              <span>2 分</span>
+              <span>1 分</span>
             </span>
 
         </div>
@@ -264,56 +264,33 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p><a target="_blank" rel="noopener" href="https://hexo.io/docs/index.html">hexoオフィシャルサイト</a></p>
-<h2 id="What-is-Hexo"><a href="#What-is-Hexo" class="headerlink" title="What is Hexo?"></a>What is Hexo?</h2><p>Hexo is a fast, simple and powerful blog framework. You write posts in <a target="_blank" rel="noopener" href="http://daringfireball.net/projects/markdown/">Markdown</a> (or other markup languages) and Hexo generates static files with a beautiful theme in seconds.</p>
-</blockquote>
-<p>簡単に言えば、hexoはブログを作成するフレームワークであり、makedownで文章をレンダーし、画面に表示させされます。</p>
-<h2 id="1-hero-generate：静的なファイルの生成"><a href="#1-hero-generate：静的なファイルの生成" class="headerlink" title="1. hero generate：静的なファイルの生成"></a>1. hero generate：静的なファイルの生成</h2><p>上記の指令はデータファイルと画面ファイルを合わせ、静的なファイルを生成できます。</p>
-<p>まずテーマフォルダーのsourceフォルダー（js、css、imgなどのファイル）を読み、インデックスを建てます。それを基づいてpublicフォルダーのファイルを生成します。</p>
-<p>生成したpublicフォルダーの中にはhtml、js、css、imgなどの静的なファイルがあり、index.htmlをエンターファイルとしてサイトにはいれます。</p>
-<h2 id="2-hero-deploy：プロジェクトのデプロイ"><a href="#2-hero-deploy：プロジェクトのデプロイ" class="headerlink" title="2. hero deploy：プロジェクトのデプロイ"></a>2. hero deploy：プロジェクトのデプロイ</h2><p>_config.ymlファイルの中に配置しているgitレポジトリー及びcodingのurlで、publicフォルダーの内容をgithubかcodingにアップロードします。（githubにpagesというサービスがあり、それで画面を表示できます）</p>
-<p>もちろん、生成したpublicフォルダーを自分のサーバーにデプロイしても大丈夫です。</p>
-<h2 id="3-hexoのテンプレートエンジン"><a href="#3-hexoのテンプレートエンジン" class="headerlink" title="3. hexoのテンプレートエンジン"></a>3. hexoのテンプレートエンジン</h2><blockquote>
-<p>テンプレートエンジンとは、画面とデータを分離させることです。</p>
-<p>画面の動的な部分を抽出し、データとして他のところで管理することで、画面とデータの分離ができます。</p>
-</blockquote>
-<p>source＋themes -&gt; public</p>
-<p>sourceフォルダーがデータベース、themesフォルダーが画面表示として考えられます。</p>
-<p>それぞれを作成し、hexo generateを実行し、二つの内容をpublicとして出力します。</p>
-<p>テンプレートファイルはthemes&#x2F;layoutの下に配置されています。例：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── _custom                           // 通常レイアウト</span><br><span class="line">├── _layout.swig                      // デフォルトレイアウト</span><br><span class="line">├── _macro                            // プラグインレイアウト</span><br><span class="line">├── _partials                         // パートレイアウト</span><br><span class="line">├── _scripts                          // スクリプトレイアウト</span><br><span class="line">├── _third-party                      // </span><br><span class="line">├── archive.swig                      // アーカイブレイアウト</span><br><span class="line">├── category.swig                     // 分類レイアウト</span><br><span class="line">├── index.swig                        // インデックスレイアウト</span><br><span class="line">├── page.swig                         // 他のレイアウト</span><br><span class="line">├── photo.swig                        // 写真レイアウト</span><br><span class="line">├── post.swig                         // 文章レイアウト</span><br><span class="line">├── schedule.swig                     // scheduleレイアウト</span><br><span class="line">└── tag.swig                          // タッグレイアウト</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>全てのページがレイアウトを指定していない時、デフォルトレイアウト_layout.swigを使用します。ページな中でレイアウトの使用状況を定義ですます（使うかどうか）。</p>
-</blockquote>
-<p>新しくポスト及びページを作成する時にレイアウトも指定できます。<code>hexo new [layout] &lt;title&gt;</code></p>
-<p>下記はデフォルトレイアウト_layout.swigを例として説明します。</p>
-<p>このレイアウトにも他のレイアウトをインポートし、一部の表示として使われています。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&#123;% extends &#x27;_layout.swig&#x27; %&#125;</span><br><span class="line">&#123;% import &#x27;_macro/post.swig&#x27; as post_template %&#125;</span><br><span class="line">&#123;% import &#x27;_macro/sidebar.swig&#x27; as sidebar_template %&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#123;% block title %&#125; &#123;&#123; page.title &#125;&#125; | &#123;&#123; config.title &#125;&#125; &#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block page_class %&#125;page-post-detail&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#123;% block content %&#125;</span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;posts&quot;</span> <span class="attr">class</span>=<span class="string">&quot;posts-expand&quot;</span>&gt;</span></span><br><span class="line">    &#123;&#123; post_template.render(page) &#125;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;post-spread&quot;</span>&gt;</span></span><br><span class="line">      &#123;% if theme.jiathis %&#125;</span><br><span class="line">        &#123;% include &#x27;_partials/share/jiathis.swig&#x27; %&#125;</span><br><span class="line">      &#123;% elseif theme.baidushare %&#125;</span><br><span class="line">        &#123;% include &#x27;_partials/share/baidushare.swig&#x27; %&#125;</span><br><span class="line">      &#123;% elseif theme.add_this_id %&#125;</span><br><span class="line">        &#123;% include &#x27;_partials/share/add-this.swig&#x27; %&#125;</span><br><span class="line">      &#123;% elseif theme.duoshuo_shortname and theme.duoshuo_share %&#125;</span><br><span class="line">        &#123;% include &#x27;_partials/share/duoshuo_share.swig&#x27; %&#125;</span><br><span class="line">      &#123;% endif %&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block sidebar %&#125;</span><br><span class="line">  &#123;&#123; sidebar_template.render(true) &#125;&#125;</span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#123;% block script_extra %&#125;</span><br><span class="line">  &#123;% include &#x27;_scripts/pages/post-details.swig&#x27; %&#125;</span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
-
-<p>テンプレートの中で使われているデータは<code>hexo generate</code>を実行する時に入れられています。</p>
-<h2 id="4-コンフィグファイルデータの使用"><a href="#4-コンフィグファイルデータの使用" class="headerlink" title="4. コンフィグファイルデータの使用"></a>4. コンフィグファイルデータの使用</h2><p>hexoのコンフィグファイル<code>_config.yml</code>はyml文法を使い、ブログのタイトルやサブタイトルなどを定義できます。</p>
-<p>データのタイプには、数字、文字列、オブジェクト、配列が使えます。</p>
-<h3 id="テンプレートファイルでコンフィグファイルのデータを使用する例"><a href="#テンプレートファイルでコンフィグファイルのデータを使用する例" class="headerlink" title="テンプレートファイルでコンフィグファイルのデータを使用する例"></a>テンプレートファイルでコンフィグファイルのデータを使用する例</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% block title %&#125; &#123;&#123; page.title &#125;&#125; | &#123;&#123; config.title &#125;&#125; &#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
+          <p>jsdelivrは無料でgithubの静的なファイルを早くとってくれるサイトで、自分のサイトでインポートする時はとても便利です。</p>
+<h2 id="1-jsdelivrのURLフォーマット"><a href="#1-jsdelivrのURLフォーマット" class="headerlink" title="1. jsdelivrのURLフォーマット"></a>1. jsdelivrのURLフォーマット</h2><p>jsdelivrでファイルをインポートする時のURLは下記のフォーマットとなります：</p>
+<p><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/">https://cdn.jsdelivr.net/gh/</a>&lt;Githubユーザ名&gt;&#x2F;&lt;レポジトリー名&gt;@バージョン名&#x2F;ファイルのパス</p>
+<p>バージョン名は必須ではないです、バージョン名がない時は最新の資源をインポートします。</p>
+<p>例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="5-hexoの既存変数"><a href="#5-hexoの既存変数" class="headerlink" title="5. hexoの既存変数"></a>5. hexoの既存変数</h2><p>hexoには既にいろんな変数が定義されていて、よく使われている変数は下記となります。</p>
-<p><code>site</code>：サイト全体のデータオブジェクト， <code>site.posts.length</code> がよくページングで使われています。</p>
+<h2 id="2-資源ファイルをgithubに置きます"><a href="#2-資源ファイルをgithubに置きます" class="headerlink" title="2. 資源ファイルをgithubに置きます"></a>2. 資源ファイルをgithubに置きます</h2><p>githubに新しいレポジトリーを作り、静的資源を置くことがおすすめです。</p>
+<p>例えば、cdnという名前のレポジトリーを作成し、その中には下記のフォルダーがあります。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── css               </span><br><span class="line">├── fonts               </span><br><span class="line">├── img               </span><br><span class="line">└── js</span><br></pre></td></tr></table></figure>
+
+<p>imgの下に、textCur.curという名前のファイルが置いてあります。</p>
+<h2 id="3-jsdelivrのURLでファイルをプロジェクトにインポートします"><a href="#3-jsdelivrのURLでファイルをプロジェクトにインポートします" class="headerlink" title="3. jsdelivrのURLでファイルをプロジェクトにインポートします"></a>3. jsdelivrのURLでファイルをプロジェクトにインポートします</h2><p>下記のパスでファイルをインポートします：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://cdn.jsdelivr.net/gh/try0929/cdn/img/textCur.cur</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-キャッシュ更新"><a href="#4-キャッシュ更新" class="headerlink" title="4. キャッシュ更新"></a>4. キャッシュ更新</h2><p>jsdelivrに置いてるファイルにはキャッシュ機能があります。</p>
+<p>簡単に言うと、githubのファイルを更新しても、CDNファイルがすぐ更新されない可能性があるため、jsdelivrのURLでインポートしたファイルが古いファイルになるかもしれません。</p>
+<p>解決方法は、強制的にキャッシュを更新すること：ファイルの名前を変えてもう一回PUSHします。</p>
+<p>例えば：</p>
 <ul>
-<li><code>site.posts</code> ：全てのポスト</li>
-<li><code>site.pages</code>：全てのページ</li>
-<li><code>site.categories</code> ：全ての分類</li>
-<li><code>site.tags</code> ：全てのタッグ</li>
+<li>githubレポジトリーにold.jpgがあり、old.jpgを更新してpushして、Githubのファイルが新しくなり、<code>https://cdn.jsdelivr.net/gh/.../old.jpg</code>でインポートするファイルが変わらないです；</li>
+<li>同じファイルを<code>new.jpg</code>をリネームし、pushしたら、Githubもjsdelivrに置いてるCDNファイルも更新されます。</li>
 </ul>
-<p><code>page</code>：今画面にある文章のインフォメーション， <code>page.posts</code>は今のもので、  <code>site.posts</code>は全ての文章となります。</p>
-<p><code>config</code>：<code>config</code> 変数<strong>プロジェクト直下</strong>配置しているで<code>_config.yml</code>ファイルの中に定義されているデータが取れます。</p>
-<p><code>theme</code>：<code>theme</code> 変数で<strong>テーマフォルダー</strong>の下に配置している <code>_config.yml</code> ファイルの中に定義されているデータが取れます。</p>
-<p><code>path</code>：今のパス（ルートパスは含まれていない）。</p>
-<p><code>url</code>：ページの前URL。</p>
-<h2 id="６-まとめ"><a href="#６-まとめ" class="headerlink" title="６.まとめ"></a>６.まとめ</h2><p>一言なら、hexoは、我々がmakedownで書いてる内容とテーマテンプレートと合わせて、HTMLファイルなどを自動的に作成するツール（フレームワーク）です。</p>
-<p>初心者やゼロからブログサイトを作る方にとってはとても便利で効率高いツールです。</p>
 
       
     </div>
@@ -332,7 +309,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/puiken_blog/index/page/11/"><i class="fa fa-angle-left" aria-label="前のページ"></i></a><a class="page-number" href="/puiken_blog/index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/puiken_blog/index/page/11/">11</a><span class="page-number current">12</span>
+    <a class="extend prev" rel="prev" href="/puiken_blog/index/page/11/"><i class="fa fa-angle-left" aria-label="前のページ"></i></a><a class="page-number" href="/puiken_blog/index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/puiken_blog/index/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/puiken_blog/index/page/13/">13</a><a class="extend next" rel="next" href="/puiken_blog/index/page/13/"><i class="fa fa-angle-right" aria-label="次のページ"></i></a>
   </nav>
 
 
@@ -400,7 +377,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/puiken_blog/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">ポスト</span>
         </a>
       </div>
@@ -443,12 +420,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="単語の総数">26k</span>
+    <span title="単語の総数">31k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="読書の合計時間">24 分</span>
+    <span title="読書の合計時間">28 分</span>
 </div>
 
         

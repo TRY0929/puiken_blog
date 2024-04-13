@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/puiken_blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.jsdelivr.net/gh/try0929/cdn/img/ice-cream.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.jsdelivr.net/gh/try0929/cdn/img/ice-cream.ico">
+  <link rel="mask-icon" href="/puiken_blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/puiken_blog/css/main.css">
+
+
+<link rel="stylesheet" href="/puiken_blog/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/puiken_blog/lib/pace/pace-theme-minimal.min.css">
+  <script src="/puiken_blog/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"try0929.github.io","root":"/puiken_blog/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="fluter+nodejsでsocket.ioを使用し、チャットルームを作成します。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fluter+socket.ioでチャット機能の作成">
+<meta property="og:url" content="https://try0929.github.io/puiken_blog/posts/31b38562/index.html">
+<meta property="og:site_name" content="Puiken&#39;s blog">
+<meta property="og:description" content="fluter+nodejsでsocket.ioを使用し、チャットルームを作成します。">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/try0929/cdn/img/gif1.gif">
+<meta property="article:published_time" content="2024-04-12T08:32:56.000Z">
+<meta property="article:modified_time" content="2024-04-13T02:19:15.209Z">
+<meta property="article:author" content="Puiken">
+<meta property="article:tag" content="Vue, Nodejs, Blog">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/try0929/cdn/img/gif1.gif">
+
+<link rel="canonical" href="https://try0929.github.io/puiken_blog/posts/31b38562/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'ja'
+  };
+</script>
+
+  <title>fluter+socket.ioでチャット機能の作成 | Puiken's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="header-fixed-wrapper">
+  <div class="header-fixed">
+    <div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="ナビゲーションバーの切り替え">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/puiken_blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Puiken's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+    
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/puiken_blog/" rel="section"><i class="fa fa-home fa-fw"></i>ホーム</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/puiken_blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>アーカイブ</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/puiken_blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>カテゴリ</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+    
+
+  </div>
+</div>
+
+<div
+  id="banner"
+  class="header-banner"
+>
+  <div class="full-bg-img">
+    <div class="mask flex-center type-text">
+      <span class="blogtitle"></span>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+(function() {
+  var typed = new Typed(".blogtitle", {
+    strings: ['ぷいけんの家へようこそ！！！', 'Welcome to puiken\'s home!!!'],
+    startDelay: 300,
+    typeSpeed: 100,
+    loop: true,
+    backSpeed: 50,
+    showCursor: true
+  });
+})();
+</script>
+
+<style>
+.type-text {
+  color: #eee;
+  text-align: center;
+  text-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, .15);
+  line-height: 1.5;
+  font-weight: 700;
+  font-size: 2.6rem;
+  animation: titlescale 1s;
+}
+</style>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ja">
+    <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/31b38562/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
+      <meta itemprop="name" content="Puiken">
+      <meta itemprop="description" content="いつでも変な考えを持っている20代。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Puiken's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          fluter+socket.ioでチャット機能の作成
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">投稿日</span>
+
+              <time title="作成日：2024-04-12 17:32:56" itemprop="dateCreated datePublished" datetime="2024-04-12T17:32:56+09:00">2024-04-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">編集日</span>
+                <time title="修正日：2024-04-13 11:19:15" itemprop="dateModified" datetime="2024-04-13T11:19:15+09:00">2024-04-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">カテゴリ</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/puiken_blog/categories/flutter/" itemprop="url" rel="index"><span itemprop="name">flutter</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="単語数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">単語数：</span>
+              <span>4.9k</span>
+            </span>
+            <span class="post-meta-item" title="読書の時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">読書の時間 &asymp;</span>
+              <span>4 分</span>
+            </span>
+            <div class="post-description">fluter+nodejsでsocket.ioを使用し、チャットルームを作成します。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="１、チャット機能の説明"><a href="#１、チャット機能の説明" class="headerlink" title="１、チャット機能の説明"></a>１、チャット機能の説明</h2><p>今回は簡単にチャットルームを作りたいので、自分で送ったメッセージをルームにいる全員に届き、画面上に表示できる機能となります。そして、自分のメッセージと他人のメッセージは分ける必要があります。</p>
+<p>結果：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/try0929/cdn/img/gif1.gif" alt="img"></p>
+<h2 id="２、WebSocketとSocket-ioの説明"><a href="#２、WebSocketとSocket-ioの説明" class="headerlink" title="２、WebSocketとSocket.ioの説明"></a>２、WebSocketとSocket.ioの説明</h2><h3 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h3><p>WebSocketはHTTPベースのロングポーリング技術です。従来のHTTPプロトコルはリクエスト-レスポンスモデルであり、ブラウザがリクエストを送信しない限り、サーバーはブラウザにデータをプッシュすることができません。</p>
+<p>株価情報などの定期的なデータプッシュやオンラインチャットなどの不定期なデータプッシュをブラウザに実装する場合、HTTPプロトコルに基づいて行う場合、<strong>ブラウザのJavaScriptによる定期的なポーリングしか依存できず、効率が低くリアルタイム性が低いという問題があります</strong>。</p>
+<p>WebSocketはHTTPプロトコルをベースにしているため、TCP接続上に簡単なアップグレードを行います。ブラウザがリクエストを送信する際に、いくつかのヘッダーが付加されます。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GET /chat HTTP/1.1</span><br><span class="line">Host: www.example.com</span><br><span class="line">Upgrade: websocket</span><br><span class="line">Connection: Upgrade</span><br></pre></td></tr></table></figure>
+
+<p>これにより、クライアントは接続をアップグレードし、<strong>長期間接続されたWebSocketに変更することを希望</strong>しています。サーバーは、アップグレードが成功したことを示す応答を返します。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 101 Switching Protocols</span><br><span class="line">Upgrade: websocket</span><br><span class="line">Connection: Upgrade</span><br></pre></td></tr></table></figure>
+
+<p>成功した応答を受信すると、WebSocketの’ハンドシェイク’が完了し、これによりWebSocketのこのTCP接続はサーバーによって閉じられることなく維持されます。<strong>サーバーはいつでもブラウザにメッセージをプッシュでき、ブラウザもいつでもサーバーにメッセージをプッシュできます</strong>。送信されるメッセージはテキストメッセージまたはバイナリメッセージであり、一般的には、ほとんどのアプリケーションがJSONベースのテキストメッセージをプッシュします。</p>
+<h3 id="Socket-io"><a href="#Socket-io" class="headerlink" title="Socket.io"></a>Socket.io</h3><p>flutterに<code>web_socket_channel</code>ライブラリがあり、<code>WebSocket</code>は使えますが、ライブラリは比較的低レベルな実装であり、かなりシンプルです。</p>
+<p>もう1つのライブラリである<code>Socket.IO</code>は、<code>WebSocket</code>をベースにしており、機能を強化し、さらに多くの機能を提供しています。</p>
+<p><code>WebSocket</code>と比較して、<code>Socket.IO</code>は以下のことができます：</p>
+<ul>
+<li>ブラウザがWebSocketをサポートしていない場合、WebSocketを模倣するためにHTTP長期ポーリングの仕組みを利用します（WebSocketは2011年にRFCが完成しており、現在、一般的なブラウザはほとんどWebSocketをサポートしています。まだWebSocketをサポートしていないブラウザは少数派です）。</li>
+<li>ハートビートメカニズムを使用して自動的に再接続を行います。</li>
+<li>パケットのキャッシュ。接続が切断された場合、データが保持され、再接続後にデータが送信されます。</li>
+<li>カスタムイベントのサポート。</li>
+<li>ブロードキャスト。</li>
+</ul>
+<h3 id="イベントベースの特徴"><a href="#イベントベースの特徴" class="headerlink" title="イベントベースの特徴"></a>イベントベースの特徴</h3><ul>
+<li>サーバー&#x2F;クライアントからのメッセージ送信には<code>emit</code>インターフェースを使用します。</li>
+<li>メッセージの受信は<code>on</code>インターフェースを使用して購読します。</li>
+<li>クライアントがメッセージを購読していない場合、サーバーが<code>emit</code>インターフェースを使用してメッセージを送信しても、実際にはメッセージが送信されません。</li>
+</ul>
+<h3 id="他の特徴"><a href="#他の特徴" class="headerlink" title="他の特徴"></a>他の特徴</h3><ul>
+<li>WebSocketプロトコル上に構築され、HTTP長期ポーリングや自動再接続などの追加の保証を提供します。</li>
+<li>デフォルトではWebSocketを使用して通信しますが、クライアントがサポートしていない場合は自動的にHTTP長期ポーリングにフォールバックします。</li>
+<li>デフォルトでping&#x2F;pongメカニズムを含み、定期的に接続状態をチェックします。</li>
+<li>自動再接続がサポートされ、接続が切断された場合には自動的に再接続され、再接続中にメッセージはキャッシュされ、再接続後に送信されます。</li>
+<li>ブロードキャストをサポートし、<code>msg-sync</code>ではソケットをループ処理して実装されます。</li>
+<li>ネームスペースとルームをサポートし、ドキュメントの場所は<code>socket.io/docs/v4/nam…</code>です。<code>msg-sync</code>では自分でフィルタリングして実装されます。</li>
+</ul>
+<h3 id="注意事項"><a href="#注意事項" class="headerlink" title="注意事項"></a>注意事項</h3><p><strong>Socket.IOはWebSocketではありません</strong>。 </p>
+<p>Socket.IOは可能な場合にWebSocketを使用して通信しますが、各データパケットに追加のメタデータを付加します。そのため、WebSocketクライアントはSocket.IOサーバーに正常に接続できず、またSocket.IOクライアントも通常のWebSocketサーバーに接続できません。</p>
+<blockquote>
+<p><a href="https://link.juejin.cn/?target=https://socket.io/docs/v4/%23what-socketio-is-not">What Socket.IO is not</a></p>
+</blockquote>
+<h2 id="３、サーバサイド"><a href="#３、サーバサイド" class="headerlink" title="３、サーバサイド"></a>３、サーバサイド</h2><p>今回サーバサイドは<code>Nodejs</code>を使用しているので、<code>Nodejs</code>での使い方を紹介します。</p>
+<p>まず<code>socket.io</code>のライブラリを導入します：<code>npm install socket.io</code>。</p>
+<p>そしてサーバをクリエイトします：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">Koa</span> = <span class="built_in">require</span>(<span class="string">&#x27;koa&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; <span class="title class_">Server</span> &#125; = <span class="built_in">require</span>(<span class="string">&#x27;socket.io&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="keyword">new</span> <span class="title class_">Koa</span>();</span><br><span class="line"><span class="keyword">const</span> server = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>).<span class="title function_">createServer</span>(app.<span class="title function_">callback</span>());</span><br><span class="line"><span class="keyword">const</span> io = <span class="keyword">new</span> <span class="title class_">Server</span>(server);</span><br><span class="line"></span><br><span class="line">server.<span class="title function_">listen</span>(<span class="number">3000</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;server is running at http://localhost:3000&#x27;</span>)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>サーバのエベントを処理します：</p>
+<ul>
+<li><code>connection</code>：アクセスできた時のイベント、他のイベントは（<code>message</code>など）はフロント側が自分で定義してたイベントです。</li>
+<li><code>emit</code>はフロントにメッセージを送るメソッドで、<code>broadcast</code>は該当ユーザ以外の全員にメッセージを送るメソッドです。</li>
+<li>こちらは<code>connection</code>が来たとき、サーバから<code>user connect</code>イベントをトリガーし、該当会話のセッションIDをあげます。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> connectionCnt = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">io.<span class="title function_">on</span>(<span class="string">&#x27;connection&#x27;</span>, <span class="function">(<span class="params">socket</span>) =&gt;</span> &#123;</span><br><span class="line">  connectionCnt++;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`WebSocket connected! Now connections: <span class="subst">$&#123;connectionCnt&#125;</span>`</span>);</span><br><span class="line">  socket.<span class="title function_">emit</span>(<span class="string">&#x27;user connect&#x27;</span>, &#123;</span><br><span class="line">    <span class="attr">id</span>: socket.<span class="property">id</span>,</span><br><span class="line">    <span class="attr">status</span>: <span class="number">1</span>,</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  socket.<span class="title function_">on</span>(<span class="string">&#x27;message&#x27;</span>, <span class="function">(<span class="params">msg</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Message received:&#x27;</span>);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(msg);</span><br><span class="line"></span><br><span class="line">    socket.<span class="title function_">emit</span>(<span class="string">&#x27;message&#x27;</span>, &#123;</span><br><span class="line">      <span class="attr">id</span>: socket.<span class="property">id</span>,</span><br><span class="line">      <span class="attr">text</span>: <span class="string">`<span class="subst">$&#123;msg.text&#125;</span>`</span>,</span><br><span class="line">    &#125;);</span><br><span class="line">    socket.<span class="property">broadcast</span>.<span class="title function_">emit</span>(<span class="string">&#x27;message&#x27;</span>, &#123;</span><br><span class="line">      <span class="attr">id</span>: socket.<span class="property">id</span>,</span><br><span class="line">      <span class="attr">text</span>: <span class="string">`<span class="subst">$&#123;msg.text&#125;</span>`</span>,</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  socket.<span class="title function_">on</span>(<span class="string">&#x27;disconnect&#x27;</span>, <span class="function">(<span class="params">msg</span>) =&gt;</span> &#123;</span><br><span class="line">    connectionCnt--;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`WebSocket closed! Now connections: <span class="subst">$&#123;connectionCnt&#125;</span>`</span>);</span><br><span class="line">    socket.<span class="property">broadcast</span>.<span class="title function_">emit</span>(<span class="string">&#x27;user disconnect&#x27;</span>, &#123;</span><br><span class="line">      <span class="attr">userId</span>: socket.<span class="property">userId</span>,</span><br><span class="line">      <span class="attr">status</span>: <span class="number">0</span>,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="４、flutter側"><a href="#４、flutter側" class="headerlink" title="４、flutter側"></a>４、flutter側</h2><p>上記のサーバは<code>http://localhost:3000</code>で立ち上がりますので、flutter側はそちらのURLにアクセスします。</p>
+<p>まずはflutterの<code>socket_io_client</code>ライブラリを導入します：<code>pubspec.yaml</code>ファイルで<code>socket_io_client: ^2.0.3</code>を追加し、保存したら自動的にインストールしてくれます。</p>
+<p>チャット画面で<code>socket_io_client</code>をインポートします、<code>import &#39;package:socket_io_client/socket_io_client.dart&#39; as IO;</code></p>
+<p>ウィジェットの<code>initState</code>でサーバと初期接続します。</p>
+<ul>
+<li><code>IO.io</code>でサーバと繋がりします。</li>
+<li><code>user connect</code>イベントを監視し、会話の<code>sessionId</code>をとって、これから自分のメッセージと他人のメッセージを分けることができます。</li>
+<li><code>message</code>イベントを監視し、サーバからのメッセージを受け取ります、すなわち、チャットのメッセージを受けとます。</li>
+</ul>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@override</span></span><br><span class="line"><span class="keyword">void</span> initState() &#123;</span><br><span class="line">  <span class="keyword">super</span>.initState();</span><br><span class="line">  _socket = IO.io(<span class="string">&#x27;http://localhost:3000/&#x27;</span>, &lt;<span class="built_in">String</span>, <span class="built_in">dynamic</span>&gt;&#123;</span><br><span class="line">    <span class="string">&#x27;transports&#x27;</span>: [<span class="string">&#x27;websocket&#x27;</span>]</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  _socket.<span class="keyword">on</span>(<span class="string">&#x27;user connect&#x27;</span>, (data) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;connect&#x27;</span>);</span><br><span class="line">    <span class="built_in">print</span>(data);</span><br><span class="line">    sessionId = data[<span class="string">&#x27;id&#x27;</span>];</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  _socket.<span class="keyword">on</span>(<span class="string">&#x27;message&#x27;</span>, (data) &#123;</span><br><span class="line">    setState(() &#123;</span><br><span class="line">      <span class="keyword">if</span> (data != <span class="keyword">null</span>) &#123;</span><br><span class="line">        _controller.text = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">        _messages.add(Message(text: data[<span class="string">&#x27;text&#x27;</span>], isMe: data[<span class="string">&#x27;id&#x27;</span>] == sessionId));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>メッセージを送るメソッドは上記コードで初期化した<code>_socket</code>で<code>emit</code>メソッドを呼び出します：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> _sendMessage() &#123;</span><br><span class="line">  <span class="keyword">if</span> (_controller.text.isNotEmpty) &#123;</span><br><span class="line">    _socket.emit(<span class="string">&#x27;message&#x27;</span>, &#123;</span><br><span class="line">      <span class="string">&#x27;text&#x27;</span>: _controller.text</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後、ライフサイクルメソッド<code>dispose</code>でサーバとの接続を切ります：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@override</span></span><br><span class="line"><span class="keyword">void</span> dispose() &#123;</span><br><span class="line">  _socket.disconnect();</span><br><span class="line">  _controller.dispose();</span><br><span class="line">  <span class="keyword">super</span>.dispose();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/puiken_blog/posts/8b514361/" rel="prev" title="flutterのsetState使っても画面更新しない理由と解決方法">
+      <i class="fa fa-chevron-left"></i> flutterのsetState使っても画面更新しない理由と解決方法
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          見出し
+        </li>
+        <li class="sidebar-nav-overview">
+          概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%91%E3%80%81%E3%83%81%E3%83%A3%E3%83%83%E3%83%88%E6%A9%9F%E8%83%BD%E3%81%AE%E8%AA%AC%E6%98%8E"><span class="nav-text">１、チャット機能の説明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%92%E3%80%81WebSocket%E3%81%A8Socket-io%E3%81%AE%E8%AA%AC%E6%98%8E"><span class="nav-text">２、WebSocketとSocket.ioの説明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WebSocket"><span class="nav-text">WebSocket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Socket-io"><span class="nav-text">Socket.io</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%83%99%E3%83%BC%E3%82%B9%E3%81%AE%E7%89%B9%E5%BE%B4"><span class="nav-text">イベントベースの特徴</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%96%E3%81%AE%E7%89%B9%E5%BE%B4"><span class="nav-text">他の特徴</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85"><span class="nav-text">注意事項</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%93%E3%80%81%E3%82%B5%E3%83%BC%E3%83%90%E3%82%B5%E3%82%A4%E3%83%89"><span class="nav-text">３、サーバサイド</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%EF%BC%94%E3%80%81flutter%E5%81%B4"><span class="nav-text">４、flutter側</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Puiken"
+      src="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
+  <p class="site-author-name" itemprop="name">Puiken</p>
+  <div class="site-description" itemprop="description">いつでも変な考えを持っている20代。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/puiken_blog/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">ポスト</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/puiken_blog/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">カテゴリ</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Puiken</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="単語の総数">31k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="読書の合計時間">28 分</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/puiken_blog/lib/anime.min.js"></script>
+  <script src="/puiken_blog/lib/velocity/velocity.min.js"></script>
+  <script src="/puiken_blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/puiken_blog/js/utils.js"></script>
+
+<script src="/puiken_blog/js/motion.js"></script>
+
+
+<script src="/puiken_blog/js/schemes/muse.js"></script>
+
+
+<script src="/puiken_blog/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  <script src="//cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@3.0.8/js/maodian.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script>
+  $.fn.snow = function (options) {
+    var $flake = $('<div id="snowbox" />').css({ 'position': 'absolute', 'z-index': '9999', 'top': '-50px' }).html('🌸'), // 🌸
+        documentHeight = $(document).height(),
+        documentWidth = $(document).width(),
+        defaults = {
+            minSize: 10,
+            maxSize: 20,
+            newOn: 1000,
+            flakeColor: "#AFDAEF" /* 此处可以定义雪花颜色，若要白色可以改为#FFFFFF */
+        },
+        options = $.extend({}, defaults, options);
+    var interval = setInterval(function () {
+        var startPositionLeft = Math.random() * documentWidth - 100,
+            startOpacity = 0.2 + Math.random() / 2,
+            sizeFlake = options.minSize + Math.random() * options.maxSize,
+            endPositionTop = documentHeight - 200,
+            endPositionLeft = startPositionLeft - 500 + Math.random() * 500,
+            durationFall = documentHeight * 10 + Math.random() * 5000;
+        $flake.clone().appendTo('body').css({
+            left: startPositionLeft,
+            opacity: startOpacity,
+            'font-size': sizeFlake,
+            color: options.flakeColor
+        }).animate({
+            top: endPositionTop,
+            left: endPositionLeft,
+            opacity: 0.2
+        }, durationFall, 'linear', function () {
+            $(this).remove()
+        });
+    }, options.newOn);
+  };
+  $(function () {
+      $.fn.snow({
+        minSize: 5, /* 定义雪花最小尺寸 */
+        maxSize: 50,/* 定义雪花最大尺寸 */
+        newOn: 800  /* 定义密集程度，数字越小越密集 */
+      });
+  });
+</script>
+</body>
+</html>
