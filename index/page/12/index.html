@@ -196,7 +196,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ja">
-    <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/36779/">
+    <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/10483/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
@@ -210,7 +210,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/puiken_blog/posts/36779/" class="post-title-link" itemprop="url">jsdelivrの使用</a>
+            <a href="/puiken_blog/posts/10483/" class="post-title-link" itemprop="url">サイトでマウスポイントイコンの変更</a>
         </h2>
 
         <div class="post-meta">
@@ -220,14 +220,14 @@
               </span>
               <span class="post-meta-item-text">投稿日</span>
 
-              <time title="作成日：2024-02-29 17:55:48" itemprop="dateCreated datePublished" datetime="2024-02-29T17:55:48+09:00">2024-02-29</time>
+              <time title="作成日：2024-03-01 09:09:57" itemprop="dateCreated datePublished" datetime="2024-03-01T09:09:57+09:00">2024-03-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">編集日</span>
-                <time title="修正日：2024-03-02 10:49:41" itemprop="dateModified" datetime="2024-03-02T10:49:41+09:00">2024-03-02</time>
+                <time title="修正日：2024-03-02 10:47:23" itemprop="dateModified" datetime="2024-03-02T10:47:23+09:00">2024-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -235,7 +235,7 @@
               </span>
               <span class="post-meta-item-text">カテゴリ</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/puiken_blog/categories/cdn/" itemprop="url" rel="index"><span itemprop="name">cdn</span></a>
+                  <a href="/puiken_blog/categories/css/" itemprop="url" rel="index"><span itemprop="name">css</span></a>
                 </span>
             </span>
 
@@ -245,7 +245,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">単語数：</span>
-              <span>817</span>
+              <span>458</span>
             </span>
             <span class="post-meta-item" title="読書の時間">
               <span class="post-meta-item-icon">
@@ -264,33 +264,25 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>jsdelivrは無料でgithubの静的なファイルを早くとってくれるサイトで、自分のサイトでインポートする時はとても便利です。</p>
-<h2 id="1-jsdelivrのURLフォーマット"><a href="#1-jsdelivrのURLフォーマット" class="headerlink" title="1. jsdelivrのURLフォーマット"></a>1. jsdelivrのURLフォーマット</h2><p>jsdelivrでファイルをインポートする時のURLは下記のフォーマットとなります：</p>
-<p><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/">https://cdn.jsdelivr.net/gh/</a>&lt;Githubユーザ名&gt;&#x2F;&lt;レポジトリー名&gt;@バージョン名&#x2F;ファイルのパス</p>
-<p>バージョン名は必須ではないです、バージョン名がない時は最新の資源をインポートします。</p>
-<p>例：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="2-資源ファイルをgithubに置きます"><a href="#2-資源ファイルをgithubに置きます" class="headerlink" title="2. 資源ファイルをgithubに置きます"></a>2. 資源ファイルをgithubに置きます</h2><p>githubに新しいレポジトリーを作り、静的資源を置くことがおすすめです。</p>
-<p>例えば、cdnという名前のレポジトリーを作成し、その中には下記のフォルダーがあります。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── css               </span><br><span class="line">├── fonts               </span><br><span class="line">├── img               </span><br><span class="line">└── js</span><br></pre></td></tr></table></figure>
-
-<p>imgの下に、textCur.curという名前のファイルが置いてあります。</p>
-<h2 id="3-jsdelivrのURLでファイルをプロジェクトにインポートします"><a href="#3-jsdelivrのURLでファイルをプロジェクトにインポートします" class="headerlink" title="3. jsdelivrのURLでファイルをプロジェクトにインポートします"></a>3. jsdelivrのURLでファイルをプロジェクトにインポートします</h2><p>下記のパスでファイルをインポートします：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://cdn.jsdelivr.net/gh/try0929/cdn/img/textCur.cur</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="4-キャッシュ更新"><a href="#4-キャッシュ更新" class="headerlink" title="4. キャッシュ更新"></a>4. キャッシュ更新</h2><p>jsdelivrに置いてるファイルにはキャッシュ機能があります。</p>
-<p>簡単に言うと、githubのファイルを更新しても、CDNファイルがすぐ更新されない可能性があるため、jsdelivrのURLでインポートしたファイルが古いファイルになるかもしれません。</p>
-<p>解決方法は、強制的にキャッシュを更新すること：ファイルの名前を変えてもう一回PUSHします。</p>
-<p>例えば：</p>
+          <p>個人サイトでマウスのポイント変更できたらとてもかっこいいなと思って、自分の好みのイコンにしてみました。下記は手順となります。</p>
+<h2 id="1-条件を満たすiconファイルを用意します"><a href="#1-条件を満たすiconファイルを用意します" class="headerlink" title="1. 条件を満たすiconファイルを用意します"></a>1. 条件を満たすiconファイルを用意します</h2><p>マウスポイントイコンは少なくとも（分けたくない人もいますが、分けた方がおすすめです）２種類あります：</p>
 <ul>
-<li>githubレポジトリーにold.jpgがあり、old.jpgを更新してpushして、Githubのファイルが新しくなり、<code>https://cdn.jsdelivr.net/gh/.../old.jpg</code>でインポートするファイルが変わらないです；</li>
-<li>同じファイルを<code>new.jpg</code>をリネームし、pushしたら、Githubもjsdelivrに置いてるCDNファイルも更新されます。</li>
+<li>クリックイコン；</li>
+<li>テクストコピーイコン；</li>
 </ul>
+<p>まずはイコンにしたい写真を用意します、２つの条件が必要となります：</p>
+<ul>
+<li>拡張子は<code>.ico</code>か<code>.cur</code>です。必須ではないが、オフィシャルにはその二つがおすすめです。</li>
+<li>サイズは <code>32*32</code>　です。違う場合だったら画面で表示できなくなる可能性があります。</li>
+</ul>
+<h2 id="2-写真をプロジェクトにインポートします"><a href="#2-写真をプロジェクトにインポートします" class="headerlink" title="2. 写真をプロジェクトにインポートします"></a>2. 写真をプロジェクトにインポートします</h2><p>まず用意した写真を<strong>プロジェクトローカルか、CDNの上か</strong>に置きます、前者の場合では相対パスでインポートし、後者ではCDNリンクでインポートします。</p>
+<blockquote>
+<p>CDNの場合では、jsdelivrがおすすめです。<a href="">詳細</a></p>
+</blockquote>
+<p>そして、cssのcursorアトリビュートを使い、マウスポイントを設定します：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span>, <span class="selector-tag">li</span>, <span class="selector-tag">span</span>, <span class="selector-tag">p</span> &#123;</span><br><span class="line">  <span class="attribute">cursor</span>: <span class="built_in">url</span>(<span class="string">https://cdn.jsdelivr.net/gh/try0929/cdn/img/newText1.cur</span>),auto;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: transparent;</span><br><span class="line">  <span class="attribute">cursor</span>: <span class="built_in">url</span>(<span class="string">https://cdn.jsdelivr.net/gh/try0929/cdn/img/newLoadCur.cur</span>),auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>autoはマウスポイントのデフォルトスタイル、必ず書きます。</p>
 
       
     </div>
@@ -309,7 +301,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/puiken_blog/index/page/11/"><i class="fa fa-angle-left" aria-label="前のページ"></i></a><a class="page-number" href="/puiken_blog/index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/puiken_blog/index/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/puiken_blog/index/page/13/">13</a><a class="extend next" rel="next" href="/puiken_blog/index/page/13/"><i class="fa fa-angle-right" aria-label="次のページ"></i></a>
+    <a class="extend prev" rel="prev" href="/puiken_blog/index/page/11/"><i class="fa fa-angle-left" aria-label="前のページ"></i></a><a class="page-number" href="/puiken_blog/index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/puiken_blog/index/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/puiken_blog/index/page/13/">13</a><a class="page-number" href="/puiken_blog/index/page/14/">14</a><a class="extend next" rel="next" href="/puiken_blog/index/page/13/"><i class="fa fa-angle-right" aria-label="次のページ"></i></a>
   </nav>
 
 
@@ -377,7 +369,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/puiken_blog/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">ポスト</span>
         </a>
       </div>
@@ -386,6 +378,10 @@
           
         <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">カテゴリ</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">タグ</span>
       </div>
   </nav>
 </div>
@@ -420,12 +416,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="単語の総数">31k</span>
+    <span title="単語の総数">35k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="読書の合計時間">28 分</span>
+    <span title="読書の合計時間">32 分</span>
 </div>
 
         
