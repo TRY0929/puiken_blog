@@ -25,7 +25,7 @@
   <meta name="description" content="いつでも変な考えを持っている20代。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Puiken&#39;s blog">
-<meta property="og:url" content="https://try0929.github.io/puiken_blog/index/index.html">
+<meta property="og:url" content="https://try0929.github.io/puiken_blog/index/page/15/index.html">
 <meta property="og:site_name" content="Puiken&#39;s blog">
 <meta property="og:description" content="いつでも変な考えを持っている20代。">
 <meta property="og:locale" content="ja_JP">
@@ -33,7 +33,7 @@
 <meta property="article:tag" content="Vue, Nodejs, Blog">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://try0929.github.io/puiken_blog/index/">
+<link rel="canonical" href="https://try0929.github.io/puiken_blog/index/page/15/">
 
 
 <script id="page-configurations">
@@ -196,7 +196,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ja">
-    <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/7729e45e/">
+    <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/36779/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
@@ -210,7 +210,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/puiken_blog/posts/7729e45e/" class="post-title-link" itemprop="url">mockitoでのflutter単体テスト</a>
+            <a href="/puiken_blog/posts/36779/" class="post-title-link" itemprop="url">jsdelivrの使用</a>
         </h2>
 
         <div class="post-meta">
@@ -219,9 +219,24 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">投稿日</span>
-              
 
-              <time title="作成日：2024-09-22 11:59:50 / 修正日：12:36:04" itemprop="dateCreated datePublished" datetime="2024-09-22T11:59:50+09:00">2024-09-22</time>
+              <time title="作成日：2024-02-29 17:55:48" itemprop="dateCreated datePublished" datetime="2024-02-29T17:55:48+09:00">2024-02-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">編集日</span>
+                <time title="修正日：2024-03-02 10:49:41" itemprop="dateModified" datetime="2024-03-02T10:49:41+09:00">2024-03-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">カテゴリ</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/puiken_blog/categories/cdn/" itemprop="url" rel="index"><span itemprop="name">cdn</span></a>
+                </span>
             </span>
 
           <br>
@@ -230,14 +245,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">単語数：</span>
-              <span>5.4k</span>
+              <span>817</span>
             </span>
             <span class="post-meta-item" title="読書の時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">読書の時間 &asymp;</span>
-              <span>5 分</span>
+              <span>1 分</span>
             </span>
 
         </div>
@@ -249,15 +264,34 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>mockitoというライブラリーを使用し、flutterのAPI呼び出しの単体テストを行います。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/puiken_blog/posts/7729e45e/">
-                続きを読む &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <p>jsdelivrは無料でgithubの静的なファイルを早くとってくれるサイトで、自分のサイトでインポートする時はとても便利です。</p>
+<h2 id="1-jsdelivrのURLフォーマット"><a href="#1-jsdelivrのURLフォーマット" class="headerlink" title="1. jsdelivrのURLフォーマット"></a>1. jsdelivrのURLフォーマット</h2><p>jsdelivrでファイルをインポートする時のURLは下記のフォーマットとなります：</p>
+<p><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/">https://cdn.jsdelivr.net/gh/</a>&lt;Githubユーザ名&gt;&#x2F;&lt;レポジトリー名&gt;@バージョン名&#x2F;ファイルのパス</p>
+<p>バージョン名は必須ではないです、バージョン名がない時は最新の資源をインポートします。</p>
+<p>例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-資源ファイルをgithubに置きます"><a href="#2-資源ファイルをgithubに置きます" class="headerlink" title="2. 資源ファイルをgithubに置きます"></a>2. 資源ファイルをgithubに置きます</h2><p>githubに新しいレポジトリーを作り、静的資源を置くことがおすすめです。</p>
+<p>例えば、cdnという名前のレポジトリーを作成し、その中には下記のフォルダーがあります。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── css               </span><br><span class="line">├── fonts               </span><br><span class="line">├── img               </span><br><span class="line">└── js</span><br></pre></td></tr></table></figure>
+
+<p>imgの下に、textCur.curという名前のファイルが置いてあります。</p>
+<h2 id="3-jsdelivrのURLでファイルをプロジェクトにインポートします"><a href="#3-jsdelivrのURLでファイルをプロジェクトにインポートします" class="headerlink" title="3. jsdelivrのURLでファイルをプロジェクトにインポートします"></a>3. jsdelivrのURLでファイルをプロジェクトにインポートします</h2><p>下記のパスでファイルをインポートします：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://cdn.jsdelivr.net/gh/try0929/cdn/img/textCur.cur</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-キャッシュ更新"><a href="#4-キャッシュ更新" class="headerlink" title="4. キャッシュ更新"></a>4. キャッシュ更新</h2><p>jsdelivrに置いてるファイルにはキャッシュ機能があります。</p>
+<p>簡単に言うと、githubのファイルを更新しても、CDNファイルがすぐ更新されない可能性があるため、jsdelivrのURLでインポートしたファイルが古いファイルになるかもしれません。</p>
+<p>解決方法は、強制的にキャッシュを更新すること：ファイルの名前を変えてもう一回PUSHします。</p>
+<p>例えば：</p>
+<ul>
+<li>githubレポジトリーにold.jpgがあり、old.jpgを更新してpushして、Githubのファイルが新しくなり、<code>https://cdn.jsdelivr.net/gh/.../old.jpg</code>でインポートするファイルが変わらないです；</li>
+<li>同じファイルを<code>new.jpg</code>をリネームし、pushしたら、Githubもjsdelivrに置いてるCDNファイルも更新されます。</li>
+</ul>
+
       
     </div>
 
@@ -275,7 +309,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/puiken_blog/index/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/puiken_blog/index/page/16/">16</a><a class="extend next" rel="next" href="/puiken_blog/index/page/2/"><i class="fa fa-angle-right" aria-label="次のページ"></i></a>
+    <a class="extend prev" rel="prev" href="/puiken_blog/index/page/14/"><i class="fa fa-angle-left" aria-label="前のページ"></i></a><a class="page-number" href="/puiken_blog/index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/puiken_blog/index/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/puiken_blog/index/page/16/">16</a><a class="extend next" rel="next" href="/puiken_blog/index/page/16/"><i class="fa fa-angle-right" aria-label="次のページ"></i></a>
   </nav>
 
 

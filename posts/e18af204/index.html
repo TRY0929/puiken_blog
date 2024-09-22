@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/puiken_blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.jsdelivr.net/gh/try0929/cdn/img/ice-cream.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.jsdelivr.net/gh/try0929/cdn/img/ice-cream.ico">
+  <link rel="mask-icon" href="/puiken_blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/puiken_blog/css/main.css">
+
+
+<link rel="stylesheet" href="/puiken_blog/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/puiken_blog/lib/pace/pace-theme-minimal.min.css">
+  <script src="/puiken_blog/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"try0929.github.io","root":"/puiken_blog/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="flutterの単体テスト">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flutterの単体テスト">
+<meta property="og:url" content="https://try0929.github.io/puiken_blog/posts/e18af204/index.html">
+<meta property="og:site_name" content="Puiken&#39;s blog">
+<meta property="og:description" content="flutterの単体テスト">
+<meta property="og:locale" content="ja_JP">
+<meta property="article:published_time" content="2024-09-22T02:53:50.000Z">
+<meta property="article:modified_time" content="2024-09-22T03:35:11.054Z">
+<meta property="article:author" content="Puiken">
+<meta property="article:tag" content="flutter">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://try0929.github.io/puiken_blog/posts/e18af204/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'ja'
+  };
+</script>
+
+  <title>flutterの単体テスト | Puiken's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="header-fixed-wrapper">
+  <div class="header-fixed">
+    <div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="ナビゲーションバーの切り替え">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/puiken_blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Puiken's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+    
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/puiken_blog/" rel="section"><i class="fa fa-home fa-fw"></i>ホーム</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/puiken_blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>アーカイブ</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/puiken_blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>カテゴリ</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+    
+
+  </div>
+</div>
+
+<div
+  id="banner"
+  class="header-banner"
+>
+  <div class="full-bg-img">
+    <div class="mask flex-center type-text">
+      <span class="blogtitle"></span>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+(function() {
+  var typed = new Typed(".blogtitle", {
+    strings: ['ぷいけんの家へようこそ！！！', 'Welcome to puiken\'s home!!!'],
+    startDelay: 300,
+    typeSpeed: 100,
+    loop: true,
+    backSpeed: 50,
+    showCursor: true
+  });
+})();
+</script>
+
+<style>
+.type-text {
+  color: #eee;
+  text-align: center;
+  text-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, .15);
+  line-height: 1.5;
+  font-weight: 700;
+  font-size: 2.6rem;
+  animation: titlescale 1s;
+}
+</style>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ja">
+    <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/e18af204/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
+      <meta itemprop="name" content="Puiken">
+      <meta itemprop="description" content="いつでも変な考えを持っている20代。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Puiken's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          flutterの単体テスト
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">投稿日</span>
+              
+
+              <time title="作成日：2024-09-22 11:53:50 / 修正日：12:35:11" itemprop="dateCreated datePublished" datetime="2024-09-22T11:53:50+09:00">2024-09-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">カテゴリ</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/puiken_blog/categories/flutter/" itemprop="url" rel="index"><span itemprop="name">flutter</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="単語数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">単語数：</span>
+              <span>3.1k</span>
+            </span>
+            <span class="post-meta-item" title="読書の時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">読書の時間 &asymp;</span>
+              <span>3 分</span>
+            </span>
+            <div class="post-description">flutterの単体テスト</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="1-紹介"><a href="#1-紹介" class="headerlink" title="1. 紹介"></a>1. 紹介</h2><blockquote>
+<p>flutterのテストパッケージドキュメント：<a target="_blank" rel="noopener" href="https://pub-web.flutter-io.cn/packages/test">flutter-test</a></p>
+</blockquote>
+<p>新しい機能を追加したり、既存の機能を変更した後、アプリが正常に動作することをどのように保証するのでしょうか？答えは、テストを書くことです！</p>
+<p>単体テストを使用すると、関数やメソッド、クラスなど個々の動作を簡単に検証できます。<code>test</code>パッケージは単体テストを書くための基本フレームワークを提供し、<code>flutter_test</code>パッケージはウィジェットテストを行うための追加機能を提供します。</p>
+<p>このチュートリアルでは、<code>test</code>パッケージの使い方をデモンストレーションします。内容は以下の通りです：</p>
+<ol>
+<li><code>test</code>または<code>flutter_test</code>を依存関係に追加する</li>
+<li>テストファイルを作成する</li>
+<li>テスト対象のクラスを作成する</li>
+<li>作成したクラスに対するテストを書く</li>
+<li>複数のテストを1つの<code>group</code>に統合する</li>
+<li>テストを実行する</li>
+</ol>
+<p>パッケージテストに関する詳細な情報は、上記testパッケージのドキュメントをご参照ください。</p>
+<h2 id="2-テスト依存関係の追加"><a href="#2-テスト依存関係の追加" class="headerlink" title="2. テスト依存関係の追加"></a>2. テスト依存関係の追加</h2><p>DartパッケージがFlutterに依存していない場合、<code>test</code>パッケージを導入できます。<code>test</code>パッケージは、テストを書くために必要な基本的な機能を提供します。作成しているパッケージがWeb、サーバーサイド、そしてFlutterアプリで使われる場合、これが最適な方法です。</p>
+<p><code>flutter pub add</code>コマンドを実行して、<code>test</code>を依存関係に追加します。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flutter pub add dev:<span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-テストファイルの作成"><a href="#3-テストファイルの作成" class="headerlink" title="3. テストファイルの作成"></a>3. テストファイルの作成</h2><p>この例では、2つのファイルを作成します: <code>counter.dart</code> と <code>counter_test.dart</code>。</p>
+<p><code>counter.dart</code> ファイルは、<code>lib</code> フォルダ内にあるテスト対象のクラスを含み、<code>counter_test.dart</code> ファイルは <code>test</code> フォルダに配置され、テストそのものを含みます。</p>
+<p>通常、テストファイルは Flutterアプリまたはパッケージのルートディレクトリ下にある <code>test</code> フォルダに配置します。テストファイルの命名は <code>_test.dart</code> とするのが一般的で、これは <code>test runner</code> がテストファイルを検索する際の慣例です。</p>
+<p>ファイルを作成後、ディレクトリ構造は次のようになります：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">counter_app/</span><br><span class="line">  lib/</span><br><span class="line">    counter.dart</span><br><span class="line">  test/</span><br><span class="line">    counter_test.dart</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-テスト対象のクラスを作成"><a href="#4-テスト対象のクラスを作成" class="headerlink" title="4. テスト対象のクラスを作成"></a>4. テスト対象のクラスを作成</h2><p>次のステップとして、テストするための「単体」（ユニット）が必要です。「単体」は抽象的な概念で、関数、メソッド、またはクラスを指します。この例では、<code>lib/counter.dart</code> ファイルに <code>Counter</code> クラスを作成します。このクラスは、0から始まる <code>value</code> を増減する役割を持っています。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Counter</span> </span>&#123;</span><br><span class="line">  <span class="built_in">int</span> value = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> increment() =&gt; value++;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> decrement() =&gt; value--;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-作成したクラスに対するテストを書く"><a href="#5-作成したクラスに対するテストを書く" class="headerlink" title="5. 作成したクラスに対するテストを書く"></a>5. 作成したクラスに対するテストを書く</h2><p>次に、<code>counter_test.dart</code> ファイルに最初のテストを書きます。テストは、<code>test</code> というトップレベル関数を使って定義します。テストの結果が正しいかどうかを確認するためには、<code>expect</code> 関数を使用します。これらの関数は、<code>test</code> パッケージから提供されるものです。</p>
+<p>以下は、<code>counter_test.dart</code> に書くテストの例です。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Import the test package and Counter class</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:counter_app/counter.dart&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:test/test.dart&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> main() &#123;</span><br><span class="line">  test(<span class="string">&#x27;Counter value should be incremented&#x27;</span>, () &#123;</span><br><span class="line">    <span class="keyword">final</span> counter = Counter();</span><br><span class="line"></span><br><span class="line">    counter.increment();</span><br><span class="line"></span><br><span class="line">    expect(counter.value, <span class="number">1</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="6-複数のテストをグループ化する"><a href="#6-複数のテストをグループ化する" class="headerlink" title="6. 複数のテストをグループ化する"></a>6. 複数のテストをグループ化する</h2><p>関連するテストや一連のテストを実行したい場合、<code>test</code> パッケージが提供する <code>group</code> 関数を使用してそれらをまとめることができます。この方法を使うことで、<code>flutter test</code> コマンドで同じグループのすべてのテストを実行できます。</p>
+<p>以下は、<code>counter_test.dart</code> にテストをグループ化する例です。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:counter_app/counter.dart&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:test/test.dart&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> main() &#123;</span><br><span class="line">  group(<span class="string">&#x27;Test start, increment, decrement&#x27;</span>, () &#123;</span><br><span class="line">    test(<span class="string">&#x27;value should start at 0&#x27;</span>, () &#123;</span><br><span class="line">      expect(Counter().value, <span class="number">0</span>);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    test(<span class="string">&#x27;value should be incremented&#x27;</span>, () &#123;</span><br><span class="line">      <span class="keyword">final</span> counter = Counter();</span><br><span class="line"></span><br><span class="line">      counter.increment();</span><br><span class="line"></span><br><span class="line">      expect(counter.value, <span class="number">1</span>);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    test(<span class="string">&#x27;value should be decremented&#x27;</span>, () &#123;</span><br><span class="line">      <span class="keyword">final</span> counter = Counter();</span><br><span class="line"></span><br><span class="line">      counter.decrement();</span><br><span class="line"></span><br><span class="line">      expect(counter.value, <span class="number">-1</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-テストの実行"><a href="#7-テストの実行" class="headerlink" title="7. テストの実行"></a>7. テストの実行</h2><p>これで <code>Counter</code> クラスとそのテストが準備できたので、テストを実行してみましょう！</p>
+<h4 id="IntelliJ-または-VSCode-でテストを実行"><a href="#IntelliJ-または-VSCode-でテストを実行" class="headerlink" title="IntelliJ または VSCode でテストを実行"></a>IntelliJ または VSCode でテストを実行</h4><p>IntelliJ と VSCode の Flutter プラグインはテストの実行をサポートしています。この方法でテストを実行するのが最適で、迅速なフィードバックループを提供し、ブレークポイントデバッグもサポートしています。</p>
+<p><strong>IntelliJ</strong></p>
+<ol>
+<li><code>counter_test.dart</code> ファイルを開きます。</li>
+<li>メニューから <code>Run &gt; Run &#39;tests in counter_test.dart&#39;</code> を選択します。または、キーボードショートカットを使ってテストを実行できます。</li>
+</ol>
+<p><strong>VSCode</strong></p>
+<ol>
+<li><code>counter_test.dart</code> ファイルを開きます。</li>
+<li>メニューから <code>Run &gt; Start Debugging</code> を選択します。または、キーボードショートカットを使ってテストを実行できます。</li>
+</ol>
+<h4 id="ターミナルでテストを実行"><a href="#ターミナルでテストを実行" class="headerlink" title="ターミナルでテストを実行"></a>ターミナルでテストを実行</h4><p>ターミナルを開き、プロジェクトのルートディレクトリに移動して、以下のコマンドを入力することで、すべてのテストを実行することもできます。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flutter <span class="built_in">test</span> <span class="built_in">test</span>/counter_test.dart</span><br></pre></td></tr></table></figure>
+
+<h4 id="以下のコマンドを実行して、指定したグループにあるすべてのテストを実行できます："><a href="#以下のコマンドを実行して、指定したグループにあるすべてのテストを実行できます：" class="headerlink" title="以下のコマンドを実行して、指定したグループにあるすべてのテストを実行できます："></a>以下のコマンドを実行して、指定したグループにあるすべてのテストを実行できます：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flutter <span class="built_in">test</span> --plain-name <span class="string">&quot;Test start, increment, decrement&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/puiken_blog/tags/flutter/" rel="tag"># flutter</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/puiken_blog/posts/534ae507/" rel="prev" title="IOSシミュレーター起動エラー">
+      <i class="fa fa-chevron-left"></i> IOSシミュレーター起動エラー
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/puiken_blog/posts/7729e45e/" rel="next" title="mockitoでのflutter単体テスト">
+      mockitoでのflutter単体テスト <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          見出し
+        </li>
+        <li class="sidebar-nav-overview">
+          概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%B4%B9%E4%BB%8B"><span class="nav-text">1. 紹介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E3%83%86%E3%82%B9%E3%83%88%E4%BE%9D%E5%AD%98%E9%96%A2%E4%BF%82%E3%81%AE%E8%BF%BD%E5%8A%A0"><span class="nav-text">2. テスト依存関係の追加</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E3%83%86%E3%82%B9%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AE%E4%BD%9C%E6%88%90"><span class="nav-text">3. テストファイルの作成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E3%83%86%E3%82%B9%E3%83%88%E5%AF%BE%E8%B1%A1%E3%81%AE%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%9C%E6%88%90"><span class="nav-text">4. テスト対象のクラスを作成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E4%BD%9C%E6%88%90%E3%81%97%E3%81%9F%E3%82%AF%E3%83%A9%E3%82%B9%E3%81%AB%E5%AF%BE%E3%81%99%E3%82%8B%E3%83%86%E3%82%B9%E3%83%88%E3%82%92%E6%9B%B8%E3%81%8F"><span class="nav-text">5. 作成したクラスに対するテストを書く</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%86%E3%82%B9%E3%83%88%E3%82%92%E3%82%B0%E3%83%AB%E3%83%BC%E3%83%97%E5%8C%96%E3%81%99%E3%82%8B"><span class="nav-text">6. 複数のテストをグループ化する</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E3%83%86%E3%82%B9%E3%83%88%E3%81%AE%E5%AE%9F%E8%A1%8C"><span class="nav-text">7. テストの実行</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IntelliJ-%E3%81%BE%E3%81%9F%E3%81%AF-VSCode-%E3%81%A7%E3%83%86%E3%82%B9%E3%83%88%E3%82%92%E5%AE%9F%E8%A1%8C"><span class="nav-text">IntelliJ または VSCode でテストを実行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E3%82%BF%E3%83%BC%E3%83%9F%E3%83%8A%E3%83%AB%E3%81%A7%E3%83%86%E3%82%B9%E3%83%88%E3%82%92%E5%AE%9F%E8%A1%8C"><span class="nav-text">ターミナルでテストを実行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A5%E4%B8%8B%E3%81%AE%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%82%92%E5%AE%9F%E8%A1%8C%E3%81%97%E3%81%A6%E3%80%81%E6%8C%87%E5%AE%9A%E3%81%97%E3%81%9F%E3%82%B0%E3%83%AB%E3%83%BC%E3%83%97%E3%81%AB%E3%81%82%E3%82%8B%E3%81%99%E3%81%B9%E3%81%A6%E3%81%AE%E3%83%86%E3%82%B9%E3%83%88%E3%82%92%E5%AE%9F%E8%A1%8C%E3%81%A7%E3%81%8D%E3%81%BE%E3%81%99%EF%BC%9A"><span class="nav-text">以下のコマンドを実行して、指定したグループにあるすべてのテストを実行できます：</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Puiken"
+      src="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
+  <p class="site-author-name" itemprop="name">Puiken</p>
+  <div class="site-description" itemprop="description">いつでも変な考えを持っている20代。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/puiken_blog/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">ポスト</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/puiken_blog/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">カテゴリ</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">タグ</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Puiken</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="単語の総数">47k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="読書の合計時間">43 分</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/puiken_blog/lib/anime.min.js"></script>
+  <script src="/puiken_blog/lib/velocity/velocity.min.js"></script>
+  <script src="/puiken_blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/puiken_blog/js/utils.js"></script>
+
+<script src="/puiken_blog/js/motion.js"></script>
+
+
+<script src="/puiken_blog/js/schemes/muse.js"></script>
+
+
+<script src="/puiken_blog/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  <script src="//cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@3.0.8/js/maodian.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script>
+  $.fn.snow = function (options) {
+    var $flake = $('<div id="snowbox" />').css({ 'position': 'absolute', 'z-index': '9999', 'top': '-50px' }).html('🌸'), // 🌸
+        documentHeight = $(document).height(),
+        documentWidth = $(document).width(),
+        defaults = {
+            minSize: 10,
+            maxSize: 20,
+            newOn: 1000,
+            flakeColor: "#AFDAEF" /* 此处可以定义雪花颜色，若要白色可以改为#FFFFFF */
+        },
+        options = $.extend({}, defaults, options);
+    var interval = setInterval(function () {
+        var startPositionLeft = Math.random() * documentWidth - 100,
+            startOpacity = 0.2 + Math.random() / 2,
+            sizeFlake = options.minSize + Math.random() * options.maxSize,
+            endPositionTop = documentHeight - 200,
+            endPositionLeft = startPositionLeft - 500 + Math.random() * 500,
+            durationFall = documentHeight * 10 + Math.random() * 5000;
+        $flake.clone().appendTo('body').css({
+            left: startPositionLeft,
+            opacity: startOpacity,
+            'font-size': sizeFlake,
+            color: options.flakeColor
+        }).animate({
+            top: endPositionTop,
+            left: endPositionLeft,
+            opacity: 0.2
+        }, durationFall, 'linear', function () {
+            $(this).remove()
+        });
+    }, options.newOn);
+  };
+  $(function () {
+      $.fn.snow({
+        minSize: 5, /* 定义雪花最小尺寸 */
+        maxSize: 50,/* 定义雪花最大尺寸 */
+        newOn: 800  /* 定义密集程度，数字越小越密集 */
+      });
+  });
+</script>
+</body>
+</html>

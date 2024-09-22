@@ -196,7 +196,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ja">
-    <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/36779/">
+    <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/3bca534c/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
@@ -210,7 +210,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/puiken_blog/posts/36779/" class="post-title-link" itemprop="url">jsdelivrの使用</a>
+            <a href="/puiken_blog/posts/3bca534c/" class="post-title-link" itemprop="url">hexoでクリックスタイルの変え方</a>
         </h2>
 
         <div class="post-meta">
@@ -220,14 +220,14 @@
               </span>
               <span class="post-meta-item-text">投稿日</span>
 
-              <time title="作成日：2024-02-29 17:55:48" itemprop="dateCreated datePublished" datetime="2024-02-29T17:55:48+09:00">2024-02-29</time>
+              <time title="作成日：2024-03-01 15:02:07" itemprop="dateCreated datePublished" datetime="2024-03-01T15:02:07+09:00">2024-03-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">編集日</span>
-                <time title="修正日：2024-03-02 10:49:41" itemprop="dateModified" datetime="2024-03-02T10:49:41+09:00">2024-03-02</time>
+                <time title="修正日：2024-03-06 21:07:08" itemprop="dateModified" datetime="2024-03-06T21:07:08+09:00">2024-03-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -235,7 +235,7 @@
               </span>
               <span class="post-meta-item-text">カテゴリ</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/puiken_blog/categories/cdn/" itemprop="url" rel="index"><span itemprop="name">cdn</span></a>
+                  <a href="/puiken_blog/categories/hexo/" itemprop="url" rel="index"><span itemprop="name">hexo</span></a>
                 </span>
             </span>
 
@@ -245,7 +245,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">単語数：</span>
-              <span>817</span>
+              <span>1.4k</span>
             </span>
             <span class="post-meta-item" title="読書の時間">
               <span class="post-meta-item-icon">
@@ -264,33 +264,31 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>jsdelivrは無料でgithubの静的なファイルを早くとってくれるサイトで、自分のサイトでインポートする時はとても便利です。</p>
-<h2 id="1-jsdelivrのURLフォーマット"><a href="#1-jsdelivrのURLフォーマット" class="headerlink" title="1. jsdelivrのURLフォーマット"></a>1. jsdelivrのURLフォーマット</h2><p>jsdelivrでファイルをインポートする時のURLは下記のフォーマットとなります：</p>
-<p><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/">https://cdn.jsdelivr.net/gh/</a>&lt;Githubユーザ名&gt;&#x2F;&lt;レポジトリー名&gt;@バージョン名&#x2F;ファイルのパス</p>
-<p>バージョン名は必須ではないです、バージョン名がない時は最新の資源をインポートします。</p>
-<p>例：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://cdn.jsdelivr.net/gh/jquery/jquery@3.2.1/dist/jquery.min.js</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="2-資源ファイルをgithubに置きます"><a href="#2-資源ファイルをgithubに置きます" class="headerlink" title="2. 資源ファイルをgithubに置きます"></a>2. 資源ファイルをgithubに置きます</h2><p>githubに新しいレポジトリーを作り、静的資源を置くことがおすすめです。</p>
-<p>例えば、cdnという名前のレポジトリーを作成し、その中には下記のフォルダーがあります。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── css               </span><br><span class="line">├── fonts               </span><br><span class="line">├── img               </span><br><span class="line">└── js</span><br></pre></td></tr></table></figure>
-
-<p>imgの下に、textCur.curという名前のファイルが置いてあります。</p>
-<h2 id="3-jsdelivrのURLでファイルをプロジェクトにインポートします"><a href="#3-jsdelivrのURLでファイルをプロジェクトにインポートします" class="headerlink" title="3. jsdelivrのURLでファイルをプロジェクトにインポートします"></a>3. jsdelivrのURLでファイルをプロジェクトにインポートします</h2><p>下記のパスでファイルをインポートします：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://cdn.jsdelivr.net/gh/try0929/cdn/img/textCur.cur</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="4-キャッシュ更新"><a href="#4-キャッシュ更新" class="headerlink" title="4. キャッシュ更新"></a>4. キャッシュ更新</h2><p>jsdelivrに置いてるファイルにはキャッシュ機能があります。</p>
-<p>簡単に言うと、githubのファイルを更新しても、CDNファイルがすぐ更新されない可能性があるため、jsdelivrのURLでインポートしたファイルが古いファイルになるかもしれません。</p>
-<p>解決方法は、強制的にキャッシュを更新すること：ファイルの名前を変えてもう一回PUSHします。</p>
-<p>例えば：</p>
+          <p>マウスでクリックしたら、花火やハートが出てくる動画が実現できるサイトってかっこいいですね〜</p>
+<p>と思いながら、自分のサイトでもそういう機能がほしくて作りました。</p>
+<h2 id="1-クリックスタイルファイルを用意します"><a href="#1-クリックスタイルファイルを用意します" class="headerlink" title="1. クリックスタイルファイルを用意します"></a>1. クリックスタイルファイルを用意します</h2><p>今回私が入れたいのはクリックしたら、花火みたいな点が出てくるものなので、まずそれのJSでの実装ファイルを用意します。</p>
+<p>実装ファイルは他の方の真似して書いてました。ファイルはローカルか、CDNに置くかどちらでも良いです。</p>
 <ul>
-<li>githubレポジトリーにold.jpgがあり、old.jpgを更新してpushして、Githubのファイルが新しくなり、<code>https://cdn.jsdelivr.net/gh/.../old.jpg</code>でインポートするファイルが変わらないです；</li>
-<li>同じファイルを<code>new.jpg</code>をリネームし、pushしたら、Githubもjsdelivrに置いてるCDNファイルも更新されます。</li>
+<li>Githubに置いて、CDNのURLでインポートします；</li>
+<li>ローカルに置いて、相対パスでインポートします。</li>
 </ul>
+<h2 id="2-Layoutで新しいテンプレートファイルを作成します"><a href="#2-Layoutで新しいテンプレートファイルを作成します" class="headerlink" title="2. Layoutで新しいテンプレートファイルを作成します"></a>2. Layoutで新しいテンプレートファイルを作成します</h2><p>レイアウトにはいろんなテンプレートがあり、その中に新しいswigでクリックスタイルのjsスクリプトをインポートします。</p>
+<p>例：</p>
+<ul>
+<li><code>themes/next/layout/_custom/cursor.swig</code> ファイルを新規作成します；</li>
+<li>中で下記のコードでスクリプトをインポートします：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// CDNのURLを使用する場合</span><br><span class="line">&#123;%- if theme.mouse_animation %&#125;</span><br><span class="line">  &#123;%- set mouse_animation_css_url = next_vendors(&#x27;//cdn.jsdelivr.net/gh/TRHX/CDN-for-itrhx.com@3.0.8/js/maodian.js&#x27;) %&#125;</span><br><span class="line">  &lt;script src=&quot;&#123;&#123; mouse_animation_css_url &#125;&#125;&quot;&gt;&lt;/script&gt;</span><br><span class="line">&#123;%- endif %&#125;</span><br><span class="line"></span><br><span class="line">//　ローカルファイルを使用する場合（スクリプトファイルは/source/js/cursor.jsに置いてます）</span><br><span class="line">&#123;%- if theme.mouse_animation %&#125;</span><br><span class="line">  &#123;%- set mouse_animation_css_url = next_js(&#x27;/cursor.js&#x27;) %&#125;</span><br><span class="line">  &lt;script src=&quot;&#123;&#123; mouse_animation_css_url &#125;&#125;&quot;&gt;&lt;/script&gt;</span><br><span class="line">&#123;%- endif %&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>theme.mouse_animation</code>はテーマコンフィグファイルの中で定義されている変数で、そこで<code>true</code>を設定したらスクリプトファイルがインポートされます。</li>
+</ul>
+<h2 id="3-デフォルトレイアウトで新しいテンプレートをインポートします"><a href="#3-デフォルトレイアウトで新しいテンプレートをインポートします" class="headerlink" title="3. デフォルトレイアウトで新しいテンプレートをインポートします"></a>3. デフォルトレイアウトで新しいテンプレートをインポートします</h2><p>さっき新しいテンプレートを作成しましたが、まだ使われていないです。</p>
+<p>クリックスタイルはサイトのどこでもあるので、<strong>全ての画面が必ず使うデフォルトテンプレートファイル</strong><code>_layout.swig</code>の中で新しいテンプレートファイルをインポートします。</p>
+<p><code>_layout.swig</code>の中で下記のコードを追加します：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;%- include &#x27;_custom/cursor.swig&#x27; %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ちなみに、スクリプトファイルの中で<code>document.body</code>を使っているため、<code>body</code>タッグの中でインクルードした方がおすすめです。</p>
 
       
     </div>
@@ -309,7 +307,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/puiken_blog/index/page/12/"><i class="fa fa-angle-left" aria-label="前のページ"></i></a><a class="page-number" href="/puiken_blog/index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/puiken_blog/index/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/puiken_blog/index/page/14/">14</a><a class="extend next" rel="next" href="/puiken_blog/index/page/14/"><i class="fa fa-angle-right" aria-label="次のページ"></i></a>
+    <a class="extend prev" rel="prev" href="/puiken_blog/index/page/12/"><i class="fa fa-angle-left" aria-label="前のページ"></i></a><a class="page-number" href="/puiken_blog/index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/puiken_blog/index/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/puiken_blog/index/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/puiken_blog/index/page/16/">16</a><a class="extend next" rel="next" href="/puiken_blog/index/page/14/"><i class="fa fa-angle-right" aria-label="次のページ"></i></a>
   </nav>
 
 
@@ -377,7 +375,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/puiken_blog/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">ポスト</span>
         </a>
       </div>
@@ -388,7 +386,7 @@
         <span class="site-state-item-name">カテゴリ</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">タグ</span>
       </div>
   </nav>
@@ -424,12 +422,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="単語の総数">35k</span>
+    <span title="単語の総数">47k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="読書の合計時間">32 分</span>
+    <span title="読書の合計時間">43 分</span>
 </div>
 
         

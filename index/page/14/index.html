@@ -196,7 +196,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ja">
-    <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/44223/">
+    <link itemprop="mainEntityOfPage" href="https://try0929.github.io/puiken_blog/posts/10483/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/try0929/cdn/img/blog_avatar.JPG">
@@ -210,7 +210,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/puiken_blog/posts/44223/" class="post-title-link" itemprop="url">hexo原理まとめ</a>
+            <a href="/puiken_blog/posts/10483/" class="post-title-link" itemprop="url">サイトでマウスポイントイコンの変更</a>
         </h2>
 
         <div class="post-meta">
@@ -220,14 +220,14 @@
               </span>
               <span class="post-meta-item-text">投稿日</span>
 
-              <time title="作成日：2024-02-29 11:27:01" itemprop="dateCreated datePublished" datetime="2024-02-29T11:27:01+09:00">2024-02-29</time>
+              <time title="作成日：2024-03-01 09:09:57" itemprop="dateCreated datePublished" datetime="2024-03-01T09:09:57+09:00">2024-03-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">編集日</span>
-                <time title="修正日：2024-09-21 09:14:01" itemprop="dateModified" datetime="2024-09-21T09:14:01+09:00">2024-09-21</time>
+                <time title="修正日：2024-03-02 10:47:23" itemprop="dateModified" datetime="2024-03-02T10:47:23+09:00">2024-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -235,7 +235,7 @@
               </span>
               <span class="post-meta-item-text">カテゴリ</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/puiken_blog/categories/hexo/" itemprop="url" rel="index"><span itemprop="name">hexo</span></a>
+                  <a href="/puiken_blog/categories/css/" itemprop="url" rel="index"><span itemprop="name">css</span></a>
                 </span>
             </span>
 
@@ -245,14 +245,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">単語数：</span>
-              <span>5.6k</span>
+              <span>458</span>
             </span>
             <span class="post-meta-item" title="読書の時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">読書の時間 &asymp;</span>
-              <span>5 分</span>
+              <span>1 分</span>
             </span>
 
         </div>
@@ -264,210 +264,25 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p><a target="_blank" rel="noopener" href="https://hexo.io/docs/index.html">hexoオフィシャルサイト</a></p>
-<h2 id="What-is-Hexo"><a href="#What-is-Hexo" class="headerlink" title="What is Hexo?"></a>What is Hexo?</h2><p>Hexo is a fast, simple and powerful blog framework. You write posts in <a target="_blank" rel="noopener" href="http://daringfireball.net/projects/markdown/">Markdown</a> (or other markup languages) and Hexo generates static files with a beautiful theme in seconds.</p>
-</blockquote>
-<p>簡単に言えば、hexoはブログを作成するフレームワークであり、makedownで文章をレンダーし、画面に表示させされます。</p>
-<h2 id="1-hero-generate：静的なファイルの生成"><a href="#1-hero-generate：静的なファイルの生成" class="headerlink" title="1. hero generate：静的なファイルの生成"></a>1. hero generate：静的なファイルの生成</h2><p>上記の指令はデータファイルと画面ファイルを合わせ、静的なファイルを生成できます。</p>
-<p>まずテーマフォルダーのsourceフォルダー（js、css、imgなどのファイル）を読み、インデックスを建てます。それを基づいてpublicフォルダーのファイルを生成します。</p>
-<p>生成したpublicフォルダーの中にはhtml、js、css、imgなどの静的なファイルがあり、index.htmlをエンターファイルとしてサイトにはいれます。</p>
-<h2 id="2-hero-deploy：プロジェクトのデプロイ"><a href="#2-hero-deploy：プロジェクトのデプロイ" class="headerlink" title="2. hero deploy：プロジェクトのデプロイ"></a>2. hero deploy：プロジェクトのデプロイ</h2><p>_config.ymlファイルの中に配置しているgitレポジトリー及びcodingのurlで、publicフォルダーの内容をgithubかcodingにアップロードします。（githubにpagesというサービスがあり、それで画面を表示できます）</p>
-<p>もちろん、生成したpublicフォルダーを自分のサーバーにデプロイしても大丈夫です。</p>
-<h2 id="3-hexoのテンプレートエンジン"><a href="#3-hexoのテンプレートエンジン" class="headerlink" title="3. hexoのテンプレートエンジン"></a>3. hexoのテンプレートエンジン</h2><blockquote>
-<p>テンプレートエンジンとは、画面とデータを分離させることです。</p>
-<p>画面の動的な部分を抽出し、データとして他のところで管理することで、画面とデータの分離ができます。</p>
-</blockquote>
-<p>source＋themes -&gt; public</p>
-<p>sourceフォルダーがデータベース、themesフォルダーが画面表示として考えられます。</p>
-<p>それぞれを作成し、hexo generateを実行し、二つの内容をpublicとして出力します。</p>
-<p>テンプレートファイルはthemes&#x2F;layoutの下に配置されています。例：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── _custom                           // 通常レイアウト</span><br><span class="line">├── _layout.swig                      // デフォルトレイアウト</span><br><span class="line">├── _macro                            // プラグインレイアウト</span><br><span class="line">├── _partials                         // パートレイアウト</span><br><span class="line">├── _scripts                          // スクリプトレイアウト</span><br><span class="line">├── _third-party                      // </span><br><span class="line">├── archive.swig                      // アーカイブレイアウト</span><br><span class="line">├── category.swig                     // 分類レイアウト</span><br><span class="line">├── index.swig                        // インデックスレイアウト</span><br><span class="line">├── page.swig                         // 他のレイアウト</span><br><span class="line">├── photo.swig                        // 写真レイアウト</span><br><span class="line">├── post.swig                         // 文章レイアウト</span><br><span class="line">├── schedule.swig                     // scheduleレイアウト</span><br><span class="line">└── tag.swig                          // タッグレイアウト</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>全てのページがレイアウトを指定していない時、デフォルトレイアウト_layout.swigを使用します。ページな中でレイアウトの使用状況を定義ですます（使うかどうか）。</p>
-</blockquote>
-<p>新しくポスト及びページを作成する時にレイアウトも指定できます。<code>hexo new [layout] &lt;title&gt;</code></p>
-<p>下記はデフォルトレイアウト_layout.swigを例として説明します。</p>
-<p>このレイアウトにも他のレイアウトをインポートし、一部の表示として使われています。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&#123;% extends &#x27;_layout.swig&#x27; %&#125;</span><br><span class="line">&#123;% import &#x27;_macro/post.swig&#x27; as post_template %&#125;</span><br><span class="line">&#123;% import &#x27;_macro/sidebar.swig&#x27; as sidebar_template %&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#123;% block title %&#125; &#123;&#123; page.title &#125;&#125; | &#123;&#123; config.title &#125;&#125; &#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block page_class %&#125;page-post-detail&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#123;% block content %&#125;</span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;posts&quot;</span> <span class="attr">class</span>=<span class="string">&quot;posts-expand&quot;</span>&gt;</span></span><br><span class="line">    &#123;&#123; post_template.render(page) &#125;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;post-spread&quot;</span>&gt;</span></span><br><span class="line">      &#123;% if theme.jiathis %&#125;</span><br><span class="line">        &#123;% include &#x27;_partials/share/jiathis.swig&#x27; %&#125;</span><br><span class="line">      &#123;% elseif theme.baidushare %&#125;</span><br><span class="line">        &#123;% include &#x27;_partials/share/baidushare.swig&#x27; %&#125;</span><br><span class="line">      &#123;% elseif theme.add_this_id %&#125;</span><br><span class="line">        &#123;% include &#x27;_partials/share/add-this.swig&#x27; %&#125;</span><br><span class="line">      &#123;% elseif theme.duoshuo_shortname and theme.duoshuo_share %&#125;</span><br><span class="line">        &#123;% include &#x27;_partials/share/duoshuo_share.swig&#x27; %&#125;</span><br><span class="line">      &#123;% endif %&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block sidebar %&#125;</span><br><span class="line">  &#123;&#123; sidebar_template.render(true) &#125;&#125;</span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#123;% block script_extra %&#125;</span><br><span class="line">  &#123;% include &#x27;_scripts/pages/post-details.swig&#x27; %&#125;</span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
-
-<p>テンプレートの中で使われているデータは<code>hexo generate</code>を実行する時に入れられています。</p>
-<h2 id="4-コンフィグファイルデータの使用"><a href="#4-コンフィグファイルデータの使用" class="headerlink" title="4. コンフィグファイルデータの使用"></a>4. コンフィグファイルデータの使用</h2><p>hexoのコンフィグファイル<code>_config.yml</code>はyml文法を使い、ブログのタイトルやサブタイトルなどを定義できます。</p>
-<p>データのタイプには、数字、文字列、オブジェクト、配列が使えます。</p>
-<h3 id="テンプレートファイルでコンフィグファイルのデータを使用する例"><a href="#テンプレートファイルでコンフィグファイルのデータを使用する例" class="headerlink" title="テンプレートファイルでコンフィグファイルのデータを使用する例"></a>テンプレートファイルでコンフィグファイルのデータを使用する例</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% block title %&#125; &#123;&#123; page.title &#125;&#125; | &#123;&#123; config.title &#125;&#125; &#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="5-hexoの既存変数"><a href="#5-hexoの既存変数" class="headerlink" title="5. hexoの既存変数"></a>5. hexoの既存変数</h2><p>hexoには既にいろんな変数が定義されていて、よく使われている変数は下記となります。</p>
-<p><code>site</code>：サイト全体のデータオブジェクト， <code>site.posts.length</code> がよくページングで使われています。</p>
+          <p>個人サイトでマウスのポイント変更できたらとてもかっこいいなと思って、自分の好みのイコンにしてみました。下記は手順となります。</p>
+<h2 id="1-条件を満たすiconファイルを用意します"><a href="#1-条件を満たすiconファイルを用意します" class="headerlink" title="1. 条件を満たすiconファイルを用意します"></a>1. 条件を満たすiconファイルを用意します</h2><p>マウスポイントイコンは少なくとも（分けたくない人もいますが、分けた方がおすすめです）２種類あります：</p>
 <ul>
-<li><code>site.posts</code> ：全てのポスト</li>
-<li><code>site.pages</code>：全てのページ</li>
-<li><code>site.categories</code> ：全ての分類</li>
-<li><code>site.tags</code> ：全てのタッグ</li>
+<li>クリックイコン；</li>
+<li>テクストコピーイコン；</li>
 </ul>
-<p><code>page</code>：今画面にある文章のインフォメーション， <code>page.posts</code>は今のもので、  <code>site.posts</code>は全ての文章となります。</p>
-<p><code>config</code>：<code>config</code> 変数<strong>プロジェクト直下</strong>配置しているで<code>_config.yml</code>ファイルの中に定義されているデータが取れます。</p>
-<p><code>theme</code>：<code>theme</code> 変数で<strong>テーマフォルダー</strong>の下に配置している <code>_config.yml</code> ファイルの中に定義されているデータが取れます。</p>
-<p><code>path</code>：今のパス（ルートパスは含まれていない）。</p>
-<p><code>url</code>：ページの前URL。</p>
-<h2 id="6-hexoコマンド"><a href="#6-hexoコマンド" class="headerlink" title="6. hexoコマンド"></a>6. hexoコマンド</h2><h3 id="init"><a href="#init" class="headerlink" title="init"></a>init</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init [folder]</span><br></pre></td></tr></table></figure>
+<p>まずはイコンにしたい写真を用意します、２つの条件が必要となります：</p>
+<ul>
+<li>拡張子は<code>.ico</code>か<code>.cur</code>です。必須ではないが、オフィシャルにはその二つがおすすめです。</li>
+<li>サイズは <code>32*32</code>　です。違う場合だったら画面で表示できなくなる可能性があります。</li>
+</ul>
+<h2 id="2-写真をプロジェクトにインポートします"><a href="#2-写真をプロジェクトにインポートします" class="headerlink" title="2. 写真をプロジェクトにインポートします"></a>2. 写真をプロジェクトにインポートします</h2><p>まず用意した写真を<strong>プロジェクトローカルか、CDNの上か</strong>に置きます、前者の場合では相対パスでインポートし、後者ではCDNリンクでインポートします。</p>
+<blockquote>
+<p>CDNの場合では、jsdelivrがおすすめです。<a href="">詳細</a></p>
+</blockquote>
+<p>そして、cssのcursorアトリビュートを使い、マウスポイントを設定します：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span>, <span class="selector-tag">li</span>, <span class="selector-tag">span</span>, <span class="selector-tag">p</span> &#123;</span><br><span class="line">  <span class="attribute">cursor</span>: <span class="built_in">url</span>(<span class="string">https://cdn.jsdelivr.net/gh/try0929/cdn/img/newText1.cur</span>),auto;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: transparent;</span><br><span class="line">  <span class="attribute">cursor</span>: <span class="built_in">url</span>(<span class="string">https://cdn.jsdelivr.net/gh/try0929/cdn/img/newLoadCur.cur</span>),auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="new"><a href="#new" class="headerlink" title="new"></a>new</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new [layout] &lt;title&gt;</span><br></pre></td></tr></table></figure>
-
-<table>
-<thead>
-<tr>
-<th align="left">オプション</th>
-<th align="left">説明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>-p</code>, <code>--path</code></td>
-<td align="left">パス。 記事の設置パスをカスタマイズします。</td>
-</tr>
-<tr>
-<td align="left"><code>-r</code>, <code>--replace</code></td>
-<td align="left">既存の記事を置き換えます。</td>
-</tr>
-<tr>
-<td align="left"><code>-s</code>, <code>--slug</code></td>
-<td align="left">スラッグ。 記事のURLをカスタマイズします。</td>
-</tr>
-</tbody></table>
-<p>デフォルトでは、Hexoはタイトルを使用してファイルのパスを定義します。 ページの場合、その名前のディレクトリとその中に<code>index.md</code>ファイルを作成します。 <code>--path</code>オプションを使用してこの挙動をオーバーライドし、ファイルパスを定義できます:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new page --path about/me <span class="string">&quot;About me&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>これは<code>source/about/me.md</code>ファイルを作成し、Front Matterに”About me”というタイトルを設定します。</p>
-<p>タイトルは必須です。 例えば、以下は期待した通りの挙動にはなりません:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new page --path about/me</span><br></pre></td></tr></table></figure>
-
-<p>これは<code>source/_posts/about/me.md</code>に記事を作成し、Front Matterに”page”というタイトルを設定します。 これは引数が1つ(<code>page</code>)のみで、デフォルトレイアウトが<code>post</code>であるためです。</p>
-<h3 id="generate"><a href="#generate" class="headerlink" title="generate"></a>generate</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>静的ファイルを生成します。</p>
-<table>
-<thead>
-<tr>
-<th align="left">オプション</th>
-<th align="left">説明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>-d</code>, <code>--deploy</code></td>
-<td align="left">生成が完了した後にデプロイします</td>
-</tr>
-<tr>
-<td align="left"><code>-w</code>, <code>--watch</code></td>
-<td align="left">ファイルの変更を監視します</td>
-</tr>
-<tr>
-<td align="left"><code>-b</code>, <code>--bail</code></td>
-<td align="left">生成中に取り扱いされない例外がスローされた場合にエラーを発生させます</td>
-</tr>
-<tr>
-<td align="left"><code>-f</code>, <code>--force</code></td>
-<td align="left">強制的に再生成します</td>
-</tr>
-<tr>
-<td align="left"><code>-c</code>, <code>--concurrency</code></td>
-<td align="left">並行して生成されるファイルの最大数。 デフォルトは無限です</td>
-</tr>
-</tbody></table>
-<h3 id="publish"><a href="#publish" class="headerlink" title="publish"></a>publish</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo publish [layout] &lt;filename&gt;</span><br></pre></td></tr></table></figure>
-
-<p>下書きを公開します。</p>
-<h3 id="server"><a href="#server" class="headerlink" title="server"></a>server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>ローカルサーバーを起動します。 デフォルトでは<code>http://localhost:4000/</code>です。</p>
-<table>
-<thead>
-<tr>
-<th align="left">オプション</th>
-<th align="left">説明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>-p</code>, <code>--port</code></td>
-<td align="left">デフォルトポートを上書きします</td>
-</tr>
-<tr>
-<td align="left"><code>-s</code>, <code>--static</code></td>
-<td align="left">静的ファイルのみを提供します</td>
-</tr>
-<tr>
-<td align="left"><code>-l</code>, <code>--log</code></td>
-<td align="left">ロガーを有効にします。 ログ形式を上書きします。</td>
-</tr>
-</tbody></table>
-<h3 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a>deploy</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>ウェブサイトをデプロイします。</p>
-<table>
-<thead>
-<tr>
-<th align="left">オプション</th>
-<th align="left">説明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>-g</code>, <code>--generate</code></td>
-<td align="left">デプロイ前に生成を行います</td>
-</tr>
-</tbody></table>
-<h3 id="render"><a href="#render" class="headerlink" title="render"></a>render</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo render &lt;file1&gt; [file2] ...</span><br></pre></td></tr></table></figure>
-
-<p>ファイルをレンダリングします。</p>
-<table>
-<thead>
-<tr>
-<th align="left">オプション</th>
-<th align="left">説明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>-o</code>, <code>--output</code></td>
-<td align="left">出力先</td>
-</tr>
-</tbody></table>
-<h3 id="migrate"><a href="#migrate" class="headerlink" title="migrate"></a>migrate</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo migrate &lt;<span class="built_in">type</span>&gt;</span><br></pre></td></tr></table></figure>
-
-<p>他のブログシステムからのコンテンツを<a target="_blank" rel="noopener" href="https://hexo.io/ja/docs/migration">移行</a>します。</p>
-<h3 id="clean"><a href="#clean" class="headerlink" title="clean"></a>clean</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean</span><br></pre></td></tr></table></figure>
-
-<p>キャッシュファイル(<code>db.json</code>)と生成されたファイル(<code>public</code>)を削除します。</p>
-<h3 id="list"><a href="#list" class="headerlink" title="list"></a>list</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo list &lt;<span class="built_in">type</span>&gt;</span><br></pre></td></tr></table></figure>
-
-<p>すべてのルートをリストアップします。</p>
-<h3 id="version"><a href="#version" class="headerlink" title="version"></a>version</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo version</span><br></pre></td></tr></table></figure>
-
-<p>バージョン情報を表示します。</p>
-<h3 id="config"><a href="#config" class="headerlink" title="config"></a>config</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo config [key] [value]</span><br></pre></td></tr></table></figure>
-
-<p>設定(<code>_config.yml</code>)をリストアップします。 <code>key</code>が指定された場合、設定の対応する<code>key</code>の値のみが表示されます。 <code>key</code>と<code>value</code>が両方指定された場合、設定の対応する<code>key</code>の値を<code>value</code>に変更します。</p>
-<h3 id="オプション"><a href="#オプション" class="headerlink" title="オプション"></a>オプション</h3><h4 id="セーフモード"><a href="#セーフモード" class="headerlink" title="セーフモード"></a>セーフモード</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo --safe</span><br></pre></td></tr></table></figure>
-
-<p>プラグインとスクリプトの読み込みを無効にします。 新しいプラグインをインストールした後に問題が発生した場合に試してください。</p>
-<h4 id="デバッグモード"><a href="#デバッグモード" class="headerlink" title="デバッグモード"></a>デバッグモード</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo --debug</span><br></pre></td></tr></table></figure>
-
-<p>端末と<code>debug.log</code>に詳細なメッセージをログします。 Hexoで問題が発生した場合に試してください。 エラーが見つかった場合は、<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues/new?assignees=&labels=&projects=&template=bug_report.yml">GitHub issueを作成</a>してください。</p>
-<h4 id="サイレントモード"><a href="#サイレントモード" class="headerlink" title="サイレントモード"></a>サイレントモード</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo --silent</span><br></pre></td></tr></table></figure>
-
-<p>端末への出力を行わないようにします。</p>
-<h4 id="設定ファイルパスのカスタマイズ"><a href="#設定ファイルパスのカスタマイズ" class="headerlink" title="設定ファイルパスのカスタマイズ"></a>設定ファイルパスのカスタマイズ</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo --config custom.yml</span><br></pre></td></tr></table></figure>
-
-<p>カスタム設定ファイル(<code>_config.yml</code>の代わり)を使用します。 JSONまたはYAML設定ファイルのカンマ区切りリスト（スペースなし）も受け入れ、ファイルを単一の<code>_multiconfig.yml</code>に結合します。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo --config custom.yml,custom2.json</span><br></pre></td></tr></table></figure>
-
-<h4 id="下書きの表示"><a href="#下書きの表示" class="headerlink" title="下書きの表示"></a>下書きの表示</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo --draft</span><br></pre></td></tr></table></figure>
-
-<p>下書き(<code>source/_drafts</code>フォルダに保存)を表示します。</p>
-<h3 id="現在の作業ディレクトリのカスタマイズ"><a href="#現在の作業ディレクトリのカスタマイズ" class="headerlink" title="現在の作業ディレクトリのカスタマイズ"></a>現在の作業ディレクトリのカスタマイズ</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo --cwd /path/to/cwd</span><br></pre></td></tr></table></figure>
-
-<p>現在の作業ディレクトリのパスをカスタマイズします。</p>
-<h2 id="7-まとめ"><a href="#7-まとめ" class="headerlink" title="7.まとめ"></a>7.まとめ</h2><p>一言なら、hexoは、我々がmakedownで書いてる内容とテーマテンプレートと合わせて、HTMLファイルなどを自動的に作成するツール（フレームワーク）です。</p>
-<p>初心者やゼロからブログサイトを作る方にとってはとても便利で効率高いツールです。</p>
+<p>autoはマウスポイントのデフォルトスタイル、必ず書きます。</p>
 
       
     </div>
@@ -486,7 +301,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/puiken_blog/index/page/13/"><i class="fa fa-angle-left" aria-label="前のページ"></i></a><a class="page-number" href="/puiken_blog/index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/puiken_blog/index/page/13/">13</a><span class="page-number current">14</span>
+    <a class="extend prev" rel="prev" href="/puiken_blog/index/page/13/"><i class="fa fa-angle-left" aria-label="前のページ"></i></a><a class="page-number" href="/puiken_blog/index/">1</a><span class="space">&hellip;</span><a class="page-number" href="/puiken_blog/index/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/puiken_blog/index/page/15/">15</a><a class="page-number" href="/puiken_blog/index/page/16/">16</a><a class="extend next" rel="next" href="/puiken_blog/index/page/15/"><i class="fa fa-angle-right" aria-label="次のページ"></i></a>
   </nav>
 
 
@@ -554,7 +369,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/puiken_blog/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">ポスト</span>
         </a>
       </div>
@@ -565,7 +380,7 @@
         <span class="site-state-item-name">カテゴリ</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">タグ</span>
       </div>
   </nav>
@@ -601,12 +416,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="単語の総数">35k</span>
+    <span title="単語の総数">47k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="読書の合計時間">32 分</span>
+    <span title="読書の合計時間">43 分</span>
 </div>
 
         
